@@ -1,0 +1,24 @@
+.board-wrap {
+    padding: 20px;
+    background-color: hsl(0, 0%, 0%);
+    border-radius: 50px;
+}
+
+.board {
+    width: calc(64px * 8);
+    height: calc(64px * 8);
+    display: flex;
+    flex-wrap: wrap;
+    overflow: hidden;
+    border-radius: 32px;
+}
+
+.board .cell {
+    cursor: pointer;
+    width: 62px;
+    height: 62px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid hsl(0, 0%, 0%);
+}
