@@ -14,11 +14,93 @@
 }
 
 .board .cell {
-    cursor: pointer;
-    width: 62px;
-    height: 62px;
+    padding: 5px;
+    width: calc(100% / 8);
+    height: calc(100% / 8);
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+    box-sizing: border-box;
     border: 1px solid hsl(0, 0%, 0%);
+}
+
+.board .cell__figure {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    object-fit: cover;
+    max-width: 100%;
+    height: auto;
+}
+
+/* Small Devices, Tablets */
+@media only screen and (max-width : 640px) {
+	.board {
+        width: calc(60px * 8);
+        height: calc(60px * 8);
+    }
+}
+
+/* HTC One */
+@media only screen and (max-width : 540px) {
+	.board {
+        width: calc(52px * 8);
+        height: calc(52px * 8);
+    }
+}
+
+/* Extra Small Devices, Phones */
+@media only screen and (max-width : 480px) {
+	.board {
+        width: calc(46px * 8);
+        height: calc(46px * 8);
+    }
+}
+
+/* Iphone 14 Pro Max */
+@media only screen and (max-width : 430px) {
+	.board {
+        width: calc(44px * 8);
+        height: calc(44px * 8);
+    }
+}
+
+/* Iphone XR */
+@media only screen and (max-width : 414px) {
+    .board-wrap {
+        padding: 15px;
+        border-radius: 35px;
+    }
+
+	.board {
+        width: calc(42px * 8);
+        height: calc(42px * 8);
+        border-radius: 20px;
+    }
+
+    .board .cell {
+        padding: 2px;
+    }
+}
+
+/* Iphone 12 Pro */
+@media only screen and (max-width : 390px) {
+	.board {
+        width: calc(40px * 8);
+        height: calc(40px * 8);
+    }
+}
+
+/* Iphone SE */
+@media only screen and (max-width : 375px) {
+	.board {
+        width: calc(38px * 8);
+        height: calc(38px * 8);
+    }
+}
+
+/* Galaxy S8+ */
+@media only screen and (max-width : 360px) {
+    /**/
 }

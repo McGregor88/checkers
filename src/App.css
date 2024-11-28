@@ -1,14 +1,5 @@
-* {
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    min-width: calc(64px * 8);
-    width: 100%;
-}
-
 .app {
+    padding: 10px;
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -21,4 +12,45 @@ body {
 
 .white {
     background-color: hsl(53, 100%, 95%);
+}
+
+/* Small Devices, Tablets */
+@media only screen and (max-width : 640px) {
+	/**/
+}
+
+
+/* HTC One */
+@media only screen and (max-width : 540px) {
+	/**/
+}
+
+
+/* Extra Small Devices, Phones */
+@media only screen and (max-width : 480px) {
+	/**/
+}
+
+/* Iphone 14 Pro Max */
+@media only screen and (max-width : 430px) {
+	/**/
+}
+
+/* Iphone XR */
+@media only screen and (max-width : 414px) {
+	/**/
+}
+
+/* Iphone 12 Pro */
+@media only screen and (max-width : 390px) {
+	/**/
+}
+
+/* Iphone SE */
+@media only screen and (max-width : 375px) {
+	/**/
+}
+/* Galaxy S8+ */
+@media only screen and (max-width : 360px) {
+	/**/
 }
