@@ -4,14 +4,15 @@ import { Checker } from './figures/Checker';
 
 export class Board {
     cells: Cell[][] = [];
+    maxCellsInRow: number = 8;
 
     public initCells() {
         // TODO: Подумать над другим вариантом решения, т.к. образуется кольцевая зависимость
         // Доска будет знать про ячейки и ячейки будут знать про доску в которой находятся
-        for (let i = 0; i < 8; i++) {
+        for (let i = 0; i < this.maxCellsInRow; i++) {
             const row: Cell[] = [];
 
-            for (let j = 0; j < 8; j++) {
+            for (let j = 0; j < this.maxCellsInRow; j++) {
                 if ((i + j) % 2 !== 0) {
                     // Черные ячейки
                     row.push(new Cell(this, j, i, Colors.BLACK, null));
@@ -29,41 +30,26 @@ export class Board {
     }
 
     private addCheckers() {
-        /*for (let i = 0; i < 8; i++) {
-            new Checker(Colors.BLACK, this.getCell(i, 1));
-            new Checker(Colors.WHITE, this.getCell(i, 6));
-        }*/
+        const checkersCount: number = 12;
+        let xTop: number = 1;
+        let xBottom: number = 0;
+        let yTop: number = 0;
+        let yBottom: number = 5;
 
-        for (let i = 0; i < 12; i++) {
-            console.log(i);
+        const getOffset = (y: number): number => Number(y % 2 === 0);
+        const getX = (i: number, y: number, offset: number): number => (i * 2) - (this.maxCellsInRow * y) + offset;
+
+        for (let i = 0; i < checkersCount; i++) {
+            if (i && i % (this.maxCellsInRow / 2) === 0) {
+                yTop += 1;
+                yBottom += 1;
+            }
+            xTop = getX(i, yTop, getOffset(yTop));
+            xBottom = getX(i, yTop, getOffset(yBottom));
+
+            new Checker(Colors.BLACK, this.getCell(xTop, yTop));
+            new Checker(Colors.WHITE, this.getCell(xBottom, yBottom));
         }
-        console.log('add checkers');
-
-        new Checker(Colors.BLACK, this.getCell(1, 0));
-        new Checker(Colors.BLACK, this.getCell(3, 0));
-        new Checker(Colors.BLACK, this.getCell(5, 0));
-        new Checker(Colors.BLACK, this.getCell(7, 0));
-        new Checker(Colors.BLACK, this.getCell(0, 1));
-        new Checker(Colors.BLACK, this.getCell(2, 1));
-        new Checker(Colors.BLACK, this.getCell(4, 1));
-        new Checker(Colors.BLACK, this.getCell(6, 1));
-        new Checker(Colors.BLACK, this.getCell(1, 2));
-        new Checker(Colors.BLACK, this.getCell(3, 2));
-        new Checker(Colors.BLACK, this.getCell(5, 2));
-        new Checker(Colors.BLACK, this.getCell(7, 2));
-
-        new Checker(Colors.WHITE, this.getCell(0, 5));
-        new Checker(Colors.WHITE, this.getCell(2, 5));
-        new Checker(Colors.WHITE, this.getCell(4, 5));
-        new Checker(Colors.WHITE, this.getCell(6, 5));
-        new Checker(Colors.WHITE, this.getCell(1, 6));
-        new Checker(Colors.WHITE, this.getCell(3, 6));
-        new Checker(Colors.WHITE, this.getCell(5, 6));
-        new Checker(Colors.WHITE, this.getCell(7, 6));
-        new Checker(Colors.WHITE, this.getCell(0, 7));
-        new Checker(Colors.WHITE, this.getCell(2, 7));
-        new Checker(Colors.WHITE, this.getCell(4, 7));
-        new Checker(Colors.WHITE, this.getCell(6, 7));
     }
 
     public addFigures() {
