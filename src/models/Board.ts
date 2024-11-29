@@ -13,14 +13,9 @@ export class Board {
             const row: Cell[] = [];
 
             for (let j = 0; j < this.maxCellsInRow; j++) {
-                if ((i + j) % 2 !== 0) {
-                    // Черные ячейки
-                    row.push(new Cell(this, j, i, Colors.BLACK, null));
-                } else {
-                    // Белые ячейки
-                    row.push(new Cell(this, j, i, Colors.WHITE, null));
-                }
+                row.push(new Cell(this, j, i, (i + j) % 2 !== 0 ? Colors.BLACK : Colors.WHITE, null));
             }
+
             this.cells.push(row);
         }
     }
@@ -30,25 +25,20 @@ export class Board {
     }
 
     private addCheckers() {
-        const checkersCount: number = 12;
-        let xTop: number = 1;
-        let xBottom: number = 0;
+        const TOTAL_CHECKERS: number = 24;
+        const getX = (i: number, y: number, offset: number): number => (i * 2) - (this.maxCellsInRow * y) + offset;
+        const getXOffset = (y: number): number => Number(y % 2 === 0);
         let yTop: number = 0;
         let yBottom: number = 5;
 
-        const getOffset = (y: number): number => Number(y % 2 === 0);
-        const getX = (i: number, y: number, offset: number): number => (i * 2) - (this.maxCellsInRow * y) + offset;
-
-        for (let i = 0; i < checkersCount; i++) {
+        for (let i = 0; i < TOTAL_CHECKERS / 2; i++) {
             if (i && i % (this.maxCellsInRow / 2) === 0) {
                 yTop += 1;
                 yBottom += 1;
             }
-            xTop = getX(i, yTop, getOffset(yTop));
-            xBottom = getX(i, yTop, getOffset(yBottom));
 
-            new Checker(Colors.BLACK, this.getCell(xTop, yTop));
-            new Checker(Colors.WHITE, this.getCell(xBottom, yBottom));
+            new Checker(Colors.BLACK, this.getCell(getX(i, yTop, getXOffset(yTop)), yTop));
+            new Checker(Colors.WHITE, this.getCell(getX(i, yTop, getXOffset(yBottom)), yBottom));
         }
     }
 
