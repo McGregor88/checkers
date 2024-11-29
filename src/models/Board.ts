@@ -26,14 +26,14 @@ export class Board {
     }
 
     private addCheckers() {
-        const TOTAL_CHECKERS: number = 24;
+        const MAX_CHECKERS_IN_ROW: number = this.maxCellsInRow / 2;
         const getX = (i: number, y: number, offset: number): number => (i * 2) - (this.maxCellsInRow * y) + offset;
         const getXOffset = (y: number): number => Number(y % 2 === 0);
         let yTop: number = 0;
         let yBottom: number = 5;
 
-        for (let i = 0; i < TOTAL_CHECKERS / 2; i++) {
-            if (i && i % (this.maxCellsInRow / 2) === 0) {
+        for (let i = 0; i < MAX_CHECKERS_IN_ROW * 3; i++) {
+            if (i && i % MAX_CHECKERS_IN_ROW === 0) {
                 yTop += 1;
                 yBottom += 1;
             }
