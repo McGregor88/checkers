@@ -13,7 +13,8 @@ export class Board {
             const row: Cell[] = [];
 
             for (let j = 0; j < this.maxCellsInRow; j++) {
-                row.push(new Cell(this, j, i, (i + j) % 2 !== 0 ? Colors.BLACK : Colors.WHITE, null));
+                const color = (i + j) % 2 !== 0 ? Colors.BLACK : Colors.WHITE;
+                row.push(new Cell(this, j, i, color, null));
             }
 
             this.cells.push(row);
