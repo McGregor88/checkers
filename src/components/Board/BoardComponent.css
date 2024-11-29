@@ -34,6 +34,18 @@
     height: auto;
 }
 
+.board .cell.selected {
+    background-color: brown;
+}
+
+.board .cell.avaivable {
+    background-color: chartreuse;
+}
+
+.board .cell.green {
+    background-color: rgb(48, 159, 105);
+}
+
 /* Small Devices, Tablets */
 @media only screen and (max-width : 640px) {
 	.board {

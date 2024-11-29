@@ -11,14 +11,28 @@ export class Board {
         // Доска будет знать про ячейки и ячейки будут знать про доску в которой находятся
         for (let i = 0; i < this.maxCellsInRow; i++) {
             const row: Cell[] = [];
-
             for (let j = 0; j < this.maxCellsInRow; j++) {
                 const color = (i + j) % 2 !== 0 ? Colors.BLACK : Colors.WHITE;
                 row.push(new Cell(this, j, i, color, null));
             }
-
             this.cells.push(row);
         }
+    }
+
+    public getCopyBoard(): Board {
+        const newBoard = new Board();
+        newBoard.cells = this.cells;
+        return newBoard;
+    }
+
+    public highlightCells(selectedCell: Cell | null) {
+        for (let i = 0; i < this.cells.length; i++) {
+            const row = this.cells[i];
+            for (let j = 0; j < row.length; j++) {
+                const target = row[j];
+                target.available = !!selectedCell?.figure?.canMove(target);
+            }
+        } 
     }
 
     public getCell(x: number, y: number) {
