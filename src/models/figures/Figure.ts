@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 import logo from '../../assets/checker_black.png';
 import { Colors } from '../Colors';
 import { Cell } from '../Cell';
@@ -12,7 +14,7 @@ export class Figure {
     logo: typeof logo | null;
     cell: Cell;
     name: FigureNames;
-    id: number;
+    id: string;
 
     constructor(color: Colors, cell: Cell) {
         this.color = color;
@@ -20,8 +22,7 @@ export class Figure {
         this.cell.figure = this;
         this.logo = null;
         this.name = FigureNames.FIGURE;
-        //this.id = Date.now();
-        this.id = Math.random();
+        this.id = uuidv4();
     }
 
     canMove(target: Cell): boolean {

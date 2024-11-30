@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 import { Colors } from './Colors';
 import { Figure } from './figures/Figure';
 import { Board } from './Board';
@@ -9,7 +11,7 @@ export class Cell {
     board: Board;
     figure: Figure | null;
     available: boolean;
-    id: number;
+    id: string;
 
     constructor(board: Board, x: number, y: number, color: Colors, figure: Figure | null) {
         this.board = board;
@@ -18,8 +20,7 @@ export class Cell {
         this.color = color;
         this.figure = figure;
         this.available = false;
-        //this.id = Date.now();
-        this.id = Math.random();
+        this.id = uuidv4();
     }
 
     moveFigure(target: Cell) {

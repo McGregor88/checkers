@@ -14,12 +14,11 @@ const CellComponent: FC<CellProps> = ({ cell, selected, click }) =>  {
             className={[
                 'cell', cell.color, 
                 selected ? 'selected' : '',
-                //cell.available && !cell.figure ? 'available' : '',
-                cell.available && cell.figure ? 'green' : '',
+                cell.available && cell.color !== Colors.WHITE && !cell.figure ? 'available' : '',
+                //cell.available && cell.figure ? 'green' : '',
             ].join(' ')}
             onClick={() => click(cell)}
         >
-            {cell.available && cell.color !== Colors.WHITE && !cell.figure && <div className={'available'} />}
             {cell.figure?.logo && <img src={cell.figure.logo} alt="" className="cell__figure" />}
         </div>
     );
