@@ -41,13 +41,16 @@ export class Board {
 
     private addCheckers() {
         const MAX_CHECKERS_IN_ROW: number = this.maxCellsInRow / 2;
-        const getXOffset = (y: number): number => Number(y % 2 === 0);
-        let x = 1;
-        let y = 0;
+        let offset: number = 1;
+        let x: number = 1;
+        let y: number = 0;
 
         for (let i = 0; i < MAX_CHECKERS_IN_ROW * 3; i++) {
-            if (i && i % MAX_CHECKERS_IN_ROW === 0) { y += 1; }
-            x = (i * 2) - (this.maxCellsInRow * y) + getXOffset(y);
+            if (i && i % MAX_CHECKERS_IN_ROW === 0) { 
+                y += 1; 
+                offset = Number(y % 2 === 0);
+            }
+            x = (i * 2) - (this.maxCellsInRow * y) + offset;
 
             new Checker(Colors.BLACK, this.getCell(x, y));
             new Checker(Colors.WHITE, this.getCell(this.maxCellsInRow - (x + 1), this.maxCellsInRow - (y + 1)));
