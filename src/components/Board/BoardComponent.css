@@ -37,13 +37,25 @@
 .board .cell.selected {
     background-color: brown;
 }
-
-.board .cell.avaivable {
-    background-color: chartreuse;
+.board .cell.selected.green {
+    background-color: brown;
 }
+
+/*.board .cell.available {
+    background-color: chartreuse;
+}*/
 
 .board .cell.green {
     background-color: rgb(48, 159, 105);
+}
+
+.available {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: green;
+    z-index: 1;
 }
 
 /* Small Devices, Tablets */

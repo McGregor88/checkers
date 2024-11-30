@@ -20,10 +20,14 @@ export class Figure {
         this.cell.figure = this;
         this.logo = null;
         this.name = FigureNames.FIGURE;
+        //this.id = Date.now();
         this.id = Math.random();
     }
 
     canMove(target: Cell): boolean {
+        if (target.color === Colors.WHITE || target.figure) {
+            return false;
+        }
         return true;
     }
 

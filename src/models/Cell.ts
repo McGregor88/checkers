@@ -18,10 +18,7 @@ export class Cell {
         this.color = color;
         this.figure = figure;
         this.available = false;
-        /*this.id = board.cells.reduce((acc, row, rowIndex) => {
-            const cellIndex = row.findIndex((cell) => cell.x === x && cell.y === y);
-            return acc + rowIndex * row.length + cellIndex;
-        }, 0);*/
+        //this.id = Date.now();
         this.id = Math.random();
     }
 
