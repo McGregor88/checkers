@@ -26,9 +26,7 @@ export class Figure {
     }
 
     canMove(target: Cell): boolean {
-        if (target.color === Colors.WHITE || target.figure) {
-            return false;
-        }
+        if (target.color === Colors.WHITE || target.figure) return false;
         return true;
     }
 
