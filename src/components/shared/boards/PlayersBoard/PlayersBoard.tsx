@@ -7,16 +7,13 @@ interface BoardProps {
     currentPlayer: Player | null;
 }
 
-const PlayersBoard: FC<BoardProps> = ({
-    currentPlayer,
-}) => {
-    return (
-        <div className="players-board">
-            <div className="app-header">
-                <h3>Текущий игрок: {currentPlayer?.color}</h3>
-            </div>
+const PlayersBoard: FC<BoardProps> = ({ currentPlayer }) => (
+    <div className="players-board">
+        <div className="players-board-info">
+            <span className="players-board-info__caption">Текущий игрок: </span>
+            <b className="players-board-info__curr-player">{currentPlayer?.color}</b>
         </div>
-    );
-}
+    </div>
+);
 
 export default PlayersBoard;

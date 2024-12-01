@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { Cell } from '../../models/Cell';
-import { Colors } from '../../models/Colors';
+import { Cell } from '../../../../../models/Cell';
+import { Colors } from '../../../../../models/Colors';
 
 interface CellProps {
     cell: Cell;
@@ -8,7 +8,7 @@ interface CellProps {
     click: (cell: Cell) => void;
 }
 
-const CellComponent: FC<CellProps> = ({ cell, selected, click }) =>  {
+const CheckerCell: FC<CellProps> = ({ cell, selected, click }) =>  {
     return (
         <div 
             className={[
@@ -24,4 +24,4 @@ const CellComponent: FC<CellProps> = ({ cell, selected, click }) =>  {
     );
 }
 
-export default CellComponent;
+export default CheckerCell;

@@ -1,10 +1,10 @@
-.board-wrap {
+.checkers-board-outer {
     padding: 20px;
     background-color: hsl(0, 0%, 0%);
     border-radius: 50px;
 }
 
-.board {
+.checkers-board {
     width: calc(64px * 8);
     height: calc(64px * 8);
     display: flex;
@@ -13,7 +13,7 @@
     border-radius: 32px;
 }
 
-.board .cell {
+.checkers-board .cell {
     padding: 5px;
     width: calc(100% / 8);
     height: calc(100% / 8);
@@ -26,16 +26,16 @@
     border: 1px solid hsl(0, 0%, 0%);
 }
 
-.board .cell.black {
+.checkers-board .cell.black {
     cursor: pointer;
     pointer-events: unset;
 }
 
-.board .cell.available {
+.checkers-board .cell.available {
     background-color: hsl(219, 55%, 60%);
 }
 
-.board .cell__figure {
+.checkers-board .cell__figure {
     position: relative;
     display: inline-block;
     vertical-align: top;
@@ -45,13 +45,13 @@
 }
 
 
-.board .cell.selected:has(img) {
+.checkers-board .cell.selected:has(img) {
     background-color: hsl(160, 71%, 41%);
 }
 
 /* Small Devices, Tablets */
 @media only screen and (max-width : 640px) {
-	.board {
+	.checkers-board {
         width: calc(60px * 8);
         height: calc(60px * 8);
     }
@@ -59,7 +59,7 @@
 
 /* HTC One */
 @media only screen and (max-width : 540px) {
-	.board {
+	.checkers-board {
         width: calc(52px * 8);
         height: calc(52px * 8);
     }
@@ -67,7 +67,7 @@
 
 /* Extra Small Devices, Phones */
 @media only screen and (max-width : 480px) {
-	.board {
+	.checkers-board {
         width: calc(46px * 8);
         height: calc(46px * 8);
     }
@@ -75,7 +75,7 @@
 
 /* Iphone 14 Pro Max */
 @media only screen and (max-width : 430px) {
-	.board {
+	.checkers-board {
         width: calc(44px * 8);
         height: calc(44px * 8);
     }
@@ -83,25 +83,25 @@
 
 /* Iphone XR */
 @media only screen and (max-width : 414px) {
-    .board-wrap {
+    .checkers-board-outer {
         padding: 15px;
         border-radius: 35px;
     }
 
-	.board {
+	.checkers-board {
         width: calc(42px * 8);
         height: calc(42px * 8);
         border-radius: 20px;
     }
 
-    .board .cell {
+    .checkers-board .cell {
         padding: 2px;
     }
 }
 
 /* Iphone 12 Pro */
 @media only screen and (max-width : 390px) {
-	.board {
+	.checkers-board {
         width: calc(40px * 8);
         height: calc(40px * 8);
     }
@@ -109,7 +109,7 @@
 
 /* Iphone SE */
 @media only screen and (max-width : 375px) {
-	.board {
+	.checkers-board {
         width: calc(38px * 8);
         height: calc(38px * 8);
     }

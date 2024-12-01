@@ -1,3 +1,10 @@
-.players-board {
+.players-board-info__caption {
+    font-size: 14px;
+    color: gray;
+}
 
+.players-board-info__curr-player {
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
 }

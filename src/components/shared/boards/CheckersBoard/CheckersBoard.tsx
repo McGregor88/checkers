@@ -1,15 +1,10 @@
 import { FC, Fragment, useState, useEffect } from 'react';
 
-//import './BoardComponent.css';
-//import { Board } from '../../models/Board';
-//import { Cell } from '../../models/Cell';
-//import { Player } from '../../models/Player';
-//import CellComponent from '../Cell/CellComponent';
 import './CheckersBoard.css';
 import { Board } from '../../../../models/Board';
 import { Cell } from '../../../../models/Cell';
 import { Player } from '../../../../models/Player';
-import CellComponent from '../../../Cell/CellComponent';
+import CheckerCell from './cell/CheckerCell';
 
 interface BoardProps {
     board: Board;
@@ -54,12 +49,12 @@ const CheckersBoard: FC<BoardProps> = ({
     }
 
     return (
-        <div className="board-wrap">
-            <div className="board">
+        <div className="checkers-board-outer">
+            <div className="checkers-board">
                 {board.cells.map((row, index) =>
                     <Fragment key={index}>
                         {row.map(cell =>
-                            <CellComponent 
+                            <CheckerCell 
                                 key={cell.id} 
                                 cell={cell}
                                 selected={cell.x === selectedCell?.x && cell.y === selectedCell?.y}

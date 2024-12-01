@@ -4,7 +4,6 @@ import './App.css';
 import { Board } from './models/Board';
 import { Player } from './models/Player';
 import { Colors } from './models/Colors';
-
 import PlayersBoard from './components/shared/boards/PlayersBoard/PlayersBoard';
 import CheckersBoard from './components/shared/boards/CheckersBoard/CheckersBoard';
 import Button from './components/core/Button/Button';
@@ -33,9 +32,7 @@ function App() {
 
     return (
         <div className="app">
-            <PlayersBoard
-                currentPlayer={currentPlayer}
-            />
+            <PlayersBoard currentPlayer={currentPlayer} />
             <CheckersBoard
                 board={board}
                 setBoard={setBoard}
@@ -43,7 +40,8 @@ function App() {
                 switchPlayer={switchPlayer}
             />
             <Button
-                text="Перезагрузить" 
+                text="Начать сначала"
+                className="reload-btn black" 
                 onClicked={restart}
             />
         </div>
