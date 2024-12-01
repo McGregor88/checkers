@@ -1,17 +1,39 @@
 .app {
-    padding: 10px;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+	padding: 10px;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	gap: 10px;
 }
 
 .black {
-    background-color: hsl(220, 34%, 58%);
+	background-color: hsl(220, 34%, 58%);
 }
 
 .white {
-    background-color: hsl(53, 100%, 95%);
+	background-color: hsl(53, 100%, 95%);
+}
+
+/* reload button */
+.btn {
+	padding: 15px 30px;
+	display: inline-block;
+	vertical-align: top;
+	cursor: pointer;
+	border: 0;
+	color: hsl(255, 100%, 100%);
+	text-align: center;
+	text-decoration: none;
+	font-size: 16px;
+}
+
+.btn.black:hover,
+.btn.black:focus,
+.btn.black:active,
+.btn.black.active {
+	background-color: hsl(219, 55%, 60%);
 }
 
 /* Small Devices, Tablets */

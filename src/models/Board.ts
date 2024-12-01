@@ -12,7 +12,7 @@ export class Board {
         for (let i = 0; i < this.maxCellsInRow; i++) {
             const row: Cell[] = [];
             for (let j = 0; j < this.maxCellsInRow; j++) {
-                const color = (i + j) % 2 !== 0 ? Colors.BLACK : Colors.WHITE;
+                const color: Colors = (i + j) % 2 !== 0 ? Colors.BLACK : Colors.WHITE;
                 row.push(new Cell(this, j, i, color, null));
             }
             this.cells.push(row);

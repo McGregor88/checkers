@@ -1,18 +1,28 @@
 import { FC, Fragment, useState, useEffect } from 'react';
 
-import './BoardComponent.css';
-import { Board } from '../../models/Board';
-import { Cell } from '../../models/Cell';
-import CellComponent from '../Cell/CellComponent';
+//import './BoardComponent.css';
+//import { Board } from '../../models/Board';
+//import { Cell } from '../../models/Cell';
+//import { Player } from '../../models/Player';
+//import CellComponent from '../Cell/CellComponent';
+import './CheckersBoard.css';
+import { Board } from '../../../../models/Board';
+import { Cell } from '../../../../models/Cell';
+import { Player } from '../../../../models/Player';
+import CellComponent from '../../../Cell/CellComponent';
 
 interface BoardProps {
     board: Board;
     setBoard: (board: Board) => void;
+    currentPlayer: Player | null;
+    switchPlayer: () => void;
 }
 
-const BoardComponent: FC<BoardProps> = ({
+const CheckersBoard: FC<BoardProps> = ({
     board,
-    setBoard
+    setBoard,
+    currentPlayer,
+    switchPlayer
 }) => {
     const [selectedCell, setSelectedCell] = useState<Cell | null>(null);
 
@@ -23,10 +33,13 @@ const BoardComponent: FC<BoardProps> = ({
     function click(cell: Cell) {
         if (selectedCell && selectedCell !== cell && selectedCell.figure?.canMove(cell)) {
             selectedCell.moveFigure(cell);
+            switchPlayer();
             setSelectedCell(null);
             updateBoard();
         } else {
-            setSelectedCell(cell);
+            if (cell.figure?.color === currentPlayer?.color) {
+                setSelectedCell(cell);
+            }
         }
     }
 
@@ -60,4 +73,4 @@ const BoardComponent: FC<BoardProps> = ({
     );
 }
 
-export default BoardComponent;
+export default CheckersBoard;
