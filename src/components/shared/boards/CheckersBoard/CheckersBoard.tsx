@@ -27,7 +27,7 @@ const CheckersBoard: FC<BoardProps> = ({
 
     function click(cell: Cell) {
         if (selectedCell && selectedCell !== cell && selectedCell.figure?.canMove(cell)) {
-            selectedCell.moveFigure(cell);
+            currentPlayer?.moveFigure(selectedCell, cell);
             switchPlayer();
             setSelectedCell(null);
             updateBoard();

@@ -19,6 +19,14 @@ export class Board {
         }
     }
 
+    public addFigures() {
+        this.addCheckers();
+    }
+
+    public getCell(x: number, y: number) {
+        return this.cells[y][x];
+    }
+
     public getCopyBoard(): Board {
         const newBoard = new Board();
         newBoard.cells = this.cells;
@@ -33,10 +41,6 @@ export class Board {
                 target.available = !!selectedCell?.figure?.canMove(target);
             }
         } 
-    }
-
-    public getCell(x: number, y: number) {
-        return this.cells[y][x];
     }
 
     private addCheckers() {
@@ -55,9 +59,5 @@ export class Board {
             new Checker(Colors.BLACK, this.getCell(x, y));
             new Checker(Colors.WHITE, this.getCell(this.maxCellsInRow - (x + 1), this.maxCellsInRow - (y + 1)));
         }
-    }
-
-    public addFigures() {
-        this.addCheckers();
     }
 }

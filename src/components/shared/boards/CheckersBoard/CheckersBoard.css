@@ -32,7 +32,7 @@
 }
 
 .checkers-board .cell.available {
-    background-color: hsl(219, 55%, 60%);
+    background-color: hsl(25, 34%, 33%);
 }
 
 .checkers-board .cell__figure {

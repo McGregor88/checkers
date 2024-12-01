@@ -29,6 +29,4 @@ export class Figure {
         if (target.color === Colors.WHITE || target.figure) return false;
         return true;
     }
-
-    moveFigure(target: Cell) {}
 };

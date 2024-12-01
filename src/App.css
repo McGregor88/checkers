@@ -16,8 +16,8 @@
 	background-color: hsl(53, 100%, 95%);
 }
 
-/* reload button */
 .btn {
+	margin-top: 20px;
 	padding: 10px 40px;
 	display: inline-block;
 	vertical-align: top;
@@ -36,45 +36,4 @@
 .btn.black:active,
 .btn.black.active {
 	background-color: hsl(219, 55%, 60%);
-}
-
-/* Small Devices, Tablets */
-@media only screen and (max-width : 640px) {
-	/**/
-}
-
-
-/* HTC One */
-@media only screen and (max-width : 540px) {
-	/**/
-}
-
-
-/* Extra Small Devices, Phones */
-@media only screen and (max-width : 480px) {
-	/**/
-}
-
-/* Iphone 14 Pro Max */
-@media only screen and (max-width : 430px) {
-	/**/
-}
-
-/* Iphone XR */
-@media only screen and (max-width : 414px) {
-	/**/
-}
-
-/* Iphone 12 Pro */
-@media only screen and (max-width : 390px) {
-	/**/
-}
-
-/* Iphone SE */
-@media only screen and (max-width : 375px) {
-	/**/
-}
-/* Galaxy S8+ */
-@media only screen and (max-width : 360px) {
-	/**/
 }

@@ -8,10 +8,11 @@ import PlayersBoard from './components/shared/boards/PlayersBoard/PlayersBoard';
 import CheckersBoard from './components/shared/boards/CheckersBoard/CheckersBoard';
 import Button from './components/core/Button/Button';
 
+const whitePlayer = new Player(Colors.WHITE);
+const blackPlayer = new Player(Colors.BLACK);
+
 function App() {
     const [board, setBoard] = useState(new Board());
-    const [whitePlayer, setWhitePlayer] = useState(new Player(Colors.WHITE));
-    const [blackPlayer, setBlackPlayer] = useState(new Player(Colors.BLACK));
     const [currentPlayer, setCurrentPlayer] = useState<Player | null>(null);
 
     useEffect(() => {
