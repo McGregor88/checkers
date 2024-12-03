@@ -47,6 +47,7 @@ const CheckersBoard: FC<BoardProps> = ({
         } else {
             if (square.figure?.color === currentPlayer?.color) {
                 // TODO: Перед выбором клетки нужно убедиться, что на ней фигура вообще может двигаться куда-либо
+                // Сейчас получается выделяются и клетки, фигуры на которой двигаться не могут
                 setSelectedSquare(square);
             }
         }
