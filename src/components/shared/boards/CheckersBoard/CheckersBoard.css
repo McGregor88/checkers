@@ -15,8 +15,8 @@
 
 .checkers-board .cell {
     padding: 5px;
-    width: calc(100% / 8);
-    height: calc(100% / 8);
+    width: 12.5%;
+    height: 12.5%;
     display: flex;
     justify-content: center;
     align-items: center;
