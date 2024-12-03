@@ -13,7 +13,7 @@ export class Checker extends Figure {
     }
 
     canMove(target: Cell): boolean {
-        if (!super.canMove(target) || !this.cell.isEmptyDiagonal(target)) return false;
+        if (!super.canMove(target) || !this.cell.isNotDiagonal(target)) return false;
         return true;
     }
 }

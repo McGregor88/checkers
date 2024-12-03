@@ -27,7 +27,7 @@ export class Cell {
         return this.figure === null;
     }
     
-    isEmptyDiagonal(target: Cell): boolean {
+    /*isEmptyDiagonal(target: Cell): boolean {
         const absX = Math.abs(target.x - this.x);
         const absY = Math.abs(target.y - this.y);
         if (absY !== absX) return false;
@@ -41,5 +41,9 @@ export class Cell {
             }
         }
         return true;
+    }*/
+
+    isNotDiagonal(target: Cell): boolean {
+        return Math.abs(target.x - this.x) === Math.abs(target.y - this.y);
     }
 };
