@@ -7,13 +7,11 @@ export class Board {
     maxCellsInRow: number = 8;
 
     public initCells() {
-        // TODO: Подумать над другим вариантом решения, т.к. образуется кольцевая зависимость
-        // Доска будет знать про ячейки и ячейки будут знать про доску в которой находятся
         for (let i = 0; i < this.maxCellsInRow; i++) {
             const row: Cell[] = [];
             for (let j = 0; j < this.maxCellsInRow; j++) {
                 const color: Colors = (i + j) % 2 !== 0 ? Colors.BLACK : Colors.WHITE;
-                row.push(new Cell(this, j, i, color, null));
+                row.push(new Cell(j, i, color, null));
             }
             this.cells.push(row);
         }
@@ -56,8 +54,8 @@ export class Board {
             }
             x = (i * 2) - (this.maxCellsInRow * y) + offset;
 
-            new Checker(Colors.BLACK, this.getCell(x, y));
-            new Checker(Colors.WHITE, this.getCell(this.maxCellsInRow - (x + 1), this.maxCellsInRow - (y + 1)));
+            new Checker(this, Colors.BLACK, this.getCell(x, y));
+            new Checker(this, Colors.WHITE, this.getCell(this.maxCellsInRow - (x + 1), this.maxCellsInRow - (y + 1)));
         }
     }
 }

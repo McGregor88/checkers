@@ -16,8 +16,12 @@
 	background-color: hsl(53, 100%, 95%);
 }
 
+.container {
+	text-align: center;
+}
+
 .btn {
-	margin-top: 20px;
+	margin-top: 30px;
 	padding: 10px 40px;
 	display: inline-block;
 	vertical-align: top;

@@ -14,8 +14,7 @@ const CheckerCell: FC<CellProps> = ({ cell, selected, click }) =>  {
             className={[
                 'cell', cell.color, 
                 selected ? 'selected' : '',
-                cell.available && cell.color !== Colors.WHITE && !cell.figure ? 'available' : '',
-                //cell.available && cell.figure ? 'green' : '',
+                cell.available && cell.color !== Colors.WHITE && !cell.figure ? 'available' : ''
             ].join(' ')}
             onClick={() => click(cell)}
         >

@@ -8,7 +8,7 @@ export class Player {
         this.color = color;
     }
 
-    moveFigure(selectedCell: Cell, target: Cell) {
+    moveFigureFromSelectedCell(selectedCell: Cell, target: Cell) {
         const figure = selectedCell.figure;
         if (figure && figure?.canMove(target)) {
             target.figure = figure
