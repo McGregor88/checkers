@@ -40,7 +40,7 @@ const CheckersBoard: FC<BoardProps> = ({
 
     const onCellTapped = (cell: Cell) => {
         if (selectedCell && selectedCell !== cell && selectedCell.figure?.canMove(cell)) {
-            currentPlayer?.moveFigureFromSelectedCell(selectedCell, cell);
+            board?.moveFigureFromSelectedCell(selectedCell, cell);
             switchPlayer();
             setSelectedCell(null);
             updateBoard();

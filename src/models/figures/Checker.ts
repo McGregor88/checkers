@@ -19,7 +19,7 @@ export class Checker extends Figure {
 
     canMove(target: Cell): boolean {
         if (!super.canMove(target) || !this.cell.isNotDiagonal(target)) return false;
-        const { x: currentX, y: currentY } = this.cell;
+        const { y: currentY } = this.cell;
 
         if (this.isDame) {
             //pass
@@ -29,18 +29,16 @@ export class Checker extends Figure {
             if (target.y + maxStep < currentY || target.y - maxStep > currentY) return false;
             // Если ячейка в двух шагах, 
             if (target.y + maxStep === currentY || target.y - maxStep === currentY) {
-                // то нужно будет получить ячейку которая находится в шаге от фигуры
-                const x: number = target.x < currentX ? currentX - 1 : currentX + 1;
-                const y: number = target.y < currentY ? currentY - 1 : currentY + 1;
-                const interimCell = this.board?.getCell(x, y);
+                // получаем ячейку, которая находится в шаге от фигуры
+                const nearestCell = this.board?.getNearestCell(this.cell, target);
                 // Проверяем ячейку на пустоту или наличие дружеской пешки
-                if (interimCell?.isEmpty() || interimCell?.figure?.color === this.color) {
+                if (nearestCell?.isEmpty() || nearestCell?.figure?.color === this.color) {
                     return false;
                 }
             }
             // Если ячейка в одном шаге 
             if (target.y + 1 === currentY || target.y - 1 === currentY) {
-                // сделаем чтобы они ходили только вперед исходя из цвета
+                // Сделаем, чтобы они ходили только вперед исходя из цвета
                 if (
                     (this.color === Colors.WHITE && target.y > currentY) || 
                     (this.color === Colors.BLACK && target.y < currentY)

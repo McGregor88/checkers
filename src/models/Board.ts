@@ -21,8 +21,14 @@ export class Board {
         this.addCheckers();
     }
 
-    public getCell(x: number, y: number) {
+    public getCell(x: number, y: number): Cell {
         return this.cells[y][x];
+    }
+
+    public getNearestCell(startingCell: Cell, targetCell: Cell): Cell {
+        const x: number = targetCell.x < startingCell.x ? startingCell.x - 1 : startingCell.x + 1;
+        const y: number = targetCell.y < startingCell.y ? startingCell.y - 1 : startingCell.y + 1;
+        return this.getCell(x, y);
     }
 
     public getCopyBoard(): Board {
@@ -39,6 +45,24 @@ export class Board {
                 target.available = !!selectedCell?.figure?.canMove(target);
             }
         } 
+    }
+
+    public moveFigureFromSelectedCell(selectedCell: Cell, target: Cell) {
+        const figure = selectedCell.figure;
+        if (!figure || !figure?.canMove(target)) return;
+
+        const nearestCell = this.getNearestCell(selectedCell, target);
+        target.figure = figure;
+        target.figure.cell = target;
+        this.removeFigureFromCell(selectedCell);
+
+        if (nearestCell.x !== target.x && nearestCell.y !== target.y) {
+            this.removeFigureFromCell(nearestCell);
+        }
+    }
+
+    private removeFigureFromCell(cell: Cell) {
+        cell.figure = null;
     }
 
     private addCheckers() {
