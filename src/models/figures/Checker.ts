@@ -24,23 +24,27 @@ export class Checker extends Figure {
         if (this.isDame) {
             //pass
         } else {
-            const maxStepLength = 2;
+            const maxStep = 2;
             // Ограничиваем длину шага пешки
-            if (target.y + maxStepLength < currentY || target.y - maxStepLength > currentY) return false;
-
+            if (target.y + maxStep < currentY || target.y - maxStep > currentY) return false;
             // Если ячейка в двух шагах, 
-            if (target.y + maxStepLength === currentY || target.y - maxStepLength === currentY) {
+            if (target.y + maxStep === currentY || target.y - maxStep === currentY) {
                 // то нужно будет получить ячейку которая находится в шаге от фигуры
-                let x = target.y > currentY ? currentX - 1 : currentX + 1;
-                let y = target.y > currentY ? currentY + 1 : currentY - 1 ;
+                const x: number = target.x < currentX ? currentX - 1 : currentX + 1;
+                const y: number = target.y < currentY ? currentY - 1 : currentY + 1;
                 const interimCell = this.board?.getCell(x, y);
-                // Проверить есть ли у этой ячейки фигура и ее цвет отличается от фигуры текущей ячейки
+                // Проверяем ячейку на пустоту или наличие дружеской пешки
                 if (interimCell?.isEmpty() || interimCell?.figure?.color === this.color) {
                     return false;
                 }
-                // Если это фигура вражеская, то двигаться можно
             }
-            
+            // Если ячейка в одном шаге 
+            if (target.y + 1 === currentY || target.y - 1 === currentY) {
+                // сделаем чтобы они ходили только вперед исходя из цвета
+                if ((this.color === Colors.WHITE && target.y > currentY) || (this.color === Colors.BLACK && target.y < currentY)) {
+                    return false;
+                }
+            }
         }
     
         return true;
