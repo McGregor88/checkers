@@ -20,6 +20,10 @@ export class Cell {
         this.available = false;
     }
 
+    isEmpty(): boolean {
+        return this.figure === null;
+    }
+
     isNotDiagonal(target: Cell): boolean {
         return Math.abs(target.x - this.x) === Math.abs(target.y - this.y);
     }
