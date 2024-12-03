@@ -41,7 +41,10 @@ export class Checker extends Figure {
             // Если ячейка в одном шаге 
             if (target.y + 1 === currentY || target.y - 1 === currentY) {
                 // сделаем чтобы они ходили только вперед исходя из цвета
-                if ((this.color === Colors.WHITE && target.y > currentY) || (this.color === Colors.BLACK && target.y < currentY)) {
+                if (
+                    (this.color === Colors.WHITE && target.y > currentY) || 
+                    (this.color === Colors.BLACK && target.y < currentY)
+                ) {
                     return false;
                 }
             }
