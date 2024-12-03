@@ -69,7 +69,7 @@ const CheckersBoard: FC<BoardProps> = ({
                                     key={square.id} 
                                     square={square}
                                     selected={square.x === selectedSquare?.x && square.y === selectedSquare?.y}
-                                    tap={onSquareTapped}
+                                    onSquareTapped={onSquareTapped}
                                 />
                             )}
                         </Fragment>

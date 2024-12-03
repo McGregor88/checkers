@@ -5,10 +5,10 @@ import { Colors } from '../../../../../models/Colors';
 interface SquareProps {
     square: Square;
     selected: boolean;
-    tap: (square: Square) => void;
+    onSquareTapped: (square: Square) => void;
 }
 
-const CheckerSquare: FC<SquareProps> = ({ square, selected, tap }) =>  {
+const CheckerSquare: FC<SquareProps> = ({ square, selected, onSquareTapped }) =>  {
     return (
         <div 
             className={[
@@ -16,7 +16,7 @@ const CheckerSquare: FC<SquareProps> = ({ square, selected, tap }) =>  {
                 selected ? 'selected' : '',
                 square.available && square.color !== Colors.WHITE && !square.figure ? 'available' : ''
             ].join(' ')}
-            onClick={() => tap(square)}
+            onClick={() => onSquareTapped(square)}
         >
             {square.figure?.logo && <img src={square.figure.logo} alt={square.figure.name} className="checkers-board__figure" />}
         </div>
