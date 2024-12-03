@@ -2,9 +2,9 @@ import { FC, Fragment, useState, useEffect } from 'react';
 
 import './CheckersBoard.css';
 import { Board } from '../../../../models/Board';
-import { Cell } from '../../../../models/Cell';
+import { Square } from '../../../../models/Square';
 import { Player } from '../../../../models/Player';
-import CheckerCell from './cell/CheckerCell';
+import CheckerSquare from './square/CheckerSquare';
 import Button from '../../../core/Button/Button';
 
 interface BoardProps {
@@ -22,14 +22,14 @@ const CheckersBoard: FC<BoardProps> = ({
     switchPlayer,
     restart,
 }) => {
-    const [selectedCell, setSelectedCell] = useState<Cell | null>(null);
+    const [selectedSquare, setSelectedSquare] = useState<Square | null>(null);
 
     useEffect(() => {
-        highlightCells();
-    }, [selectedCell]);
+        highlightSquares();
+    }, [selectedSquare]);
 
-    function highlightCells() {
-        board.highlightCells(selectedCell);
+    function highlightSquares() {
+        board.highlightSquares(selectedSquare);
         updateBoard();
     }
 
@@ -38,21 +38,22 @@ const CheckersBoard: FC<BoardProps> = ({
         setBoard(newBoard);
     }
 
-    const onCellTapped = (cell: Cell) => {
-        if (selectedCell && selectedCell !== cell && selectedCell.figure?.canMove(cell)) {
-            board?.moveFigureFromSelectedCell(selectedCell, cell);
+    const onSquareTapped = (square: Square) => {
+        if (selectedSquare && selectedSquare !== square && selectedSquare.figure?.canMove(square)) {
+            board?.moveFigureFromSelectedSquare(selectedSquare, square);
             switchPlayer();
-            setSelectedCell(null);
+            setSelectedSquare(null);
             updateBoard();
         } else {
-            if (cell.figure?.color === currentPlayer?.color) {
-                setSelectedCell(cell);
+            if (square.figure?.color === currentPlayer?.color) {
+                // TODO: Перед выбором клетки нужно убедиться, что на ней фигура вообще может двигаться куда-либо
+                setSelectedSquare(square);
             }
         }
     }
 
     const onReloadBtnClicked = () => {
-        setSelectedCell(null);
+        setSelectedSquare(null);
         restart();
     }
 
@@ -60,14 +61,14 @@ const CheckersBoard: FC<BoardProps> = ({
         <div className="container">
             <div className="checkers-board-outer">
                 <div className="checkers-board">
-                    {board.cells.map((row, index) =>
+                    {board.squares.map((row, index) =>
                         <Fragment key={index}>
-                            {row.map(cell =>
-                                <CheckerCell 
-                                    key={cell.id} 
-                                    cell={cell}
-                                    selected={cell.x === selectedCell?.x && cell.y === selectedCell?.y}
-                                    click={onCellTapped}
+                            {row.map(square =>
+                                <CheckerSquare 
+                                    key={square.id} 
+                                    square={square}
+                                    selected={square.x === selectedSquare?.x && square.y === selectedSquare?.y}
+                                    tap={onSquareTapped}
                                 />
                             )}
                         </Fragment>

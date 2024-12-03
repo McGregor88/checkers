@@ -1,72 +1,73 @@
-import { Cell } from './Cell';
+import { Square } from './Square';
 import { Colors } from './Colors';
 import { Checker } from './figures/Checker';
 
 export class Board {
-    cells: Cell[][] = [];
-    maxCellsInRow: number = 8;
+    squares: Square[][] = [];
+    maxSquaresInRow: number = 8;
 
-    public initCells() {
-        for (let i = 0; i < this.maxCellsInRow; i++) {
-            const row: Cell[] = [];
-            for (let j = 0; j < this.maxCellsInRow; j++) {
+    public initSquares(): void {
+        for (let i = 0; i < this.maxSquaresInRow; i++) {
+            const row: Square[] = [];
+            for (let j = 0; j < this.maxSquaresInRow; j++) {
                 const color: Colors = (i + j) % 2 !== 0 ? Colors.BLACK : Colors.WHITE;
-                row.push(new Cell(j, i, color, null));
+                row.push(new Square(j, i, color, null));
             }
-            this.cells.push(row);
+            this.squares.push(row);
         }
     }
 
-    public addFigures() {
+    public addFigures(): void {
         this.addCheckers();
     }
 
-    public getCell(x: number, y: number): Cell {
-        return this.cells[y][x];
+    public getSquare(x: number, y: number): Square {
+        return this.squares[y][x];
     }
 
-    public getNearestCell(startingCell: Cell, targetCell: Cell): Cell {
-        const x: number = targetCell.x < startingCell.x ? startingCell.x - 1 : startingCell.x + 1;
-        const y: number = targetCell.y < startingCell.y ? startingCell.y - 1 : startingCell.y + 1;
-        return this.getCell(x, y);
+    public getNearestSquare(startingSquare: Square, targetSquare: Square): Square {
+        const x: number = targetSquare.x < startingSquare.x ? startingSquare.x - 1 : startingSquare.x + 1;
+        const y: number = targetSquare.y < startingSquare.y ? startingSquare.y - 1 : startingSquare.y + 1;
+        return this.getSquare(x, y);
     }
 
     public getCopyBoard(): Board {
         const newBoard = new Board();
-        newBoard.cells = this.cells;
+        newBoard.squares = this.squares;
         return newBoard;
     }
 
-    public highlightCells(selectedCell: Cell | null) {
-        for (let i = 0; i < this.cells.length; i++) {
-            const row = this.cells[i];
+    public highlightSquares(selectedSquare: Square | null): void {
+        for (let i = 0; i < this.squares.length; i++) {
+            const row = this.squares[i];
             for (let j = 0; j < row.length; j++) {
                 const target = row[j];
-                target.available = !!selectedCell?.figure?.canMove(target);
+                target.available = !!selectedSquare?.figure?.canMove(target);
             }
         } 
     }
 
-    public moveFigureFromSelectedCell(selectedCell: Cell, target: Cell) {
-        const figure = selectedCell.figure;
-        if (!figure || !figure?.canMove(target)) return;
+    public moveFigureFromSelectedSquare(selectedSquare: Square, targetSquare: Square): void {
+        const figure = selectedSquare.figure;
+        if (!figure || !figure?.canMove(targetSquare)) return;
 
-        const nearestCell = this.getNearestCell(selectedCell, target);
-        target.figure = figure;
-        target.figure.cell = target;
-        this.removeFigureFromCell(selectedCell);
+        const nearestSquare: Square = this.getNearestSquare(selectedSquare, targetSquare);
 
-        if (nearestCell.x !== target.x && nearestCell.y !== target.y) {
-            this.removeFigureFromCell(nearestCell);
+        targetSquare.figure = figure;
+        targetSquare.figure.square = targetSquare;
+        this.removeFigureFromSquare(selectedSquare);
+
+        if (nearestSquare.x !== targetSquare.x && nearestSquare.y !== targetSquare.y) {
+            this.removeFigureFromSquare(nearestSquare);
         }
     }
 
-    private removeFigureFromCell(cell: Cell) {
-        cell.figure = null;
+    private removeFigureFromSquare(square: Square): void {
+        square.figure = null;
     }
 
-    private addCheckers() {
-        const MAX_CHECKERS_IN_ROW: number = this.maxCellsInRow / 2;
+    private addCheckers(): void {
+        const MAX_CHECKERS_IN_ROW: number = this.maxSquaresInRow / 2;
         let offset: number = 1;
         let x: number = 1;
         let y: number = 0;
@@ -76,10 +77,10 @@ export class Board {
                 y += 1; 
                 offset = Number(y % 2 === 0);
             }
-            x = (i * 2) - (this.maxCellsInRow * y) + offset;
+            x = (i * 2) - (this.maxSquaresInRow * y) + offset;
 
-            new Checker(this, Colors.BLACK, this.getCell(x, y));
-            new Checker(this, Colors.WHITE, this.getCell(this.maxCellsInRow - (x + 1), this.maxCellsInRow - (y + 1)));
+            new Checker(this, Colors.BLACK, this.getSquare(x, y));
+            new Checker(this, Colors.WHITE, this.getSquare(this.maxSquaresInRow - (x + 1), this.maxSquaresInRow - (y + 1)));
         }
     }
 }

@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Colors } from './Colors';
 import { Figure } from './figures/Figure';
 
-export class Cell {
+export class Square {
     readonly x: number;
     readonly y: number;
     readonly color: Colors;
@@ -24,7 +24,7 @@ export class Cell {
         return this.figure === null;
     }
 
-    isNotDiagonal(target: Cell): boolean {
+    isNotDiagonal(target: Square): boolean {
         return Math.abs(target.x - this.x) === Math.abs(target.y - this.y);
     }
 };

@@ -13,7 +13,7 @@
     border-radius: 32px;
 }
 
-.checkers-board .cell {
+.checkers-board .checkers-board__square {
     padding: 5px;
     width: 12.5%;
     height: 12.5%;
@@ -26,16 +26,16 @@
     border: 1px solid hsl(0, 0%, 0%);
 }
 
-.checkers-board .cell.black {
+.checkers-board .checkers-board__square.black {
     cursor: pointer;
     pointer-events: unset;
 }
 
-.checkers-board .cell.available {
+.checkers-board .checkers-board__square.available {
     background-color: hsl(25, 34%, 33%);
 }
 
-.checkers-board .cell__figure {
+.checkers-board .checkers-board__figure {
     position: relative;
     display: inline-block;
     vertical-align: top;
@@ -44,8 +44,7 @@
     height: auto;
 }
 
-
-.checkers-board .cell.selected:has(img) {
+.checkers-board .checkers-board__square.selected:has(img) {
     background-color: hsl(160, 71%, 41%);
 }
 
@@ -94,7 +93,7 @@
         border-radius: 20px;
     }
 
-    .checkers-board .cell {
+    .checkers-board .checkers-board__square {
         padding: 2px;
     }
 }
