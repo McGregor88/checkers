@@ -30,6 +30,7 @@
 	vertical-align: top;
 	cursor: pointer;
 	border: 0;
+	background-color: hsl(220, 34%, 58%);
 	color: hsl(255, 100%, 100%);
 	text-align: center;
 	text-decoration: none;
