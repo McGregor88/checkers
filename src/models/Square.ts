@@ -9,7 +9,8 @@ export class Square {
     readonly color: Colors;
     figure: Figure | null;
     id: string;
-    available: boolean;
+    availableForSelection: boolean;
+    availableForMoving: boolean;
 
     constructor(x: number, y: number, color: Colors, figure: Figure | null) {
         this.x = x;
@@ -17,7 +18,8 @@ export class Square {
         this.color = color;
         this.figure = figure;
         this.id = uuidv4();
-        this.available = false;
+        this.availableForSelection = false;
+        this.availableForMoving = false;
     }
 
     isEmpty(): boolean {

@@ -31,6 +31,10 @@ export class Board {
         return this.getSquare(x, y);
     }
 
+    public getDarkSquares() {
+        //pass
+    }
+
     public getCopyBoard(): Board {
         const newBoard = new Board();
         newBoard.squares = this.squares;
@@ -42,9 +46,13 @@ export class Board {
             const row = this.squares[i];
             for (let j = 0; j < row.length; j++) {
                 const target = row[j];
-                target.available = !!selectedSquare?.figure?.canMove(target);
+                target.availableForSelection = !!selectedSquare?.figure?.canMove(target);
             }
         } 
+    }
+
+    public highlightFigures(): void {
+        //pass
     }
 
     public moveFigureFromSelectedSquare(selectedSquare: Square, targetSquare: Square): void {

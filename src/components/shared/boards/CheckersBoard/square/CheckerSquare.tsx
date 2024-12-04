@@ -9,13 +9,18 @@ interface SquareProps {
 }
 
 const CheckerSquare: FC<SquareProps> = ({ square, selected, onSquareTapped }) =>  {
+    const { color, figure, availableForSelection, availableForMoving } = square;
+    const isAvailableSquare: boolean = color !== Colors.WHITE && !figure;
+
     return (
         <div 
             className={[
-                'checkers-board__square', square.color, 
+                'checkers-board__square', 
+                color === Colors.WHITE ? 'light' : 'dark', 
                 selected ? 'selected' : '',
-                square.available && square.color !== Colors.WHITE && !square.figure ? 'available' : ''
-            ].join(' ')}
+                isAvailableSquare && availableForSelection ? 'available-for-selection' : '',
+                isAvailableSquare && availableForMoving ? 'available-for-moving' : ''
+            ].join(' ').trim()}
             onClick={() => onSquareTapped(square)}
         >
             {square.figure?.logo && <img src={square.figure.logo} alt={square.figure.name} className="checkers-board__figure" />}

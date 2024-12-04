@@ -12,11 +12,11 @@
 	margin-top: 30px;
 }
 
-.black {
+.dark {
 	background-color: hsl(220, 34%, 58%);
 }
 
-.white {
+.light {
 	background-color: hsl(53, 100%, 95%);
 }
 

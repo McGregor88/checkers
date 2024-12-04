@@ -1,6 +1,6 @@
 .players-board-info__caption {
     font-size: 14px;
-    color: gray;
+    color: hsl(0, 0%, 66%);
 }
 
 .players-board-info__curr-player {
