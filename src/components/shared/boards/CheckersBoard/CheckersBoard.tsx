@@ -5,6 +5,7 @@ import { Board } from '../../../../models/Board';
 import { Square } from '../../../../models/Square';
 import { Player } from '../../../../models/Player';
 import CheckerSquare from './square/CheckerSquare';
+import GameBoard from '../GameBoard/GameBoard';
 import Button from '../../../core/Button/Button';
 
 interface BoardProps {
@@ -59,8 +60,9 @@ const CheckersBoard: FC<BoardProps> = ({
     }
 
     return (
-        <div className="container">
-            <div className="checkers-board-outer">
+        <div className="checkers-board-outer">
+            <GameBoard currentPlayer={currentPlayer} />
+            <div className="checkers-board-wrap">
                 <div className="checkers-board">
                     {board.squares.map((row, index) =>
                         <Fragment key={index}>

@@ -1,0 +1,35 @@
+.player-section {
+    min-height: 384px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: bisque;
+    box-sizing: border-box;
+    gap: 20px;
+}
+
+.player-section__title {
+    font-size: 20px;
+}
+
+.player-section__list {
+    list-style-type: none;
+    display: block;
+    font-size: 0;
+    width: calc(64px * 4);
+}
+
+.figure {
+    padding: 5px;
+    width: 25%;
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.figure__logo {
+    width: 64px;
+}

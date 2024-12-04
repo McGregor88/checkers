@@ -44,6 +44,11 @@ small {
   
 img {
     border-style: none;
+    display: inline-block;
+    vertical-align: top;
+    object-fit: cover;
+    max-width: 100%;
+    height: auto;
 }
   
 button,

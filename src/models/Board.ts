@@ -1,10 +1,13 @@
 import { Square } from './Square';
 import { Colors } from './Colors';
+import { Figure } from './figures/Figure';
 import { Checker } from './figures/Checker';
 
 export class Board {
-    squares: Square[][] = [];
     readonly maxSquaresInRow: number = 8;
+    squares: Square[][] = [];
+    lostBlackFigures: Figure[] = [];
+    lostWhiteFigures: Figure[] = [];
 
     public initSquares(): void {
         for (let i = 0; i < this.maxSquaresInRow; i++) {
@@ -53,7 +56,10 @@ export class Board {
 
     public getCopyBoard(): Board {
         const newBoard = new Board();
+        // TODO: Попробавить lodash с функцией deepCopy использовать
         newBoard.squares = this.squares;
+        newBoard.lostBlackFigures = this.lostBlackFigures;
+        newBoard.lostWhiteFigures = this.lostWhiteFigures;
         return newBoard;
     }
 
@@ -71,7 +77,7 @@ export class Board {
 
     public highlightFigures(color: Colors): void {
         // Получаем список ячеек с фигурами текущего игрока
-        const squaresWithFigure: Square[][] = this.getSquaresWithFigureByColor(color);
+        //const squaresWithFigure: Square[][] = this.getSquaresWithFigureByColor(color);
         //pass
     }
 
@@ -85,9 +91,17 @@ export class Board {
         targetSquare.figure.square = targetSquare;
         this.removeFigureFromSquare(selectedSquare);
 
-        if (nearestSquare.x !== targetSquare.x && nearestSquare.y !== targetSquare.y) {
+        if (nearestSquare.x !== targetSquare.x && nearestSquare.y !== targetSquare.y && nearestSquare.figure) {
+            this.addLostFigure(nearestSquare.figure)
             this.removeFigureFromSquare(nearestSquare);
         }
+    }
+
+    public addLostFigure(figure: Figure): void {
+        figure?.color === Colors.BLACK ? 
+            this.lostBlackFigures.push(figure) 
+        : 
+            this.lostWhiteFigures.push(figure);
     }
 
     private removeFigureFromSquare(square: Square): void {

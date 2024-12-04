@@ -1,4 +1,16 @@
 .checkers-board-outer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.checkers-board-outer .reload-btn {
+    margin-top: 20px;
+}
+
+.checkers-board-wrap {
     padding: 20px;
     background-color: hsl(0, 0%, 0%);
     border-radius: 50px;
@@ -41,11 +53,6 @@
 
 .checkers-board .checkers-board__figure {
     position: relative;
-    display: inline-block;
-    vertical-align: top;
-    object-fit: cover;
-    max-width: 100%;
-    height: auto;
 }
 
 .checkers-board .checkers-board__square.available-for-moving.selected,
@@ -87,7 +94,7 @@
 
 /* Iphone XR */
 @media only screen and (max-width : 414px) {
-    .checkers-board-outer {
+    .checkers-board-wrap {
         padding: 15px;
         border-radius: 35px;
     }

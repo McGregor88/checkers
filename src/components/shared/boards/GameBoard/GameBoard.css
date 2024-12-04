@@ -1,9 +1,13 @@
-.players-board-info__caption {
+.game-board-info {
+    padding: 27px 10px 10px 0;
+}
+
+.game-board-info__caption {
     font-size: 14px;
     color: hsl(0, 0%, 66%);
 }
 
-.players-board-info__curr-player {
+.game-board-info__curr-player {
     font-size: 20px;
     text-transform: uppercase;
     letter-spacing: 0.03em;

@@ -4,12 +4,7 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	flex-direction: column;
 	gap: 10px;
-}
-
-.app .reload-btn {
-	margin-top: 30px;
 }
 
 .dark {
@@ -18,10 +13,6 @@
 
 .light {
 	background-color: hsl(53, 100%, 95%);
-}
-
-.container {
-	text-align: center;
 }
 
 .btn {

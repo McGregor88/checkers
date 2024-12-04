@@ -4,7 +4,7 @@ import './App.css';
 import { Board } from './models/Board';
 import { Player } from './models/Player';
 import { Colors } from './models/Colors';
-import PlayersBoard from './components/shared/boards/PlayersBoard/PlayersBoard';
+import PlayerSection from './components/core/Section/PlayerSection';
 import CheckersBoard from './components/shared/boards/CheckersBoard/CheckersBoard';
 
 const whitePlayer = new Player(Colors.WHITE);
@@ -32,13 +32,20 @@ function App() {
 
     return (
         <div className="app">
-            <PlayersBoard currentPlayer={currentPlayer} />
+            <PlayerSection
+                title="Черные фигуры"
+                figures={board.lostBlackFigures}  
+            />
             <CheckersBoard
                 board={board}
                 setBoard={setBoard}
                 currentPlayer={currentPlayer}
                 switchPlayer={switchPlayer}
                 restart={restart}
+            />
+            <PlayerSection
+                title="Белые фигуры"
+                figures={board.lostWhiteFigures}  
             />
         </div>
     );
