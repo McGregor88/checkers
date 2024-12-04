@@ -4,7 +4,7 @@ import { Checker } from './figures/Checker';
 
 export class Board {
     squares: Square[][] = [];
-    maxSquaresInRow: number = 8;
+    readonly maxSquaresInRow: number = 8;
 
     public initSquares(): void {
         for (let i = 0; i < this.maxSquaresInRow; i++) {
@@ -31,8 +31,24 @@ export class Board {
         return this.getSquare(x, y);
     }
 
-    public getDarkSquares() {
-        //pass
+    public getDarkSquares(): Square[][] {
+        const darkSquares: Square[][] = [];
+        for (let i = 0; i < this.squares.length; i++) {
+            const row = this.squares[i].filter(square => square.color === Colors.BLACK);
+            darkSquares.push(row);
+        }
+        return darkSquares;
+    }
+
+    public getSquaresWithFigureByColor(color: Colors): Square[][] {
+        const squaresWithFigure: Square[][] = [];
+        const darkSquares: Square[][] = this.getDarkSquares();
+        for (let i = 0; i < darkSquares.length; i++) {
+            const row = darkSquares[i].filter(square => square?.figure?.color === color);
+            squaresWithFigure.push(row);
+        }
+    
+        return squaresWithFigure;
     }
 
     public getCopyBoard(): Board {
@@ -42,16 +58,20 @@ export class Board {
     }
 
     public highlightSquares(selectedSquare: Square | null): void {
-        for (let i = 0; i < this.squares.length; i++) {
-            const row = this.squares[i];
+        const darkSquares: Square[][] = this.getDarkSquares();
+
+        for (let i = 0; i < darkSquares.length; i++) {
+            const row = darkSquares[i];
             for (let j = 0; j < row.length; j++) {
                 const target = row[j];
                 target.availableForSelection = !!selectedSquare?.figure?.canMove(target);
             }
-        } 
+        }
     }
 
-    public highlightFigures(): void {
+    public highlightFigures(color: Colors): void {
+        // Получаем список ячеек с фигурами текущего игрока
+        const squaresWithFigure: Square[][] = this.getSquaresWithFigureByColor(color);
         //pass
     }
 
