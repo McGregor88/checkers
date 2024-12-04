@@ -9,7 +9,7 @@ interface ButtonProps {
 const Button: FC<ButtonProps> = ({ text, className, onClicked }) =>  (
     <div className="btn-wrap"> 
         <button 
-            className={[ "btn", className ].join(' ')}
+            className={[ "btn", className ].join(' ').trim()}
             onClick={onClicked}
         >
             {text}
