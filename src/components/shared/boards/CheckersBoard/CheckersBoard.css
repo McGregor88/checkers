@@ -44,7 +44,7 @@
 }
 
 .checkers-board .checkers-board__square.available-for-selection {
-    background-color: hsl(25, 34%, 33%);
+    background-color: hsl(15, 32%, 53%);
 }
 
 .checkers-board .checkers-board__square.available-for-moving {
