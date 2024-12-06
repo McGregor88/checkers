@@ -91,13 +91,14 @@ export class Board {
         targetSquare.figure.square = targetSquare;
         this.removeFigureFromSquare(selectedSquare);
 
+        // Если перепрыгиваем вражескую фигуру, то забираем ее
         if (nearestSquare.x !== targetSquare.x && nearestSquare.y !== targetSquare.y && nearestSquare.figure) {
             this.addLostFigure(nearestSquare.figure)
             this.removeFigureFromSquare(nearestSquare);
         }
     }
 
-    public addLostFigure(figure: Figure): void {
+    private addLostFigure(figure: Figure): void {
         figure?.color === Colors.BLACK ? 
             this.lostBlackFigures.push(figure) 
         : 
