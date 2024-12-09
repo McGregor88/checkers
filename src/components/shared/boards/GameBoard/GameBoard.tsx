@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import './GameBoard.css';
 import { Player } from '../../../../models/Player';
-import Timer from './timer/Timer';
+//import Timer from './timer/Timer';
 
 interface BoardProps {
     currentPlayer: Player | null;
@@ -11,7 +11,7 @@ interface BoardProps {
 const GameBoard: FC<BoardProps> = ({ currentPlayer }) => (
     <div className="game-board">
         <div className="game-board-info">
-            <Timer currentPlayer={currentPlayer} />
+            {/*<Timer currentPlayer={currentPlayer} />*/}
             <span className="game-board-info__caption">Текущий игрок: </span>
             <b className="game-board-info__curr-player">{currentPlayer?.color}</b>
         </div>
