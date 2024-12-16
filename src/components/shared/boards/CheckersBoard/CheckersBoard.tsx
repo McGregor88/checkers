@@ -26,11 +26,20 @@ const CheckersBoard: FC<BoardProps> = ({
     const [selectedSquare, setSelectedSquare] = useState<Square | null>(null);
 
     useEffect(() => {
+        highlightFigures();
+    }, [currentPlayer]);
+
+    useEffect(() => {
         highlightSquares();
     }, [selectedSquare]);
 
     function highlightSquares() {
         board.highlightSquares(selectedSquare);
+        updateBoard();
+    }
+
+    function highlightFigures() {
+        board.highlightFigures(currentPlayer?.color || null);
         updateBoard();
     }
 
@@ -46,9 +55,7 @@ const CheckersBoard: FC<BoardProps> = ({
             setSelectedSquare(null);
             updateBoard();
         } else {
-            if (square.figure?.color === currentPlayer?.color) {
-                // TODO: Перед выбором клетки нужно убедиться, что на ней фигура вообще может двигаться куда-либо
-                // Сейчас получается выделяются и клетки, фигуры на которой двигаться не могут
+            if (square.figure?.color === currentPlayer?.color && square.availableForMoving) {
                 setSelectedSquare(square);
             }
         }

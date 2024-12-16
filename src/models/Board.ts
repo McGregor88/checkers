@@ -44,19 +44,35 @@ export class Board {
     }
 
     public getSquaresWithFigureByColor(color: Colors): Square[] {
-        // TODO: Переделать
-        const squaresWithFigure: Square[][] = [];
+        const squaresWithFigure: Square[] = [];
         const darkSquares: Square[][] = this.getDarkSquares();
+
         for (let i = 0; i < darkSquares.length; i++) {
-            const row = darkSquares[i].filter(square => square?.figure?.color === color);
-            squaresWithFigure.push(row);
+            const row = darkSquares[i];
+            for (let j = 0; j < row.length; j++) {
+                const square = row[j];
+                if (square?.figure?.color === color) {
+                    squaresWithFigure.push(square);
+                }
+            }
         }
     
-        return [];
+        return squaresWithFigure;
     }
 
     public getEmptySquares(): Square[] {
-        return [];
+        const emptySquares: Square[] = [];
+        const darkSquares: Square[][] = this.getDarkSquares();
+
+        for (let i = 0; i < darkSquares.length; i++) {
+            const row = darkSquares[i];
+            for (let j = 0; j < row.length; j++) {
+                const square = row[j];
+                square.isEmpty() && emptySquares.push(square);
+            }
+        }
+
+        return emptySquares;
     }
 
     public getCopyBoard(): Board {
@@ -80,11 +96,22 @@ export class Board {
         }
     }
 
-    public highlightFigures(color: Colors): void {
-        // Получаем список ячеек с фигурами текущего игрока
+    public highlightFigures(color: Colors | null): void {
+        if (!color) return;
+        this.unHighlightFigures();
         const squaresWithFigure: Square[] = this.getSquaresWithFigureByColor(color);
         const emptySquares: Square[] = this.getEmptySquares();
-        //pass
+
+        for (let i = 0; i < squaresWithFigure.length; i++) {
+            const squareWithFigure = squaresWithFigure[i];
+            
+            for (let j = 0; j < emptySquares.length; j++) {
+                const target = emptySquares[j];
+                if (!squareWithFigure.availableForMoving && squareWithFigure?.figure?.canMove(target)) {
+                    squareWithFigure.availableForMoving = true;
+                }
+            }
+        }
     }
 
     public moveFigureFromSelectedSquare(selectedSquare: Square, targetSquare: Square): void {
@@ -130,6 +157,18 @@ export class Board {
 
             new Checker(this, Colors.BLACK, this.getSquare(x, y));
             new Checker(this, Colors.WHITE, this.getSquare(this.maxSquaresInRow - (x + 1), this.maxSquaresInRow - (y + 1)));
+        }
+    }
+
+    private unHighlightFigures() {
+        const darkSquares: Square[][] = this.getDarkSquares();
+
+        for (let i = 0; i < darkSquares.length; i++) {
+            const row = darkSquares[i];
+            for (let j = 0; j < row.length; j++) {
+                const square = row[j];
+                square.availableForMoving = false;
+            }
         }
     }
 }

@@ -19,7 +19,7 @@ const CheckerSquare: FC<SquareProps> = ({ square, selected, onSquareTapped }) =>
                 color === Colors.WHITE ? 'light' : 'dark', 
                 selected ? 'selected' : '',
                 isAvailableSquare && availableForSelection ? 'available-for-selection' : '',
-                isAvailableSquare && availableForMoving ? 'available-for-moving' : ''
+                availableForMoving ? 'available-for-moving' : ''
             ].join(' ').trim()}
             onClick={() => onSquareTapped(square)}
         >
