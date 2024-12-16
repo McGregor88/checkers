@@ -43,7 +43,8 @@ export class Board {
         return darkSquares;
     }
 
-    public getSquaresWithFigureByColor(color: Colors): Square[][] {
+    public getSquaresWithFigureByColor(color: Colors): Square[] {
+        // TODO: Переделать
         const squaresWithFigure: Square[][] = [];
         const darkSquares: Square[][] = this.getDarkSquares();
         for (let i = 0; i < darkSquares.length; i++) {
@@ -51,7 +52,11 @@ export class Board {
             squaresWithFigure.push(row);
         }
     
-        return squaresWithFigure;
+        return [];
+    }
+
+    public getEmptySquares(): Square[] {
+        return [];
     }
 
     public getCopyBoard(): Board {
@@ -77,7 +82,8 @@ export class Board {
 
     public highlightFigures(color: Colors): void {
         // Получаем список ячеек с фигурами текущего игрока
-        //const squaresWithFigure: Square[][] = this.getSquaresWithFigureByColor(color);
+        const squaresWithFigure: Square[] = this.getSquaresWithFigureByColor(color);
+        const emptySquares: Square[] = this.getEmptySquares();
         //pass
     }
 
