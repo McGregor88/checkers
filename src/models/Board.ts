@@ -98,7 +98,7 @@ export class Board {
 
     public highlightFigures(color: Colors | null): void {
         if (!color) return;
-        this.unHighlightFigures();
+        this.unHighlightSquares();
         const squaresWithFigure: Square[] = this.getSquaresWithFigureByColor(color);
         const emptySquares: Square[] = this.getEmptySquares();
 
@@ -160,7 +160,7 @@ export class Board {
         }
     }
 
-    private unHighlightFigures() {
+    private unHighlightSquares() {
         const darkSquares: Square[][] = this.getDarkSquares();
 
         for (let i = 0; i < darkSquares.length; i++) {
