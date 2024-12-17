@@ -8,6 +8,7 @@
     pointer-events: none;
     box-sizing: border-box;
     border: 1px solid hsl(0, 0%, 0%);
+    transition: 0.25s ease background-color;
 }
 
 .checkers-board .checkers-board__square.dark {

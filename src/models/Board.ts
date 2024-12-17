@@ -119,6 +119,7 @@ export class Board {
         if (!figure || !figure?.canMove(targetSquare)) return;
 
         const nearestSquare: Square = this.getNearestSquare(selectedSquare, targetSquare);
+        const figureColor: Colors = figure.color;
 
         targetSquare.figure = figure;
         targetSquare.figure.square = targetSquare;
@@ -128,6 +129,15 @@ export class Board {
         if (nearestSquare.x !== targetSquare.x && nearestSquare.y !== targetSquare.y && nearestSquare.figure) {
             this.addLostFigure(nearestSquare.figure)
             this.removeFigureFromSquare(nearestSquare);
+        }
+
+        // Если черная или белая фигура достигли края то она становится дамкой
+        if ((
+            (figureColor === Colors.WHITE && targetSquare.y === 0) || 
+            (figureColor === Colors.BLACK && targetSquare.y === 7)) && 
+            !figure.isDame
+        ) {
+            targetSquare.figure.isDame = true;
         }
     }
 
