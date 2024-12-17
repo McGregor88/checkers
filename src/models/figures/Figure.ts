@@ -16,6 +16,7 @@ export class Figure {
     logo: typeof logo | null;
     square: Square;
     name: FigureNames;
+    isDame: boolean;
     id: string;
 
     constructor(board: Board, color: Colors, square: Square) {
@@ -25,6 +26,7 @@ export class Figure {
         this.square.figure = this;
         this.logo = null;
         this.name = FigureNames.FIGURE;
+        this.isDame = false;
         this.id = uuidv4();
     }
 

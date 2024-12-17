@@ -1,5 +1,4 @@
 .checkers-board .checkers-board__square {
-    padding: 5px;
     width: 12.5%;
     height: 12.5%;
     display: flex;
@@ -21,14 +20,49 @@
 }
 
 .checkers-board .checkers-board__square.available-for-moving {
-    background-color: hsl(53, 98%, 82%);
+    background-color: hsl(55, 35%, 74%);
+}
+
+.checkers-board .checkers-board__figure-wrap {
+    position: relative;
+    padding: 5px;
+    overflow: hidden;
 }
 
 .checkers-board .checkers-board__figure {
     position: relative;
 }
 
+.checkers-board .checkers-board__figure-wrap.is-dame {
+    position: relative;
+}
+
+.checkers-board .checkers-board__square .checkers-board__figure-wrap.is-dame::after {
+    display: block;
+    position: absolute;
+    top: 15%;
+    left: 15%;
+    content: '';
+    width: 70%;
+    height: 70%;
+    background-image: url('/src/assets/metal-crown.png');
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
 .checkers-board .checkers-board__square.available-for-moving.selected,
 .checkers-board .checkers-board__square.selected:has(img) {
     background-color: hsl(160, 71%, 41%);
+}
+
+.checkers-board .checkers-board__square.is-dame {
+    cursor: pointer;
+}
+
+/* Iphone XR */
+@media only screen and (max-width : 414px) {
+    .checkers-board .checkers-board__figure-wrap {
+        padding: 2px;
+    }
 }

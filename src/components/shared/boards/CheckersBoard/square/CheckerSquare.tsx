@@ -24,7 +24,15 @@ const CheckerSquare: FC<SquareProps> = ({ square, selected, onSquareTapped }) =>
             ].join(' ').trim()}
             onClick={() => onSquareTapped(square)}
         >
-            {square.figure?.logo && <img src={square.figure.logo} alt={square.figure.name} className="checkers-board__figure" />}
+            {square.figure?.logo && 
+                <div className={`checkers-board__figure-wrap ${square.figure?.isDame ? 'is-dame' : ''}`}>
+                    <img 
+                        src={square.figure.logo} 
+                        alt={square.figure.name} 
+                        className={`checkers-board__figure`} 
+                    />
+                </div>
+            }
         </div>
     );
 }

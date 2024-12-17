@@ -84,10 +84,6 @@
         height: calc(42px * 8);
         border-radius: 20px;
     }
-
-    .checkers-board .checkers-board__square {
-        padding: 2px;
-    }
 }
 
 /* Iphone 12 Pro */

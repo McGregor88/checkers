@@ -7,14 +7,11 @@ import { Colors } from '../Colors';
 import { Square } from '../Square';
 
 export class Checker extends Figure {
-    isDame: boolean;
-
     constructor(board: Board, color: Colors, square: Square) {
         super(board, color, square);
         this.board = board;
         this.logo = color === Colors.WHITE ? whiteFigure : blackFigure;
         this.name = FigureNames.CHECKER;
-        this.isDame = false;
     }
 
     canMove(target: Square): boolean {
