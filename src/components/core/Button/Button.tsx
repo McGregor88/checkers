@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import './Button.css';
 
 interface ButtonProps {
     text: string;

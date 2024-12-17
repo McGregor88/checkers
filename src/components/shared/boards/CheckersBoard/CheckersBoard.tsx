@@ -53,21 +53,16 @@ const CheckersBoard: FC<BoardProps> = ({
     const onSquareTapped = (square: Square) => {
         if (selectedSquare && selectedSquare !== square && selectedSquare.figure?.canMove(square)) {
             const enemyColor: Colors = currentPlayer?.color === Colors.WHITE ? Colors.BLACK : Colors.WHITE;
-            const enemyPieces: Square[] = board.getSquaresWithFigureByColor(enemyColor);
-            const sfdsdf = currentPlayer?.color === Colors.WHITE ? board?.lostBlackFigures : board?.lostWhiteFigures;
-            //console.log(sfdsdf.length);
 
             board?.moveFigureFromSelectedSquare(selectedSquare, square);
-            //console.log(enemyPieces.length);
-            //debugger;
-            if (sfdsdf.length > 2) {
+            setSelectedSquare(null);
+            updateBoard();
+
+            if (board.getSquaresWithFigureByColor(enemyColor).length < 1) {
                 setIsGameOver(true);
             } else {
                 switchPlayer();
-                setSelectedSquare(null);
-                updateBoard();
             }
-
         } else {
             if (square.figure?.color === currentPlayer?.color && square.availableForMoving) {
                 setSelectedSquare(square);
@@ -83,9 +78,7 @@ const CheckersBoard: FC<BoardProps> = ({
 
     return (
         <div className="checkers-board-outer">
-            
             {!isGameOver && <GameBoard currentPlayer={currentPlayer} />}
-
             <div className="checkers-board-wrap">
                 <div className="checkers-board">
                     {isGameOver ? 
@@ -111,10 +104,9 @@ const CheckersBoard: FC<BoardProps> = ({
                     }
                 </div>
             </div>
-
             <Button
                 text="Начать сначала"
-                className="reload-btn black" 
+                className="reload-btn dark" 
                 onClicked={onReloadBtnClicked}
             />
         </div>

@@ -9,11 +9,11 @@
     border: 1px solid #000;
 }
 
-.player-section.white {
+.player-section.black {
 	background-color: hsl(220, 34%, 58%);
 }
 
-.player-section.black {
+.player-section.white {
 	background-color: hsl(53, 100%, 95%);
 }
 

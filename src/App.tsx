@@ -26,6 +26,7 @@ function App() {
         const newBoard = new Board();
         newBoard.initSquares();
         newBoard.addFigures();
+        newBoard.highlightFigures(currentPlayer?.color || null);
         setBoard(newBoard);
         setCurrentPlayer(whitePlayer);
     }
@@ -34,7 +35,7 @@ function App() {
         <div className="app">
             <PlayerSection
                 title="Черные фигуры"
-                color={Colors.BLACK}
+                color={Colors.WHITE}
                 figures={board.lostBlackFigures}  
             />
             <CheckersBoard
@@ -46,7 +47,7 @@ function App() {
             />
             <PlayerSection
                 title="Белые фигуры"
-                color={Colors.WHITE}
+                color={Colors.BLACK}
                 figures={board.lostWhiteFigures}  
             />
         </div>

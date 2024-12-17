@@ -14,25 +14,3 @@
 .light {
 	background-color: hsl(53, 100%, 95%);
 }
-
-.btn {
-	padding: 10px 40px;
-	display: inline-block;
-	vertical-align: top;
-	cursor: pointer;
-	border: 0;
-	background-color: hsl(220, 34%, 58%);
-	color: hsl(255, 100%, 100%);
-	text-align: center;
-	text-decoration: none;
-	font-size: 16px;
-	line-height: 1.25em;
-	letter-spacing: 0.03em;
-}
-
-.btn.black:hover,
-.btn.black:focus,
-.btn.black:active,
-.btn.black.active {
-	background-color: hsl(219, 55%, 60%);
-}
