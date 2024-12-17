@@ -4,9 +4,17 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    background-color: bisque;
     box-sizing: border-box;
     gap: 20px;
+    border: 1px solid #000;
+}
+
+.player-section.white {
+	background-color: hsl(220, 34%, 58%);
+}
+
+.player-section.black {
+	background-color: hsl(53, 100%, 95%);
 }
 
 .player-section__title {

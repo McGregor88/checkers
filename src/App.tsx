@@ -34,6 +34,7 @@ function App() {
         <div className="app">
             <PlayerSection
                 title="Черные фигуры"
+                color={Colors.BLACK}
                 figures={board.lostBlackFigures}  
             />
             <CheckersBoard
@@ -45,6 +46,7 @@ function App() {
             />
             <PlayerSection
                 title="Белые фигуры"
+                color={Colors.WHITE}
                 figures={board.lostWhiteFigures}  
             />
         </div>

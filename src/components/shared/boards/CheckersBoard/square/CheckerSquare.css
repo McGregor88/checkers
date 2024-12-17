@@ -1,0 +1,34 @@
+.checkers-board .checkers-board__square {
+    padding: 5px;
+    width: 12.5%;
+    height: 12.5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: default;
+    pointer-events: none;
+    box-sizing: border-box;
+    border: 1px solid hsl(0, 0%, 0%);
+}
+
+.checkers-board .checkers-board__square.dark {
+    cursor: pointer;
+    pointer-events: unset;
+}
+
+.checkers-board .checkers-board__square.available-for-selection {
+    background-color: hsl(209, 30%, 26%);
+}
+
+.checkers-board .checkers-board__square.available-for-moving {
+    background-color: hsl(53, 98%, 82%);
+}
+
+.checkers-board .checkers-board__figure {
+    position: relative;
+}
+
+.checkers-board .checkers-board__square.available-for-moving.selected,
+.checkers-board .checkers-board__square.selected:has(img) {
+    background-color: hsl(160, 71%, 41%);
+}
