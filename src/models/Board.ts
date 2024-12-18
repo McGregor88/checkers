@@ -20,8 +20,17 @@ export class Board {
         }
     }
 
-    public addFigures(): void {
-        this.addCheckers();
+    public setUpFigures(): void {
+        this.setUpCheckers();
+    }
+
+    public getCopyBoard(): Board {
+        const newBoard = new Board();
+        // TODO: Попробавить lodash с функцией deepCopy использовать
+        newBoard.squares = this.squares;
+        newBoard.lostBlackFigures = this.lostBlackFigures;
+        newBoard.lostWhiteFigures = this.lostWhiteFigures;
+        return newBoard;
     }
 
     public getSquare(x: number, y: number): Square {
@@ -75,15 +84,6 @@ export class Board {
         return emptySquares;
     }
 
-    public getCopyBoard(): Board {
-        const newBoard = new Board();
-        // TODO: Попробавить lodash с функцией deepCopy использовать
-        newBoard.squares = this.squares;
-        newBoard.lostBlackFigures = this.lostBlackFigures;
-        newBoard.lostWhiteFigures = this.lostWhiteFigures;
-        return newBoard;
-    }
-
     public highlightSquares(selectedSquare: Square | null): void {
         const darkSquares: Square[][] = this.getDarkSquares();
 
@@ -119,40 +119,19 @@ export class Board {
         if (!figure || !figure?.canMove(targetSquare)) return;
 
         const nearestSquare: Square = this.getNearestSquare(selectedSquare, targetSquare);
-        const figureColor: Colors = figure.color;
 
         targetSquare.figure = figure;
         targetSquare.figure.square = targetSquare;
         this.removeFigureFromSquare(selectedSquare);
-
         // Если перепрыгиваем вражескую фигуру, то забираем ее
         if (nearestSquare.x !== targetSquare.x && nearestSquare.y !== targetSquare.y && nearestSquare.figure) {
-            this.addLostFigure(nearestSquare.figure)
-            this.removeFigureFromSquare(nearestSquare);
+            this.captureEnemyPiece(nearestSquare.figure);
         }
-
         // Если черная или белая фигура достигли края то она становится дамкой
-        if ((
-            (figureColor === Colors.WHITE && targetSquare.y === 0) || 
-            (figureColor === Colors.BLACK && targetSquare.y === 7)) && 
-            !figure.isDame
-        ) {
-            targetSquare.figure.isDame = true;
-        }
+        this.checkFigureForDame(figure);
     }
 
-    private addLostFigure(figure: Figure): void {
-        figure?.color === Colors.BLACK ? 
-            this.lostBlackFigures.push(figure) 
-        : 
-            this.lostWhiteFigures.push(figure);
-    }
-
-    private removeFigureFromSquare(square: Square): void {
-        square.figure = null;
-    }
-
-    private addCheckers(): void {
+    private setUpCheckers(): void {
         const MAX_CHECKERS_IN_ROW: number = this.maxSquaresInRow / 2;
         let offset: number = 1;
         let x: number = 1;
@@ -179,6 +158,35 @@ export class Board {
                 const square = row[j];
                 square.availableForMoving = false;
             }
+        }
+    }
+
+    private removeFigureFromSquare(square: Square): void {
+        square.figure = null;
+    }
+
+    private captureEnemyPiece(figure: Figure | null): void {
+        if (!figure) return;
+        this.addLostFigure(figure);
+        this.removeFigureFromSquare(figure.square);
+    }
+
+    private addLostFigure(figure: Figure): void {
+        figure?.color === Colors.BLACK ? 
+            this.lostBlackFigures.push(figure) 
+        : 
+            this.lostWhiteFigures.push(figure);
+    }
+
+    private checkFigureForDame(figure: Figure): void {
+        const figureColor: Colors = figure.color;
+    
+        if ((
+            (figureColor === Colors.WHITE && figure.square.y === 0) || 
+            (figureColor === Colors.BLACK && figure.square.y === 7)) && 
+            !figure.isDame
+        ) {
+            figure.isDame = true;
         }
     }
 }

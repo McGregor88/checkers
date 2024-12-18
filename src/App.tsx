@@ -25,7 +25,7 @@ function App() {
     function restart() {
         const newBoard = new Board();
         newBoard.initSquares();
-        newBoard.addFigures();
+        newBoard.setUpFigures();
         newBoard.highlightFigures(currentPlayer?.color || null);
         setBoard(newBoard);
         setCurrentPlayer(whitePlayer);
