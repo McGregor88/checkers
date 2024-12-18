@@ -25,8 +25,18 @@ export class Checker extends Figure {
     }
 
     canMoveAsDame(target: Square): boolean {
-        // TODO: Добавить логику движения дамки
-        return true;
+        const nearestSquares = [];
+        const absX = Math.abs(target.x - this.square.x);
+
+        if (absX > 0) {
+            for (let i = 1; i <= absX; i++) {
+                const x: number = target.x < this.square.x ? this.square.x - (i) : this.square.x + (i);
+                const y: number = target.y < this.square.y ? this.square.y - (i) : this.square.y + (i);
+                nearestSquares.push(this.board?.getSquare(x, y));
+            }
+        }
+
+        return nearestSquares.findIndex(square => square?.figure?.color === this.color) === -1;
     }
 
     canMoveAsChecker(target: Square): boolean {

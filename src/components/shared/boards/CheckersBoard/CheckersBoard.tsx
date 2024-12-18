@@ -25,7 +25,7 @@ const CheckersBoard: FC<BoardProps> = ({
     restart,
 }) => {
     const [selectedSquare, setSelectedSquare] = useState<Square | null>(null);
-    const [isGameOver, setIsGameOver] = useState<boolean>(false);
+    const [gameIsOver, setGameIsOver] = useState<boolean>(false);
 
     useEffect(() => {
         highlightFigures();
@@ -59,7 +59,7 @@ const CheckersBoard: FC<BoardProps> = ({
             updateBoard();
 
             if (board.getSquaresWithFigureByColor(enemyColor).length < 1) {
-                setIsGameOver(true);
+                setGameIsOver(true);
             } else {
                 switchPlayer();
             }
@@ -72,16 +72,16 @@ const CheckersBoard: FC<BoardProps> = ({
 
     const onReloadBtnClicked = () => {
         setSelectedSquare(null);
-        setIsGameOver(false);
+        setGameIsOver(false);
         restart();
     }
 
     return (
         <div className="checkers-board-outer">
-            {!isGameOver && <GameBoard currentPlayer={currentPlayer} />}
+            {!gameIsOver && <GameBoard currentPlayer={currentPlayer} />}
             <div className="checkers-board-wrap">
                 <div className="checkers-board">
-                    {isGameOver ? 
+                    {gameIsOver ? 
                         <div className="checkers-board-result">
                             <span className="checkers-board-result__caption">Победитель: </span>
                             <b className="checkers-board-result__winner">{currentPlayer?.color}</b>
