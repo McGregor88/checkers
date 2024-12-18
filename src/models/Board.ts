@@ -37,6 +37,21 @@ export class Board {
         return this.squares[y][x];
     }
 
+    public getNearestSquares(startingSquare: Square, target: Square, absX: number): Square[] {
+        const nearestSquares: Square[] = [];
+
+        if (absX > 0) {
+            for (let i = 1; i <= absX; i++) {
+                const x: number = target.x < startingSquare.x ? startingSquare.x - (i) : startingSquare.x + (i);
+                const y: number = target.y < startingSquare.y ? startingSquare.y - (i) : startingSquare.y + (i);
+                nearestSquares.push(this.getSquare(x, y));
+            }
+        }
+    
+        return nearestSquares;
+    }
+
+    //TODO: Скорее всего это не пригодится
     public getNearestSquare(startingSquare: Square, targetSquare: Square): Square {
         const x: number = targetSquare.x < startingSquare.x ? startingSquare.x - 1 : startingSquare.x + 1;
         const y: number = targetSquare.y < startingSquare.y ? startingSquare.y - 1 : startingSquare.y + 1;
@@ -84,6 +99,11 @@ export class Board {
         return emptySquares;
     }
 
+    // TODO: Перенести
+    public getAbsX(x1: number, x2: number): number {
+        return Math.abs(x1 - x2);
+    }
+
     public highlightSquares(selectedSquare: Square | null): void {
         const darkSquares: Square[][] = this.getDarkSquares();
 
@@ -114,20 +134,22 @@ export class Board {
         }
     }
 
-    public moveFigureFromSelectedSquare(selectedSquare: Square, targetSquare: Square): void {
+    public moveFigureFromSelectedSquare(selectedSquare: Square, target: Square): void {
         const figure = selectedSquare.figure;
-        if (!figure || !figure?.canMove(targetSquare)) return;
+        if (!figure || !figure?.canMove(target)) return;
 
-        const nearestSquare: Square = this.getNearestSquare(selectedSquare, targetSquare);
+        const absX: number = this.getAbsX(target.x, selectedSquare.x);
+        const nearestSquares: Square[] = this.getNearestSquares(selectedSquare, target, figure.isDame ? absX : 1);
+        const attackedTarget: Square | undefined = nearestSquares.find(square => square?.figure);
 
-        targetSquare.figure = figure;
-        targetSquare.figure.square = targetSquare;
+        target.figure = figure;
+        target.figure.square = target;
         this.removeFigureFromSquare(selectedSquare);
         // Если перепрыгиваем вражескую фигуру, то забираем ее
-        if (nearestSquare.x !== targetSquare.x && nearestSquare.y !== targetSquare.y && nearestSquare.figure) {
-            this.captureEnemyPiece(nearestSquare.figure);
+        if (attackedTarget && attackedTarget.x !== target.x && attackedTarget.y !== target.y && attackedTarget.figure) {
+            this.captureEnemyPiece(attackedTarget.figure);
         }
-        // Если черная или белая фигура достигли края то она становится дамкой
+        // Проверим фигуру на дамку
         this.checkFigureForDame(figure);
     }
 

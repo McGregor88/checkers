@@ -25,18 +25,16 @@ export class Checker extends Figure {
     }
 
     canMoveAsDame(target: Square): boolean {
-        const nearestSquares = [];
+        // TODO: Убрать в utils
         const absX = Math.abs(target.x - this.square.x);
+        const nearestSquares: Square[] = this.board?.getNearestSquares(this.square, target, absX) || [];
+        const enemyPieces: Square[] = nearestSquares.filter(square => square?.figure && square.figure.color !== this.color);
+        const index = nearestSquares.findIndex(square => square?.figure && square.figure.color === this.color);
 
-        if (absX > 0) {
-            for (let i = 1; i <= absX; i++) {
-                const x: number = target.x < this.square.x ? this.square.x - (i) : this.square.x + (i);
-                const y: number = target.y < this.square.y ? this.square.y - (i) : this.square.y + (i);
-                nearestSquares.push(this.board?.getSquare(x, y));
-            }
+        if (index !== -1 || enemyPieces.length > 1) {
+            return false;
         }
-
-        return nearestSquares.findIndex(square => square?.figure?.color === this.color) === -1;
+        return true;
     }
 
     canMoveAsChecker(target: Square): boolean {
