@@ -15,7 +15,11 @@ const PlayerSection: FC<PlayerSectionProps> = ({ title, color, figures }) => (
         <ul className="player-section__list figures">
             {figures.map(figure => (
                 <li key={figure.id} className="figure">
-                    { figure.logo && <img src={figure.logo} alt={figure.name} className="figure__logo" /> }
+                    {figure.logo && 
+                    <div className={`figure__logo-wrap ${figure?.isDame ? 'is-dame' : ''}`}>
+                        <img src={figure.logo} alt={figure.name} className="figure__logo" />
+                    </div>
+                    }
                 </li>
             ))}
         </ul>

@@ -40,6 +40,14 @@
     font-size: 32px;
 }
 
+/* Laptop small */
+@media only screen and (max-width : 1280px) {
+	.checkers-board-outer .reload-btn {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+}
+
 /* Small Devices, Tablets */
 @media only screen and (max-width : 640px) {
 	.checkers-board {
@@ -83,6 +91,11 @@
         width: calc(42px * 8);
         height: calc(42px * 8);
         border-radius: 20px;
+    }
+
+    .checkers-board-outer .btn-wrap,
+    .checkers-board-outer .reload-btn {
+        width: 100%;
     }
 }
 

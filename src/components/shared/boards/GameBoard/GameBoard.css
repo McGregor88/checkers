@@ -12,3 +12,10 @@
     text-transform: uppercase;
     letter-spacing: 0.03em;
 }
+
+/* Laptop small */
+@media only screen and (max-width : 1280px) {
+    .game-board-info {
+        padding-top: 10px;
+    }
+}

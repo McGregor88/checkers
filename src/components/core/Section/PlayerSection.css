@@ -38,6 +38,48 @@
     overflow: hidden;
 }
 
-.figure__logo {
-    width: 64px;
+.figure__logo-wrap {
+    position: relative;
+}
+
+.figure__logo-wrap.is-dame::after {
+    display: block;
+    position: absolute;
+    top: 15%;
+    left: 15%;
+    content: '';
+    width: 70%;
+    height: 70%;
+    background-image: url('/src/assets/metal-crown.png');
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.figure__logo-wrap.is-dame .figure__logo {
+    opacity: 0.9;
+}
+
+/* Laptop small */
+@media only screen and (max-width : 1280px) {
+    .player-section {
+        max-width: 500px;
+        width: 100%;
+        min-height: 150px;
+    }
+
+    .player-section__list {
+        width: 100%;
+    }
+
+    .figure {
+        width: 16.66%;
+    }
+}
+
+/* Iphone XR */
+@media only screen and (max-width : 414px) {
+    .player-section {
+        min-height: 144px;
+    }
 }

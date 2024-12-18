@@ -14,3 +14,15 @@
 .light {
 	background-color: hsl(53, 100%, 95%);
 }
+
+/* Laptop small */
+@media only screen and (max-width : 1280px) {
+	body {
+		overflow-y: auto;
+	}
+
+	.app {
+		flex-direction: column;
+		height: auto;
+	}
+}
