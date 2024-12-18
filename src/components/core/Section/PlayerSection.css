@@ -28,7 +28,7 @@
     width: calc(64px * 4);
 }
 
-.figure {
+.figures .figure {
     padding: 5px;
     width: 25%;
     display: inline-block;
@@ -36,28 +36,6 @@
     text-align: center;
     box-sizing: border-box;
     overflow: hidden;
-}
-
-.figure__logo-wrap {
-    position: relative;
-}
-
-.figure__logo-wrap.is-dame::after {
-    display: block;
-    position: absolute;
-    top: 15%;
-    left: 15%;
-    content: '';
-    width: 70%;
-    height: 70%;
-    background-image: url('/src/assets/metal-crown.png');
-    background-position: center;
-    background-size: contain;
-    background-repeat: no-repeat;
-}
-
-.figure__logo-wrap.is-dame .figure__logo {
-    opacity: 0.9;
 }
 
 /* Laptop small */
@@ -72,7 +50,7 @@
         width: 100%;
     }
 
-    .figure {
+    .figures .figure {
         width: 16.66%;
     }
 }

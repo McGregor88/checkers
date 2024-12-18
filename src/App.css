@@ -15,6 +15,28 @@
 	background-color: hsl(53, 100%, 95%);
 }
 
+.figure.is-dame {
+	position: relative;
+}
+
+.figure.is-dame::after {
+    display: block;
+    position: absolute;
+    top: 15%;
+    left: 15%;
+    content: '';
+    width: 70%;
+    height: 70%;
+    background-image: url('/src/assets/metal-crown.png');
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.figure.is-dame .figure__icon {
+    opacity: 0.9;
+}
+
 /* Laptop small */
 @media only screen and (max-width : 1280px) {
 	body {
