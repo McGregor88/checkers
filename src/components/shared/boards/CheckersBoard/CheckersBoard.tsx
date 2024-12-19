@@ -59,24 +59,24 @@ const CheckersBoard: FC<BoardProps> = ({
     }
 
     function moveFigure(selectedSquare: Square, target: Square) {
-        board?.moveFigureFromSelectedSquare(selectedSquare, target);
-        setSelectedSquare(null);
-        updateBoard();
-        nextMove(selectedSquare, target);
-    }
-
-    function nextMove(selectedSquare: Square, target: Square) {
         if (!currentPlayer) return;
 
-        const lostEnemyPieces = currentPlayer.color === Colors.WHITE ? board.lostBlackFigures : board.lostWhiteFigures;
-        const shouldJump: boolean = false;
         const move = new Move(
             currentPlayer, 
             { x: selectedSquare.x, y: selectedSquare.y }, 
             { x: target.x, y: target.y}
         );
 
+        board?.moveFigureFromSelectedSquare(selectedSquare, target);
+        setSelectedSquare(null);
+        updateBoard();
         setMoves([ ...moves, move ]);
+        nextMove();
+    }
+
+    function nextMove() {
+        const lostEnemyPieces = currentPlayer?.color === Colors.WHITE ? board.lostBlackFigures : board.lostWhiteFigures;
+        const shouldJump: boolean = false;
 
         if (lostEnemyPieces.length > 11) {
             setGameIsOver(true);
