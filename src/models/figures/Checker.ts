@@ -2,9 +2,9 @@ import blackFigure from '../../assets/checker_black.png';
 import whiteFigure from '../../assets/checker_white.png';
 
 import { toABS } from '../../lib/utils';
+import { Colors } from '../../types/colors';
 import { Figure, FigureNames } from './Figure';
 import { Board } from '../Board';
-import { Colors } from '../Colors';
 import { Square } from '../Square';
 
 export class Checker extends Figure {
@@ -33,6 +33,7 @@ export class Checker extends Figure {
         if (index !== -1 || enemyPieces.length > 1) {
             return false;
         }
+
         return true;
     }
 

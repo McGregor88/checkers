@@ -1,7 +1,8 @@
 import { FC } from 'react';
-import { Square } from '../../../../../models/Square';
-import { Colors } from '../../../../../models/Colors';
+
 import './CheckerSquare.css';
+import { Colors } from '../../../../../types/colors';
+import { Square } from '../../../../../models/Square';
 
 interface SquareProps {
     square: Square;

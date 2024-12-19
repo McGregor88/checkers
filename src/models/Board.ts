@@ -1,6 +1,6 @@
 import { toABS } from '../lib/utils';
+import { Colors } from '../types/colors';
 import { Square } from './Square';
-import { Colors } from './Colors';
 import { Figure } from './figures/Figure';
 import { Checker } from './figures/Checker';
 

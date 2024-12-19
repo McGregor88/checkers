@@ -1,8 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 
 import logo from '../../assets/checker_black.png';
+import { Colors } from '../../types/colors';
 import { Board } from '../Board';
-import { Colors } from '../Colors';
 import { Square } from '../Square';
 
 export enum FigureNames {

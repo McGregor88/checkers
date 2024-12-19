@@ -1,6 +1,6 @@
 import { FC, useState, useEffect, useRef } from 'react';
+import { Colors } from '../../../../../types/colors';
 import { Player } from '../../../../../models/Player';
-import { Colors } from '../../../../../models/Colors';
 
 interface TimerProps {
     currentPlayer: Player | null;

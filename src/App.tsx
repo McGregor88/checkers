@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 
 import './App.css';
+import { Colors } from './types/colors';
+import { IMove } from './types/move';
 import { Board } from './models/Board';
 import { Player } from './models/Player';
-import { Colors } from './models/Colors';
 import PlayerSection from './components/core/Section/PlayerSection';
 import CheckersBoard from './components/shared/boards/CheckersBoard/CheckersBoard';
 
@@ -13,6 +14,7 @@ const blackPlayer = new Player(Colors.BLACK);
 function App() {
     const [board, setBoard] = useState(new Board());
     const [currentPlayer, setCurrentPlayer] = useState<Player | null>(null);
+    const [moves, setMoves] = useState<IMove[] | []>([]);
 
     useEffect(() => {
         restart();
@@ -26,7 +28,7 @@ function App() {
         const newBoard = new Board();
         newBoard.initSquares();
         newBoard.setUpFigures();
-        newBoard.highlightFigures(currentPlayer?.color || null);
+        newBoard.highlightFigures(Colors.WHITE);
         setBoard(newBoard);
         setCurrentPlayer(whitePlayer);
     }
@@ -41,6 +43,8 @@ function App() {
             <CheckersBoard
                 board={board}
                 setBoard={setBoard}
+                moves={moves}
+                setMoves={setMoves}
                 currentPlayer={currentPlayer}
                 switchPlayer={switchPlayer}
                 restart={restart}

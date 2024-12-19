@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Figure } from '../../../models/figures/Figure';
-import { Colors } from '../../../models/Colors';
+import { Colors } from '../../../types/colors';
 import './PlayerSection.css'
 
 interface PlayerSectionProps {
