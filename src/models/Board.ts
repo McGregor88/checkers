@@ -100,6 +100,26 @@ export class Board {
         return emptySquares;
     }
 
+    public getAvailableSquaresForMoving(color: Colors) {
+        const availableSquaresForMoving = [];
+        const squaresWithFigure: Square[] = this.getSquaresWithFigureByColor(color);
+        const emptySquares: Square[] = this.getEmptySquares();
+        
+    
+        for (let i = 0; i < squaresWithFigure.length; i++) {
+            const squareWithFigure: Square = squaresWithFigure[i];
+            
+            for (let j = 0; j < emptySquares.length; j++) {
+                const target = emptySquares[j];
+                if (!squareWithFigure.availableForMoving && squareWithFigure?.figure?.canMove(target)) {
+                    availableSquaresForMoving.push(squareWithFigure);
+                }
+            }
+        }
+
+        return availableSquaresForMoving;
+    }
+
     public highlightSquares(selectedSquare: Square | null): void {
         const darkSquares: Square[][] = this.getDarkSquares();
 
@@ -113,20 +133,19 @@ export class Board {
     }
 
     public highlightFigures(color: Colors | null): void {
-        if (!color) return;
         this.unHighlightSquares();
-        const squaresWithFigure: Square[] = this.getSquaresWithFigureByColor(color);
-        const emptySquares: Square[] = this.getEmptySquares();
+        if (!color) return;
 
-        for (let i = 0; i < squaresWithFigure.length; i++) {
-            const squareWithFigure = squaresWithFigure[i];
-            
-            for (let j = 0; j < emptySquares.length; j++) {
-                const target = emptySquares[j];
-                if (!squareWithFigure.availableForMoving && squareWithFigure?.figure?.canMove(target)) {
-                    squareWithFigure.availableForMoving = true;
-                }
-            }
+        const availableSquaresForMoving = this.getAvailableSquaresForMoving(color);
+        // TODO: Нужно получить обязательные ячейки 
+        const requiredSquaresForAttack = [];
+
+        if (requiredSquaresForAttack.length) {
+            //pass
+        } else {
+            availableSquaresForMoving.forEach(el => {
+                el.availableForMoving = true;
+            });
         }
     }
 
