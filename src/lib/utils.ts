@@ -1,0 +1,1 @@
+export const toABS = (a: number, b: number): number => Math.abs(a - b);

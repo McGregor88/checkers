@@ -1,3 +1,4 @@
+import { toABS } from '../lib/utils';
 import { Square } from './Square';
 import { Colors } from './Colors';
 import { Figure } from './figures/Figure';
@@ -99,11 +100,6 @@ export class Board {
         return emptySquares;
     }
 
-    // TODO: Перенести
-    public getAbsX(x1: number, x2: number): number {
-        return Math.abs(x1 - x2);
-    }
-
     public highlightSquares(selectedSquare: Square | null): void {
         const darkSquares: Square[][] = this.getDarkSquares();
 
@@ -138,7 +134,7 @@ export class Board {
         const figure = selectedSquare.figure;
         if (!figure || !figure?.canMove(target)) return;
 
-        const absX: number = this.getAbsX(target.x, selectedSquare.x);
+        const absX: number = toABS(target.x, selectedSquare.x);
         const nearestSquares: Square[] = this.getNearestSquares(selectedSquare, target, figure.isDame ? absX : 1);
         const attackedTarget: Square | undefined = nearestSquares.find(square => square?.figure);
 

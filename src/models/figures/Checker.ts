@@ -1,6 +1,7 @@
 import blackFigure from '../../assets/checker_black.png';
 import whiteFigure from '../../assets/checker_white.png';
 
+import { toABS } from '../../lib/utils';
 import { Figure, FigureNames } from './Figure';
 import { Board } from '../Board';
 import { Colors } from '../Colors';
@@ -25,9 +26,7 @@ export class Checker extends Figure {
     }
 
     canMoveAsDame(target: Square): boolean {
-        // TODO: Убрать в utils
-        const absX = Math.abs(target.x - this.square.x);
-        const nearestSquares: Square[] = this.board?.getNearestSquares(this.square, target, absX) || [];
+        const nearestSquares: Square[] = this.board?.getNearestSquares(this.square, target, toABS(target.x, this.square.x)) || [];
         const enemyPieces: Square[] = nearestSquares.filter(square => square?.figure && square.figure.color !== this.color);
         const index = nearestSquares.findIndex(square => square?.figure && square.figure.color === this.color);
 

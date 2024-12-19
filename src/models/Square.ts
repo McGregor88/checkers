@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 
+import { toABS } from '../lib/utils';
 import { Colors } from './Colors';
 import { Figure } from './figures/Figure';
 
@@ -27,6 +28,6 @@ export class Square {
     }
 
     isNotDiagonal(target: Square): boolean {
-        return Math.abs(target.x - this.x) === Math.abs(target.y - this.y);
+        return toABS(target.x, this.x) === toABS(target.y, this.y);
     }
 };
