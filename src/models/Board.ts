@@ -52,13 +52,6 @@ export class Board {
         return nearestSquares;
     }
 
-    //TODO: Скорее всего это не пригодится
-    public getNearestSquare(startingSquare: Square, targetSquare: Square): Square {
-        const x: number = targetSquare.x < startingSquare.x ? startingSquare.x - 1 : startingSquare.x + 1;
-        const y: number = targetSquare.y < startingSquare.y ? startingSquare.y - 1 : startingSquare.y + 1;
-        return this.getSquare(x, y);
-    }
-
     public getDarkSquares(): Square[][] {
         const darkSquares: Square[][] = [];
         for (let i = 0; i < this.squares.length; i++) {

@@ -71,10 +71,10 @@ const CheckersBoard: FC<BoardProps> = ({
         setSelectedSquare(null);
         updateBoard();
         setMoves([ ...moves, move ]);
-        nextMove();
+        doNextMove();
     }
 
-    function nextMove() {
+    function doNextMove() {
         const lostEnemyPieces = currentPlayer?.color === Colors.WHITE ? board.lostBlackFigures : board.lostWhiteFigures;
         const shouldJump: boolean = false;
 

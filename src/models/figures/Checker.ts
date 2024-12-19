@@ -45,7 +45,7 @@ export class Checker extends Figure {
         // Если клетка в двух шагах, 
         if (target.y + maxStep === currentY || target.y - maxStep === currentY) {
             // получаем клетку, которая находится в шаге от фигуры
-            const nearestSquare = this.board?.getNearestSquare(this.square, target);
+            const nearestSquare: Square | undefined = this.board?.getNearestSquares(this.square, target, 1)[0];
             // Проверяем клетку на пустоту или наличие дружеской фигуры
             if (nearestSquare?.isEmpty() || nearestSquare?.figure?.color === this.color) {
                 return false;
