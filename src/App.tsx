@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 import './App.css';
 import { Colors } from './types/colors';
-import { IMove } from './types/move';
+import { Move } from './models/Move';
 import { Board } from './models/Board';
 import { Player } from './models/Player';
 import PlayerSection from './components/core/Section/PlayerSection';
@@ -14,7 +14,7 @@ const blackPlayer = new Player(Colors.BLACK);
 function App() {
     const [board, setBoard] = useState(new Board());
     const [currentPlayer, setCurrentPlayer] = useState<Player | null>(null);
-    const [moves, setMoves] = useState<IMove[] | []>([]);
+    const [moves, setMoves] = useState<Move[] | []>([]);
 
     useEffect(() => {
         restart();

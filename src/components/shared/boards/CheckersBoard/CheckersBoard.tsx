@@ -1,12 +1,12 @@
 import { FC, Fragment, useState, useEffect } from 'react';
-import { v4 as uuidv4 } from 'uuid';
-
 import './CheckersBoard.css';
+
 import { Colors } from '../../../../types/colors';
-import { IMove } from '../../../../types/move';
+import { Move } from '../../../../models/Move';
 import { Board } from '../../../../models/Board';
 import { Square } from '../../../../models/Square';
 import { Player } from '../../../../models/Player';
+
 import CheckerSquare from './square/CheckerSquare';
 import GameBoard from '../GameBoard/GameBoard';
 import Button from '../../../core/Button/Button';
@@ -14,8 +14,8 @@ import Button from '../../../core/Button/Button';
 interface BoardProps {
     board: Board;
     setBoard: (board: Board) => void;
-    moves: IMove[] | [];
-    setMoves: (moves: IMove[]) => void;
+    moves: Move[] | [];
+    setMoves: (moves: Move[]) => void;
     currentPlayer: Player | null;
     switchPlayer: () => void;
     restart: () => void;
@@ -62,27 +62,27 @@ const CheckersBoard: FC<BoardProps> = ({
         board?.moveFigureFromSelectedSquare(selectedSquare, target);
         setSelectedSquare(null);
         updateBoard();
+        nextMove(selectedSquare, target);
     }
 
-    function checkNextMove(selectedSquare: Square, target: Square) {
-        const lostEnemyFigures = currentPlayer?.color === Colors.WHITE ? board.lostBlackFigures : board.lostWhiteFigures;
+    function nextMove(selectedSquare: Square, target: Square) {
+        if (!currentPlayer) return;
+
+        const lostEnemyPieces = currentPlayer.color === Colors.WHITE ? board.lostBlackFigures : board.lostWhiteFigures;
         const shouldJump: boolean = false;
+        const move = new Move(
+            currentPlayer, 
+            { x: selectedSquare.x, y: selectedSquare.y }, 
+            { x: target.x, y: target.y}
+        );
 
-        setMoves([
-            ...moves, 
-            {
-                id: uuidv4(),
-                player: currentPlayer || null,
-                from: { x: selectedSquare.x, y: selectedSquare.y },
-                to: { x: target.x, y: target.y}
-            }
-        ]);
+        setMoves([ ...moves, move ]);
 
-        if (lostEnemyFigures.length > 11) {
+        if (lostEnemyPieces.length > 11) {
             setGameIsOver(true);
             return;
         }
-        
+
         if (!shouldJump) {
             switchPlayer();
         }
@@ -91,7 +91,6 @@ const CheckersBoard: FC<BoardProps> = ({
     const onSquareTapped = (target: Square) => {
         if (selectedSquare && selectedSquare !== target && selectedSquare.figure?.canMove(target)) {
             moveFigure(selectedSquare, target);
-            checkNextMove(selectedSquare, target);
         } else {
             if (target.figure?.color === currentPlayer?.color && target.availableForMoving) {
                 setSelectedSquare(target);
