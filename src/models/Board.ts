@@ -125,7 +125,10 @@ export class Board {
         for (let i = 0; i < emptySquares.length; i++) {
             const target: Square = emptySquares[i];
             const availableForSelection: boolean = hasRequiredSquares ? !!figure?.mustJump(target) : !!figure?.canMove(target);
-            target.availableForSelection = availableForSelection; 
+            // TODO: Нужно как-то подсветить ячейки, которые будут на пути
+            const highlighted: boolean = false;
+            target.availableForSelection = availableForSelection;
+            target.highlighted = highlighted;
         }
     }
 
