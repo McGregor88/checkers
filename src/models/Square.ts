@@ -12,6 +12,7 @@ export class Square {
     id: string;
     availableForSelection: boolean;
     availableForMoving: boolean;
+    highlighted: boolean;
 
     constructor(x: number, y: number, color: Colors, figure: Figure | null) {
         this.x = x;
@@ -21,6 +22,7 @@ export class Square {
         this.id = uuidv4();
         this.availableForSelection = false;
         this.availableForMoving = false;
+        this.highlighted = false;
     }
 
     isEmpty(): boolean {

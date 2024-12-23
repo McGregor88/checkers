@@ -11,7 +11,8 @@
     transition: 0.25s ease background-color;
 }
 
-.checkers-board .checkers-board__square.dark {
+.checkers-board .checkers-board__square.dark.available-for-moving,
+.checkers-board .checkers-board__square.dark.available-for-selection {
     cursor: pointer;
     pointer-events: unset;
 }
@@ -24,6 +25,11 @@
 
 .checkers-board .checkers-board__figure .figure__icon {
     position: relative;
+}
+
+.checkers-board .checkers-board__square.available-for-selection, 
+.checkers-board .checkers-board__square.highlighted {
+    border-color: hsl(160, 71%, 41%);
 }
 
 .checkers-board .checkers-board__square.available-for-selection {
