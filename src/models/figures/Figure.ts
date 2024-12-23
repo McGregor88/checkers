@@ -31,9 +31,7 @@ export class Figure {
     }
 
     mustJump(target: Square): boolean {
-        if (!this.square.isTheSameDiagonal(target)) {
-            return false;
-        }
+        if (!this.square.isTheSameDiagonal(target)) return false;
         return true;
     }
 
