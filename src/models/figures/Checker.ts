@@ -26,18 +26,31 @@ export class Checker extends Figure {
     mustJump(target: Square): boolean {
         if (!super.mustJump(target)) return false;
 
+        const nearestSquares: Square[] = this.board?.getNearestSquares(
+            this.square, 
+            target, 
+            this.isDame ? toABS(target.x, this.square.x) : 1
+        ) || [];
+
         if (this.isDame) {
-            // pass
+            const enemyPieces: Square[] = nearestSquares.filter(square => {
+                return square?.figure && square.figure.color !== this.color
+            });
+
+            if (enemyPieces.length !== 1) return false;
             return true;
         } else {
-            // Ограничиваем длину шага фигуры
             if (this.square.isTooFar(target, this.maxStep)) return false;
-            // Получаем клетку, которая находится в шаге от фигуры
-            const nearestSquare: Square | undefined = this.board?.getNearestSquares(this.square, target, 1)[0];
-            if (nearestSquare && nearestSquare.x !== target.x && nearestSquare.y !== target.y && nearestSquare.hasEnemyPiece(this.color)) {
+
+            const nearestSquare: Square | undefined = nearestSquares[0];
+            if (
+                nearestSquare && 
+                nearestSquare.x !== target.x && 
+                nearestSquare.y !== target.y && 
+                nearestSquare.hasEnemyPiece(this.color)
+            ) {
                 return true;
             }
-
             return false;
         }
     }
@@ -47,10 +60,7 @@ export class Checker extends Figure {
         const enemyPieces: Square[] = nearestSquares.filter(square => square?.figure && square.figure.color !== this.color);
         const index = nearestSquares.findIndex(square => square?.figure && square.figure.color === this.color);
 
-        if (index !== -1 || enemyPieces.length > 1) {
-            return false;
-        }
-
+        if (index !== -1 || enemyPieces.length > 1) return false;
         return true;
     }
 
