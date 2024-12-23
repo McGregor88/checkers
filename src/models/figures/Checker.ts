@@ -24,7 +24,7 @@ export class Checker extends Figure {
     }
 
     mustJump(target: Square): boolean {
-        if (!super.canMove(target)) return false;
+        if (!super.mustJump(target)) return false;
 
         if (this.isDame) {
             return true;
@@ -33,12 +33,12 @@ export class Checker extends Figure {
             if (this.square.isTooFar(target, this.maxStep)) return false;
             // Получаем клетку, которая находится в шаге от фигуры
             const nearestSquare: Square | undefined = this.board?.getNearestSquares(this.square, target, 1)[0];
-            // Если на клетке нет вражеской фигуры то возвращаем false
-            if (!nearestSquare || (nearestSquare.x === target.x && nearestSquare.y === target.y) || !nearestSquare.hasEnemyPiece(this.color)) {
-                return false;
+
+            if (nearestSquare && nearestSquare.x !== target.x && nearestSquare.y !== target.y && nearestSquare.hasEnemyPiece(this.color)) {
+                return true;
             }
 
-            return true;
+            return false;
         }
     }
 

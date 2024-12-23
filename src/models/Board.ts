@@ -6,6 +6,7 @@ import { Checker } from './figures/Checker';
 
 export class Board {
     readonly maxSquaresInRow: number = 8;
+    //private hasRequiredSquaresForAttack: boolean = false;
     squares: Square[][] = [];
     lostBlackFigures: Figure[] = [];
     lostWhiteFigures: Figure[] = [];
@@ -135,7 +136,7 @@ export class Board {
         const emptySquares: Square[] = this.getEmptySquares();
         // Cписок, обязательных для атаки ячеек
         const requiredSquaresForAttack: Array<Square> = [];
-        let availableSquares: Square[] | [];
+        let availableSquares: Square[] | [] = [];
         // Проходимся циклом по ячейкам с фигурами
         for (let i = 0; i < possibleSquaresForMoving.length; i++) {
             const availableSquare: Square = possibleSquaresForMoving[i];
@@ -150,11 +151,9 @@ export class Board {
             }
         }
 
+        //this.hasRequiredSquaresForAttack = requiredSquaresForAttack.length ? true : false;
         availableSquares = requiredSquaresForAttack.length ? requiredSquaresForAttack : possibleSquaresForMoving;
-
-        availableSquares.forEach(el => {
-            el.availableForMoving = true;
-        });
+        availableSquares.forEach(el => el.availableForMoving = true);
     }
 
     public moveFigureFromSelectedSquare(selectedSquare: Square, target: Square): void {
@@ -196,6 +195,7 @@ export class Board {
 
     private unHighlightSquares() {
         const darkSquares: Square[][] = this.getDarkSquares();
+        //this.hasRequiredSquaresForAttack = false;
 
         for (let i = 0; i < darkSquares.length; i++) {
             const row = darkSquares[i];
