@@ -6,7 +6,6 @@ import { Checker } from './figures/Checker';
 
 export class Board {
     readonly maxSquaresInRow: number = 8;
-    //private hasRequiredSquaresForAttack: boolean = false;
     squares: Square[][] = [];
     lostBlackFigures: Figure[] = [];
     lostWhiteFigures: Figure[] = [];
@@ -22,8 +21,12 @@ export class Board {
         }
     }
 
-    public setUpFigures(): void {
+    public setUpPieces(): void {
         this.setUpCheckers();
+    }
+
+    public hasRequiredSquares(squares: Square[], target: Square | null): boolean {
+        return squares.findIndex(square => target?.figure?.mustJump(square)) !== -1;
     }
 
     public getCopyBoard(): Board {
@@ -115,19 +118,19 @@ export class Board {
     }
 
     public highlightSquares(selectedSquare: Square | null): void {
-        const darkSquares: Square[][] = this.getDarkSquares();
-
-        for (let i = 0; i < darkSquares.length; i++) {
-            const row = darkSquares[i];
-            for (let j = 0; j < row.length; j++) {
-                const target = row[j];
-                target.availableForSelection = !!selectedSquare?.figure?.canMove(target);
-            }
+        const figure: Figure | null = selectedSquare?.figure || null;
+        const emptySquares: Square[] = this.getEmptySquares();
+        const hasRequiredSquares: boolean = this.hasRequiredSquares(emptySquares, selectedSquare);
+    
+        for (let i = 0; i < emptySquares.length; i++) {
+            const target: Square = emptySquares[i];
+            const availableForSelection: boolean = hasRequiredSquares ? !!figure?.mustJump(target) : !!figure?.canMove(target);
+            target.availableForSelection = availableForSelection; 
         }
     }
 
-    public highlightFigures(color: Colors | null): void {
-        this.unHighlightSquares();
+    public highlightPieces(color: Colors | null): void {
+        this.unHighlightPieces();
         if (!color) return;
 
         // Получаем список доступных для движения ячеек
@@ -151,7 +154,6 @@ export class Board {
             }
         }
 
-        //this.hasRequiredSquaresForAttack = requiredSquaresForAttack.length ? true : false;
         availableSquares = requiredSquaresForAttack.length ? requiredSquaresForAttack : possibleSquaresForMoving;
         availableSquares.forEach(el => el.availableForMoving = true);
     }
@@ -193,10 +195,8 @@ export class Board {
         }
     }
 
-    private unHighlightSquares() {
+    private unHighlightPieces() {
         const darkSquares: Square[][] = this.getDarkSquares();
-        //this.hasRequiredSquaresForAttack = false;
-
         for (let i = 0; i < darkSquares.length; i++) {
             const row = darkSquares[i];
             for (let j = 0; j < row.length; j++) {

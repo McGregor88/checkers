@@ -27,8 +27,8 @@ function App() {
     function restart() {
         const newBoard = new Board();
         newBoard.initSquares();
-        newBoard.setUpFigures();
-        newBoard.highlightFigures(Colors.WHITE);
+        newBoard.setUpPieces();
+        newBoard.highlightPieces(Colors.WHITE);
         setBoard(newBoard);
         setCurrentPlayer(whitePlayer);
     }

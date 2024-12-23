@@ -48,7 +48,7 @@ const CheckersBoard: FC<BoardProps> = ({
 
     function highlightFigures() {
         if (currentPlayer) {
-            board.highlightFigures(currentPlayer?.color);
+            board.highlightPieces(currentPlayer?.color);
             updateBoard();
         }
     }
