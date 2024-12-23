@@ -27,13 +27,13 @@ export class Checker extends Figure {
         if (!super.mustJump(target)) return false;
 
         if (this.isDame) {
+            // pass
             return true;
         } else {
             // Ограничиваем длину шага фигуры
             if (this.square.isTooFar(target, this.maxStep)) return false;
             // Получаем клетку, которая находится в шаге от фигуры
             const nearestSquare: Square | undefined = this.board?.getNearestSquares(this.square, target, 1)[0];
-
             if (nearestSquare && nearestSquare.x !== target.x && nearestSquare.y !== target.y && nearestSquare.hasEnemyPiece(this.color)) {
                 return true;
             }
