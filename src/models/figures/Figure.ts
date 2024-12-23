@@ -30,6 +30,13 @@ export class Figure {
         this.id = uuidv4();
     }
 
+    mustJump(target: Square): boolean {
+        if (!this.square.isTheSameDiagonal(target)) {
+            return false;
+        }
+        return true;
+    }
+
     canMove(target: Square): boolean {
         if (target.color === Colors.WHITE || target.figure) return false;
         return true;

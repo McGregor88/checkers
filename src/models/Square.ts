@@ -27,7 +27,15 @@ export class Square {
         return this.figure === null;
     }
 
-    isNotDiagonal(target: Square): boolean {
+    hasEnemyPiece(color: Colors): boolean {
+        return this.figure && this.figure?.color !== color ? true: false;
+    }
+
+    isTheSameDiagonal(target: Square): boolean {
         return toABS(target.x, this.x) === toABS(target.y, this.y);
+    }
+
+    isTooFar(target: Square, maxStep: number): boolean {
+        return (target.y + maxStep < this.y || target.y - maxStep > this.y);
     }
 };

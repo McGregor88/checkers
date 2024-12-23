@@ -8,21 +8,38 @@ import { Board } from '../Board';
 import { Square } from '../Square';
 
 export class Checker extends Figure {
+    maxStep: number;
+
     constructor(board: Board, color: Colors, square: Square) {
         super(board, color, square);
         this.board = board;
         this.logo = color === Colors.WHITE ? whiteFigure : blackFigure;
         this.name = FigureNames.CHECKER;
+        this.maxStep = 2;
     }
 
     canMove(target: Square): boolean {
-        if (!super.canMove(target) || !this.square.isNotDiagonal(target)) return false;
+        if (!super.canMove(target) || !this.square.isTheSameDiagonal(target)) return false;
         return this.isDame ? this.canMoveAsDame(target) : this.canMoveAsChecker(target);
     }
 
     mustJump(target: Square): boolean {
-        // TODO: Задел на будущее
-        return false;
+        if (!super.canMove(target)) return false;
+
+        if (this.isDame) {
+            return true;
+        } else {
+            // Ограничиваем длину шага фигуры
+            if (this.square.isTooFar(target, this.maxStep)) return false;
+            // Получаем клетку, которая находится в шаге от фигуры
+            const nearestSquare: Square | undefined = this.board?.getNearestSquares(this.square, target, 1)[0];
+            // Если на клетке нет вражеской фигуры то возвращаем false
+            if (!nearestSquare || (nearestSquare.x === target.x && nearestSquare.y === target.y) || !nearestSquare.hasEnemyPiece(this.color)) {
+                return false;
+            }
+
+            return true;
+        }
     }
 
     canMoveAsDame(target: Square): boolean {
@@ -39,11 +56,10 @@ export class Checker extends Figure {
 
     canMoveAsChecker(target: Square): boolean {
         const { y: currentY } = this.square;
-        const maxStep: number = 2;
         // Ограничиваем длину шага фигуры
-        if (target.y + maxStep < currentY || target.y - maxStep > currentY) return false;
+        if (this.square.isTooFar(target, this.maxStep)) return false;
         // Если клетка в двух шагах, 
-        if (target.y + maxStep === currentY || target.y - maxStep === currentY) {
+        if (target.y + this.maxStep === currentY || target.y - this.maxStep === currentY) {
             // получаем клетку, которая находится в шаге от фигуры
             const nearestSquare: Square | undefined = this.board?.getNearestSquares(this.square, target, 1)[0];
             // Проверяем клетку на пустоту или наличие дружеской фигуры

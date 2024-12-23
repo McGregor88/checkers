@@ -97,14 +97,14 @@ export class Board {
         const availableSquaresForMoving = [];
         const squaresWithFigure: Square[] = this.getSquaresWithFigureByColor(color);
         const emptySquares: Square[] = this.getEmptySquares();
-        
     
         for (let i = 0; i < squaresWithFigure.length; i++) {
             const squareWithFigure: Square = squaresWithFigure[i];
             
             for (let j = 0; j < emptySquares.length; j++) {
                 const target = emptySquares[j];
-                if (!squareWithFigure.availableForMoving && squareWithFigure?.figure?.canMove(target)) {
+                const index = availableSquaresForMoving.findIndex(square => square.x === squareWithFigure.x && square.y === squareWithFigure.y);
+                if (!squareWithFigure.availableForMoving && squareWithFigure?.figure?.canMove(target) && index === -1) {
                     availableSquaresForMoving.push(squareWithFigure);
                 }
             }
@@ -129,17 +129,32 @@ export class Board {
         this.unHighlightSquares();
         if (!color) return;
 
-        const availableSquaresForMoving = this.getAvailableSquaresForMoving(color);
-        // TODO: Нужно получить обязательные ячейки 
-        const requiredSquaresForAttack = [];
-
-        if (requiredSquaresForAttack.length) {
-            //pass
-        } else {
-            availableSquaresForMoving.forEach(el => {
-                el.availableForMoving = true;
-            });
+        // Получаем список доступных для движения ячеек
+        const possibleSquaresForMoving: Square[] | [] = this.getAvailableSquaresForMoving(color);
+        // Получаем список пустых ячеек
+        const emptySquares: Square[] = this.getEmptySquares();
+        // Cписок, обязательных для атаки ячеек
+        const requiredSquaresForAttack: Array<Square> = [];
+        let availableSquares: Square[] | [];
+        // Проходимся циклом по ячейкам с фигурами
+        for (let i = 0; i < possibleSquaresForMoving.length; i++) {
+            const availableSquare: Square = possibleSquaresForMoving[i];
+            // Пройдемся по пустым ячейкам
+            for (let j = 0; j < emptySquares.length; j++) {
+                const target = emptySquares[j];
+                const index = requiredSquaresForAttack.findIndex(square => square.x === availableSquare.x && square.y === availableSquare.y);
+                // Проверим, что фигура должна прыгать и то что этой ячейке нет в массиве
+                if (availableSquare?.figure?.mustJump(target) && index === -1) {
+                    requiredSquaresForAttack.push(availableSquare);
+                }
+            }
         }
+
+        availableSquares = requiredSquaresForAttack.length ? requiredSquaresForAttack : possibleSquaresForMoving;
+
+        availableSquares.forEach(el => {
+            el.availableForMoving = true;
+        });
     }
 
     public moveFigureFromSelectedSquare(selectedSquare: Square, target: Square): void {
