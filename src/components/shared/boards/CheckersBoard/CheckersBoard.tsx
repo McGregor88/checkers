@@ -3,7 +3,7 @@ import './CheckersBoard.css';
 
 import { toABS } from '../../../../lib/utils';
 import { Colors } from '../../../../types/colors';
-import { SoundNames } from '../../../../types/soundNames';
+import { SoundNames } from '../../../../types/sounds';
 import { AudioPlayer } from '../../../../models/AudioPlayer';
 import { Move } from '../../../../models/Move';
 import { Board } from '../../../../models/Board';
@@ -14,8 +14,9 @@ import CheckerSquare from './square/CheckerSquare';
 import GameBoard from '../GameBoard/GameBoard';
 import Button from '../../../core/Button/Button';
 
+const audioPlayer = new AudioPlayer();
+
 interface BoardProps {
-    audioPlayer: AudioPlayer;
     board: Board;
     setBoard: (board: Board) => void;
     moves: Move[] | [];
@@ -26,7 +27,6 @@ interface BoardProps {
 }
 
 const CheckersBoard: FC<BoardProps> = ({
-    audioPlayer,
     board,
     setBoard,
     moves,

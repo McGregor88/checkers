@@ -1,9 +1,9 @@
-import { SoundNames } from "../types/soundNames";
+import { sounds, SoundNames } from "../types/sounds";
 
 export class AudioPlayer {
-    private _sounds = new Map();
+    private _sounds = new Map<string, HTMLAudioElement>();
 
-    constructor(sounds: any) {
+    constructor() {
         for (const name in sounds) {
             this._addSound(name, sounds[name]);
         }
@@ -14,8 +14,9 @@ export class AudioPlayer {
         if (!soundName || !audio) return;
 
         if (!audio.paused) {
-            audio.reload();
+            audio.load();
         }
+
         audio.play();
     }
 
@@ -23,7 +24,7 @@ export class AudioPlayer {
         this._sounds.set(soundName, new Audio(soundSrc));
     }
 
-    private _getAudioByName(name: string) {
+    private _getAudioByName(name: string): HTMLAudioElement | undefined {
         return this._sounds.get(name);
     }
 }
