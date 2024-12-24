@@ -56,9 +56,17 @@ export class Checker extends Figure {
     }
 
     canMoveAsDame(target: Square): boolean {
-        const nearestSquares: Square[] = this.board?.getNearestSquares(this.square, target, toABS(target.x, this.square.x)) || [];
-        const enemyPieces: Square[] = nearestSquares.filter(square => square?.figure && square.figure.color !== this.color);
-        const index = nearestSquares.findIndex(square => square?.figure && square.figure.color === this.color);
+        const nearestSquares: Square[] = this.board?.getNearestSquares(
+            this.square, 
+            target, 
+            toABS(target.x, this.square.x)
+        ) || [];
+        const enemyPieces: Square[] = nearestSquares.filter(
+            square => square?.figure && square.figure.color !== this.color
+        );
+        const index = nearestSquares.findIndex(
+            square => square?.figure && square.figure.color === this.color
+        );
 
         if (index !== -1 || enemyPieces.length > 1) return false;
         return true;

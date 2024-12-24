@@ -31,10 +31,11 @@ export class Board {
 
     public getCopyBoard(): Board {
         const newBoard = new Board();
-        // TODO: Попробавить lodash с функцией deepCopy использовать
+        // TODO: Попробавить lodash с функцией cloneDeep использовать
         newBoard.squares = this.squares;
         newBoard.lostBlackFigures = this.lostBlackFigures;
         newBoard.lostWhiteFigures = this.lostWhiteFigures;
+
         return newBoard;
     }
 
@@ -42,13 +43,13 @@ export class Board {
         return this.squares[y][x];
     }
 
-    public getNearestSquares(startingSquare: Square, target: Square, absX: number): Square[] {
+    public getNearestSquares(from: Square, target: Square, absX: number): Square[] {
         const nearestSquares: Square[] = [];
 
         if (absX > 0) {
             for (let i = 1; i <= absX; i++) {
-                const x: number = target.x < startingSquare.x ? startingSquare.x - (i) : startingSquare.x + (i);
-                const y: number = target.y < startingSquare.y ? startingSquare.y - (i) : startingSquare.y + (i);
+                const x: number = target.x < from.x ? from.x - i : from.x + i;
+                const y: number = target.y < from.y ? from.y - i : from.y + i;
                 nearestSquares.push(this.getSquare(x, y));
             }
         }
@@ -107,8 +108,15 @@ export class Board {
             
             for (let j = 0; j < emptySquares.length; j++) {
                 const target = emptySquares[j];
-                const index = availableSquaresForMoving.findIndex(square => square.x === squareWithFigure.x && square.y === squareWithFigure.y);
-                if (!squareWithFigure.availableForMoving && squareWithFigure?.figure?.canMove(target) && index === -1) {
+                const index = availableSquaresForMoving.findIndex(
+                    square => square.x === squareWithFigure.x && square.y === squareWithFigure.y
+                );
+
+                if (
+                    !squareWithFigure.availableForMoving && 
+                    squareWithFigure?.figure?.canMove(target) && 
+                    index === -1
+                ) {
                     availableSquaresForMoving.push(squareWithFigure);
                 }
             }
@@ -125,10 +133,26 @@ export class Board {
         for (let i = 0; i < emptySquares.length; i++) {
             const target: Square = emptySquares[i];
             const availableForSelection: boolean = hasRequiredSquares ? !!figure?.mustJump(target) : !!figure?.canMove(target);
-            // TODO: Нужно как-то подсветить ячейки, которые будут на пути
-            const highlighted: boolean = false;
+
             target.availableForSelection = availableForSelection;
-            target.highlighted = highlighted;
+            if (hasRequiredSquares && availableForSelection && selectedSquare && figure) {
+                const nearestSquares: Square[] | [] = this.getNearestSquares(
+                    selectedSquare, 
+                    target, 
+                    figure.isDame ? toABS(target.x, selectedSquare.x) : 1
+                ) || [];
+                const highlightedTargets: Square[] | [] = nearestSquares.filter(
+                    square =>  square.isEmpty() && !figure?.mustJump(square) && figure?.canMove(square)
+                );
+
+                if (highlightedTargets.length) {
+                    highlightedTargets.forEach(target => {
+                        if (!target.highlighted) {
+                            target.highlighted = true
+                        }
+                    });
+                }
+            }
         }
     }
 
@@ -149,7 +173,9 @@ export class Board {
             // Пройдемся по пустым ячейкам
             for (let j = 0; j < emptySquares.length; j++) {
                 const target = emptySquares[j];
-                const index = requiredSquaresForAttack.findIndex(square => square.x === availableSquare.x && square.y === availableSquare.y);
+                const index = requiredSquaresForAttack.findIndex(
+                    square => square.x === availableSquare.x && square.y === availableSquare.y
+                );
                 // Проверим, что фигура должна прыгать и то что этой ячейке нет в массиве
                 if (availableSquare?.figure?.mustJump(target) && index === -1) {
                     requiredSquaresForAttack.push(availableSquare);
@@ -173,7 +199,12 @@ export class Board {
         target.figure.square = target;
         this.removeFigureFromSquare(selectedSquare);
         // Если перепрыгиваем вражескую фигуру, то забираем ее
-        if (attackedTarget && attackedTarget.x !== target.x && attackedTarget.y !== target.y && attackedTarget.figure) {
+        if (
+            attackedTarget && 
+            attackedTarget.x !== target.x && 
+            attackedTarget.y !== target.y && 
+            attackedTarget.figure
+        ) {
             this.captureEnemyPiece(attackedTarget.figure);
         }
         // Проверим фигуру на дамку
@@ -205,6 +236,7 @@ export class Board {
             for (let j = 0; j < row.length; j++) {
                 const square = row[j];
                 square.availableForMoving = false;
+                square.highlighted = false;
             }
         }
     }

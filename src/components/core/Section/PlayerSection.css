@@ -43,7 +43,7 @@
     .player-section {
         max-width: 500px;
         width: 100%;
-        min-height: 150px;
+        min-height: 238px;
     }
 
     .player-section__list {
@@ -58,6 +58,8 @@
 /* Iphone XR */
 @media only screen and (max-width : 414px) {
     .player-section {
-        min-height: 144px;
+        padding: 10px;
+        gap: 10px;
+        min-height: 176px;
     }
 }

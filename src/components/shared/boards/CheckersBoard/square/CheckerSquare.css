@@ -7,8 +7,8 @@
     cursor: default;
     pointer-events: none;
     box-sizing: border-box;
-    border: 1px solid hsl(0, 0%, 0%);
-    transition: 0.25s ease background-color;
+    border: 2px solid hsl(0, 0%, 0%);
+    transition: border-color 0.25s ease, background-color 0.25s ease;
 }
 
 .checkers-board .checkers-board__square.dark.available-for-moving,

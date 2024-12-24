@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import _ from 'lodash';
 
 import './CheckerSquare.css';
 import { Colors } from '../../../../../types/colors';
@@ -11,18 +12,19 @@ interface SquareProps {
 }
 
 const CheckerSquare: FC<SquareProps> = ({ square, selected, onSquareTapped }) =>  {
-    const { color, figure, availableForSelection, availableForMoving } = square;
+    const { color, figure, availableForSelection, availableForMoving, highlighted } = square;
     const isAvailableSquare: boolean = color !== Colors.WHITE && !figure;
 
     return (
         <div 
-            className={[
+            className={_.trim([
                 'checkers-board__square', 
                 color === Colors.WHITE ? 'light' : 'dark', 
+                availableForMoving ? 'available-for-moving' : '',
                 selected ? 'selected' : '',
                 isAvailableSquare && availableForSelection ? 'available-for-selection' : '',
-                availableForMoving ? 'available-for-moving' : ''
-            ].join(' ').trim()}
+                highlighted ? 'highlighted' : ''
+            ].join(' '))}
             onClick={() => onSquareTapped(square)}
         >
             {square.figure?.logo && 
