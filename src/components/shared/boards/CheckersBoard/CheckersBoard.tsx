@@ -88,6 +88,7 @@ const CheckersBoard: FC<BoardProps> = ({
         ) {
             board.captureEnemyPiece(attackedTarget.figure);
             figureJumped = true;
+            // TODO: Play the sound here
         }
         
         board.checkFigureForDame(figure);
@@ -107,6 +108,7 @@ const CheckersBoard: FC<BoardProps> = ({
 
         if (figureJumped && board.hasRequiredSquares(board.getEmptySquares(), target)) {
             setSelectedSquare(target);
+            // TODO: Play the sound here
         } else {
             switchPlayer();
         }
