@@ -83,6 +83,8 @@ const CheckersBoard: FC<BoardProps> = ({
             return;
         }
 
+        // TODO: Нужно отловить момент, что фигура прыгает и тогда после этого проверить должна ли она дальше првгать на новом месте
+
         if (!shouldJump) {
             switchPlayer();
         }
