@@ -34,12 +34,15 @@ export class Checker extends Figure {
         ) || [];
 
         if (this.isDame) {
-            const enemyPieces: Square[] = nearestSquares.filter(square => {
-                return square?.figure && square.figure.color !== this.color
-            });
-
-            if (enemyPieces.length !== 1) return false;
-            return true;
+            const enemyPieces: Square[] = nearestSquares.filter(
+                square => square?.figure && square.figure.color !== this.color
+            );
+            const friendlyPiecesIndex = nearestSquares.findIndex(
+                square => square?.figure && square.figure.color === this.color
+            );
+    
+            if (enemyPieces.length === 1 && friendlyPiecesIndex === -1) return true;
+            return false;
         } else {
             if (this.square.isTooFar(target, this._maxStep)) return false;
 
@@ -65,11 +68,11 @@ export class Checker extends Figure {
         const enemyPieces: Square[] = nearestSquares.filter(
             square => square?.figure && square.figure.color !== this.color
         );
-        const index = nearestSquares.findIndex(
+        const friendlyPiecesIndex = nearestSquares.findIndex(
             square => square?.figure && square.figure.color === this.color
         );
 
-        if (index !== -1 || enemyPieces.length > 1) return false;
+        if (friendlyPiecesIndex !== -1 || enemyPieces.length > 1) return false;
         return true;
     }
 
