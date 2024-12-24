@@ -3,27 +3,28 @@ import whiteFigure from '../../assets/checker_white.png';
 
 import { toABS } from '../../lib/utils';
 import { Colors } from '../../types/colors';
-import { Figure, FigureNames } from './Figure';
+import { FigureNames } from '../../types/figureNames';
+import { Figure } from './Figure';
 import { Board } from '../Board';
 import { Square } from '../Square';
 
 export class Checker extends Figure {
-    maxStep: number;
+    private readonly _maxStep: number;
 
     constructor(board: Board, color: Colors, square: Square) {
         super(board, color, square);
         this.board = board;
         this.logo = color === Colors.WHITE ? whiteFigure : blackFigure;
         this.name = FigureNames.CHECKER;
-        this.maxStep = 2;
+        this._maxStep = 2;
     }
 
-    canMove(target: Square): boolean {
+    public canMove(target: Square): boolean {
         if (!super.canMove(target) || !this.square.isTheSameDiagonal(target)) return false;
-        return this.isDame ? this.canMoveAsDame(target) : this.canMoveAsChecker(target);
+        return this.isDame ? this._canMoveAsDame(target) : this._canMoveAsChecker(target);
     }
 
-    mustJump(target: Square): boolean {
+    public mustJump(target: Square): boolean {
         if (!super.mustJump(target)) return false;
 
         const nearestSquares: Square[] = this.board?.getNearestSquares(
@@ -40,7 +41,7 @@ export class Checker extends Figure {
             if (enemyPieces.length !== 1) return false;
             return true;
         } else {
-            if (this.square.isTooFar(target, this.maxStep)) return false;
+            if (this.square.isTooFar(target, this._maxStep)) return false;
 
             const nearestSquare: Square | undefined = nearestSquares[0];
             if (
@@ -55,7 +56,7 @@ export class Checker extends Figure {
         }
     }
 
-    canMoveAsDame(target: Square): boolean {
+    private _canMoveAsDame(target: Square): boolean {
         const nearestSquares: Square[] = this.board?.getNearestSquares(
             this.square, 
             target, 
@@ -72,12 +73,12 @@ export class Checker extends Figure {
         return true;
     }
 
-    canMoveAsChecker(target: Square): boolean {
+    private _canMoveAsChecker(target: Square): boolean {
         const { y: currentY } = this.square;
         // Ограничиваем длину шага фигуры
-        if (this.square.isTooFar(target, this.maxStep)) return false;
+        if (this.square.isTooFar(target, this._maxStep)) return false;
         // Если клетка в двух шагах, 
-        if (target.y + this.maxStep === currentY || target.y - this.maxStep === currentY) {
+        if (target.y + this._maxStep === currentY || target.y - this._maxStep === currentY) {
             // получаем клетку, которая находится в шаге от фигуры
             const nearestSquare: Square | undefined = this.board?.getNearestSquares(this.square, target, 1)[0];
             // Проверяем клетку на пустоту или наличие дружеской фигуры

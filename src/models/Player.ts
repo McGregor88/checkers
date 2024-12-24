@@ -1,7 +1,7 @@
 import { Colors } from '../types/colors';
 
 export class Player {
-    color: Colors;
+    readonly color: Colors;
 
     constructor(color: Colors) {
         this.color = color;

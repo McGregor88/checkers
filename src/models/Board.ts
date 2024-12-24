@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 import { toABS } from '../lib/utils';
 import { Colors } from '../types/colors';
 import { Square } from './Square';
@@ -6,9 +8,9 @@ import { Checker } from './figures/Checker';
 
 export class Board {
     readonly maxSquaresInRow: number = 8;
-    squares: Square[][] = [];
-    lostBlackFigures: Figure[] = [];
-    lostWhiteFigures: Figure[] = [];
+    readonly squares: Square[][] = [];
+    readonly lostBlackFigures: Figure[] = [];
+    readonly lostWhiteFigures: Figure[] = [];
 
     public initSquares(): void {
         for (let i = 0; i < this.maxSquaresInRow; i++) {
@@ -22,70 +24,16 @@ export class Board {
     }
 
     public setUpPieces(): void {
-        this.setUpCheckers();
-    }
-
-    public hasRequiredSquares(squares: Square[], target: Square | null): boolean {
-        return squares.findIndex(square => target?.figure?.mustJump(square)) !== -1;
+        this._setUpCheckers();
     }
 
     public getCopyBoard(): Board {
-        const newBoard = new Board();
-        // TODO: Попробавить lodash с функцией cloneDeep использовать
-        newBoard.squares = this.squares;
-        newBoard.lostBlackFigures = this.lostBlackFigures;
-        newBoard.lostWhiteFigures = this.lostWhiteFigures;
-
-        return newBoard;
-    }
-
-    public getSquare(x: number, y: number): Square {
-        return this.squares[y][x];
-    }
-
-    public getNearestSquares(from: Square, target: Square, absX: number): Square[] {
-        const nearestSquares: Square[] = [];
-
-        if (absX > 0) {
-            for (let i = 1; i <= absX; i++) {
-                const x: number = target.x < from.x ? from.x - i : from.x + i;
-                const y: number = target.y < from.y ? from.y - i : from.y + i;
-                nearestSquares.push(this.getSquare(x, y));
-            }
-        }
-    
-        return nearestSquares;
-    }
-
-    public getDarkSquares(): Square[][] {
-        const darkSquares: Square[][] = [];
-        for (let i = 0; i < this.squares.length; i++) {
-            const row = this.squares[i].filter(square => square.color === Colors.BLACK);
-            darkSquares.push(row);
-        }
-        return darkSquares;
-    }
-
-    public getSquaresWithFigureByColor(color: Colors): Square[] {
-        const squaresWithFigure: Square[] = [];
-        const darkSquares: Square[][] = this.getDarkSquares();
-
-        for (let i = 0; i < darkSquares.length; i++) {
-            const row = darkSquares[i];
-            for (let j = 0; j < row.length; j++) {
-                const square = row[j];
-                if (square?.figure?.color === color) {
-                    squaresWithFigure.push(square);
-                }
-            }
-        }
-    
-        return squaresWithFigure;
+        return _.clone(this);
     }
 
     public getEmptySquares(): Square[] {
         const emptySquares: Square[] = [];
-        const darkSquares: Square[][] = this.getDarkSquares();
+        const darkSquares: Square[][] = this._getDarkSquares();
 
         for (let i = 0; i < darkSquares.length; i++) {
             const row = darkSquares[i];
@@ -98,31 +46,22 @@ export class Board {
         return emptySquares;
     }
 
-    public getAvailableSquaresForMoving(color: Colors) {
-        const availableSquaresForMoving = [];
-        const squaresWithFigure: Square[] = this.getSquaresWithFigureByColor(color);
-        const emptySquares: Square[] = this.getEmptySquares();
-    
-        for (let i = 0; i < squaresWithFigure.length; i++) {
-            const squareWithFigure: Square = squaresWithFigure[i];
-            
-            for (let j = 0; j < emptySquares.length; j++) {
-                const target = emptySquares[j];
-                const index = availableSquaresForMoving.findIndex(
-                    square => square.x === squareWithFigure.x && square.y === squareWithFigure.y
-                );
+    public getNearestSquares(from: Square, target: Square, absX: number): Square[] {
+        const nearestSquares: Square[] = [];
 
-                if (
-                    !squareWithFigure.availableForMoving && 
-                    squareWithFigure?.figure?.canMove(target) && 
-                    index === -1
-                ) {
-                    availableSquaresForMoving.push(squareWithFigure);
-                }
+        if (absX > 0) {
+            for (let i = 1; i <= absX; i++) {
+                const x: number = target.x < from.x ? from.x - i : from.x + i;
+                const y: number = target.y < from.y ? from.y - i : from.y + i;
+                nearestSquares.push(this._getSquare(x, y));
             }
         }
+    
+        return nearestSquares;
+    }
 
-        return availableSquaresForMoving;
+    public hasRequiredSquares(squares: Square[], target: Square | null): boolean {
+        return squares.findIndex(square => target?.figure?.mustJump(square)) !== -1;
     }
 
     public highlightSquares(selectedSquare: Square | null): void {
@@ -157,16 +96,108 @@ export class Board {
     }
 
     public highlightPieces(color: Colors | null): void {
-        this.unHighlightPieces();
+        this._unHighlightPieces();
         if (!color) return;
+        const availableSquares: Square[] | [] = this._getAvailableSquaresForMoving(color);
+        availableSquares.forEach(el => el.availableForMoving = true);
+    }
 
-        // Получаем список доступных для движения ячеек
-        const possibleSquaresForMoving: Square[] | [] = this.getAvailableSquaresForMoving(color);
-        // Получаем список пустых ячеек
+    public removeFigureFromSquare(square: Square): void {
+        square.figure = null;
+    }
+
+    public captureEnemyPiece(figure: Figure | null): void {
+        if (!figure) return;
+        this._addLostFigure(figure);
+        this.removeFigureFromSquare(figure.square);
+    }
+
+    public checkFigureForDame(figure: Figure): void {
+        const figureColor: Colors = figure.color;
+    
+        if ((
+            (figureColor === Colors.WHITE && figure.square.y === 0) || 
+            (figureColor === Colors.BLACK && figure.square.y === 7)) && 
+            !figure.isDame
+        ) {
+            figure.isDame = true;
+        }
+    }
+
+    private _setUpCheckers(): void {
+        const MAX_CHECKERS_IN_ROW: number = this.maxSquaresInRow / 2;
+        let offset: number = 1;
+        let x: number = 1;
+        let y: number = 0;
+
+        for (let i = 0; i < MAX_CHECKERS_IN_ROW * 3; i++) {
+            if (i && i % MAX_CHECKERS_IN_ROW === 0) { 
+                y += 1; 
+                offset = Number(y % 2 === 0);
+            }
+            x = (i * 2) - (this.maxSquaresInRow * y) + offset;
+
+            new Checker(this, Colors.BLACK, this._getSquare(x, y));
+            new Checker(this, Colors.WHITE, this._getSquare(this.maxSquaresInRow - (x + 1), this.maxSquaresInRow - (y + 1)));
+        }
+    }
+
+    private _getSquare(x: number, y: number): Square {
+        return this.squares[y][x];
+    }
+
+    private _getDarkSquares(): Square[][] {
+        const darkSquares: Square[][] = [];
+        for (let i = 0; i < this.squares.length; i++) {
+            const row = this.squares[i].filter(square => square.color === Colors.BLACK);
+            darkSquares.push(row);
+        }
+        return darkSquares;
+    }
+
+    private _getSquaresWithFigureByColor(color: Colors): Square[] {
+        const squaresWithFigure: Square[] = [];
+        const darkSquares: Square[][] = this._getDarkSquares();
+
+        for (let i = 0; i < darkSquares.length; i++) {
+            const row = darkSquares[i];
+            for (let j = 0; j < row.length; j++) {
+                const square = row[j];
+                if (square?.figure?.color === color) {
+                    squaresWithFigure.push(square);
+                }
+            }
+        }
+    
+        return squaresWithFigure;
+    }
+
+    private _getAvailableSquaresForMoving(color: Colors) {
+        const possibleSquaresForMoving = [];
+        const squaresWithFigure: Square[] = this._getSquaresWithFigureByColor(color);
         const emptySquares: Square[] = this.getEmptySquares();
-        // Cписок, обязательных для атаки ячеек
         const requiredSquaresForAttack: Array<Square> = [];
         let availableSquares: Square[] | [] = [];
+    
+        for (let i = 0; i < squaresWithFigure.length; i++) {
+            const squareWithFigure: Square = squaresWithFigure[i];
+            
+            for (let j = 0; j < emptySquares.length; j++) {
+                const target = emptySquares[j];
+                const index = possibleSquaresForMoving.findIndex(
+                    square => square.x === squareWithFigure.x && square.y === squareWithFigure.y
+                );
+
+                if (
+                    !squareWithFigure.availableForMoving && 
+                    squareWithFigure?.figure?.canMove(target) && 
+                    index === -1
+                ) {
+                    possibleSquaresForMoving.push(squareWithFigure);
+                }
+            }
+        }
+
         // Проходимся циклом по ячейкам с фигурами
         for (let i = 0; i < possibleSquaresForMoving.length; i++) {
             const availableSquare: Square = possibleSquaresForMoving[i];
@@ -184,53 +215,11 @@ export class Board {
         }
 
         availableSquares = requiredSquaresForAttack.length ? requiredSquaresForAttack : possibleSquaresForMoving;
-        availableSquares.forEach(el => el.availableForMoving = true);
+        return availableSquares;
     }
 
-    public moveFigureFromSelectedSquare(selectedSquare: Square, target: Square): void {
-        const figure = selectedSquare.figure;
-        if (!figure || !figure?.canMove(target)) return;
-
-        const absX: number = toABS(target.x, selectedSquare.x);
-        const nearestSquares: Square[] = this.getNearestSquares(selectedSquare, target, figure.isDame ? absX : 1);
-        const attackedTarget: Square | undefined = nearestSquares.find(square => square?.figure);
-
-        target.figure = figure;
-        target.figure.square = target;
-        this.removeFigureFromSquare(selectedSquare);
-        // Если перепрыгиваем вражескую фигуру, то забираем ее
-        if (
-            attackedTarget && 
-            attackedTarget.x !== target.x && 
-            attackedTarget.y !== target.y && 
-            attackedTarget.figure
-        ) {
-            this.captureEnemyPiece(attackedTarget.figure);
-        }
-        // Проверим фигуру на дамку
-        this.checkFigureForDame(figure);
-    }
-
-    private setUpCheckers(): void {
-        const MAX_CHECKERS_IN_ROW: number = this.maxSquaresInRow / 2;
-        let offset: number = 1;
-        let x: number = 1;
-        let y: number = 0;
-
-        for (let i = 0; i < MAX_CHECKERS_IN_ROW * 3; i++) {
-            if (i && i % MAX_CHECKERS_IN_ROW === 0) { 
-                y += 1; 
-                offset = Number(y % 2 === 0);
-            }
-            x = (i * 2) - (this.maxSquaresInRow * y) + offset;
-
-            new Checker(this, Colors.BLACK, this.getSquare(x, y));
-            new Checker(this, Colors.WHITE, this.getSquare(this.maxSquaresInRow - (x + 1), this.maxSquaresInRow - (y + 1)));
-        }
-    }
-
-    private unHighlightPieces() {
-        const darkSquares: Square[][] = this.getDarkSquares();
+    private _unHighlightPieces() {
+        const darkSquares: Square[][] = this._getDarkSquares();
         for (let i = 0; i < darkSquares.length; i++) {
             const row = darkSquares[i];
             for (let j = 0; j < row.length; j++) {
@@ -241,32 +230,10 @@ export class Board {
         }
     }
 
-    private removeFigureFromSquare(square: Square): void {
-        square.figure = null;
-    }
-
-    private captureEnemyPiece(figure: Figure | null): void {
-        if (!figure) return;
-        this.addLostFigure(figure);
-        this.removeFigureFromSquare(figure.square);
-    }
-
-    private addLostFigure(figure: Figure): void {
+    private _addLostFigure(figure: Figure): void {
         figure?.color === Colors.BLACK ? 
             this.lostBlackFigures.push(figure) 
         : 
             this.lostWhiteFigures.push(figure);
-    }
-
-    private checkFigureForDame(figure: Figure): void {
-        const figureColor: Colors = figure.color;
-    
-        if ((
-            (figureColor === Colors.WHITE && figure.square.y === 0) || 
-            (figureColor === Colors.BLACK && figure.square.y === 7)) && 
-            !figure.isDame
-        ) {
-            figure.isDame = true;
-        }
     }
 }

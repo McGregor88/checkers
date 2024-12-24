@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-
 import './App.css';
+
 import { Colors } from './types/colors';
 import { Move } from './models/Move';
 import { Board } from './models/Board';
 import { Player } from './models/Player';
+
 import PlayerSection from './components/core/Section/PlayerSection';
 import CheckersBoard from './components/shared/boards/CheckersBoard/CheckersBoard';
 
@@ -26,6 +27,7 @@ function App() {
 
     function restart() {
         const newBoard = new Board();
+
         newBoard.initSquares();
         newBoard.setUpPieces();
         newBoard.highlightPieces(Colors.WHITE);

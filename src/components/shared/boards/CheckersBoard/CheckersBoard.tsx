@@ -1,6 +1,7 @@
 import { FC, Fragment, useState, useEffect } from 'react';
 import './CheckersBoard.css';
 
+import { toABS } from '../../../../lib/utils';
 import { Colors } from '../../../../types/colors';
 import { Move } from '../../../../models/Move';
 import { Board } from '../../../../models/Board';
@@ -58,41 +59,62 @@ const CheckersBoard: FC<BoardProps> = ({
         setBoard(newBoard);
     }
 
-    function moveFigure(selectedSquare: Square, target: Square) {
-        if (!currentPlayer) return;
+    function moveFigureFromSelectedSquare(selectedSquare: Square, target: Square) {
+        const figure = selectedSquare.figure;
+        if (!currentPlayer || !figure || !figure?.canMove(target)) return;
 
-        const move = new Move(
+        let figureJumped: boolean = false;
+        const nearestSquares: Square[] = board.getNearestSquares(
+            selectedSquare, 
+            target, 
+            figure.isDame ? toABS(target.x, selectedSquare.x) : 1
+        );
+        const attackedTarget: Square | undefined = nearestSquares.find(square => square?.figure);
+        const move: Move = new Move(
             currentPlayer, 
             { x: selectedSquare.x, y: selectedSquare.y }, 
             { x: target.x, y: target.y}
         );
 
-        board?.moveFigureFromSelectedSquare(selectedSquare, target);
+        target.figure = figure;
+        target.figure.square = target;
+        board.removeFigureFromSquare(selectedSquare);
+        // Если перепрыгиваем вражескую фигуру, то забираем ее
+        if (
+            attackedTarget && 
+            attackedTarget.x !== target.x && 
+            attackedTarget.y !== target.y && 
+            attackedTarget.figure
+        ) {
+            board.captureEnemyPiece(attackedTarget.figure);
+            figureJumped = true;
+        }
+        
+        board.checkFigureForDame(figure);
         setSelectedSquare(null);
         updateBoard();
         setMoves([ ...moves, move ]);
-        doNextMove();
+        doNextMove(target, figureJumped);
     }
 
-    function doNextMove() {
+    function doNextMove(target: Square, figureJumped: boolean) {
         const lostEnemyPieces = currentPlayer?.color === Colors.WHITE ? board.lostBlackFigures : board.lostWhiteFigures;
-        const shouldJump: boolean = false;
 
         if (lostEnemyPieces.length > 11) {
             setGameIsOver(true);
             return;
         }
 
-        // TODO: Нужно отловить момент, что фигура прыгает и тогда после этого проверить должна ли она дальше првгать на новом месте
-
-        if (!shouldJump) {
+        if (figureJumped && board.hasRequiredSquares(board.getEmptySquares(), target)) {
+            setSelectedSquare(target);
+        } else {
             switchPlayer();
         }
     }
 
     const onSquareTapped = (target: Square) => {
         if (selectedSquare && selectedSquare !== target && selectedSquare.figure?.canMove(target)) {
-            moveFigure(selectedSquare, target);
+            moveFigureFromSelectedSquare(selectedSquare, target);
         } else {
             if (target.figure?.color === currentPlayer?.color && target.availableForMoving) {
                 setSelectedSquare(target);

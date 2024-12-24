@@ -5,11 +5,11 @@ import { Colors } from '../types/colors';
 import { Figure } from './figures/Figure';
 
 export class Square {
+    readonly id: string;
     readonly x: number;
     readonly y: number;
     readonly color: Colors;
     figure: Figure | null;
-    id: string;
     availableForSelection: boolean;
     availableForMoving: boolean;
     highlighted: boolean;
@@ -25,19 +25,19 @@ export class Square {
         this.highlighted = false;
     }
 
-    isEmpty(): boolean {
+    public isEmpty(): boolean {
         return this.figure === null;
     }
 
-    hasEnemyPiece(color: Colors): boolean {
+    public hasEnemyPiece(color: Colors): boolean {
         return this.figure && this.figure?.color !== color ? true: false;
     }
 
-    isTheSameDiagonal(target: Square): boolean {
+    public isTheSameDiagonal(target: Square): boolean {
         return toABS(target.x, this.x) === toABS(target.y, this.y);
     }
 
-    isTooFar(target: Square, maxStep: number): boolean {
+    public isTooFar(target: Square, maxStep: number): boolean {
         return (target.y + maxStep < this.y || target.y - maxStep > this.y);
     }
 };

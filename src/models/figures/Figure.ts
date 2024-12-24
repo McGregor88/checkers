@@ -2,24 +2,21 @@ import { v4 as uuidv4 } from 'uuid';
 
 import logo from '../../assets/checker_black.png';
 import { Colors } from '../../types/colors';
+import { FigureNames } from '../../types/figureNames';
 import { Board } from '../Board';
 import { Square } from '../Square';
 
-export enum FigureNames {
-    FIGURE = "Фигура",
-    CHECKER = "Шашка"
-}
-
 export class Figure {
+    readonly id: string;
+    readonly color: Colors;
     board: Board | null;
-    color: Colors;
-    logo: typeof logo | null;
     square: Square;
+    logo: typeof logo | null;
     name: FigureNames;
     isDame: boolean;
-    id: string;
 
     constructor(board: Board, color: Colors, square: Square) {
+        this.id = uuidv4();
         this.board = board;
         this.color = color;
         this.square = square;
@@ -27,15 +24,14 @@ export class Figure {
         this.logo = null;
         this.name = FigureNames.FIGURE;
         this.isDame = false;
-        this.id = uuidv4();
     }
 
-    mustJump(target: Square): boolean {
+    public mustJump(target: Square): boolean {
         if (!this.square.isTheSameDiagonal(target)) return false;
         return true;
     }
 
-    canMove(target: Square): boolean {
+    public canMove(target: Square): boolean {
         if (target.color === Colors.WHITE || target.figure) return false;
         return true;
     }
