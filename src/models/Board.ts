@@ -9,8 +9,8 @@ import { Checker } from './figures/Checker';
 export class Board {
     readonly maxSquaresInRow: number = 8;
     readonly squares: Square[][] = [];
-    readonly lostBlackFigures: Figure[] = [];
-    readonly lostWhiteFigures: Figure[] = [];
+    readonly lostBlackPieces: Figure[] = [];
+    readonly lostWhitePieces: Figure[] = [];
 
     public initSquares(): void {
         for (let i = 0; i < this.maxSquaresInRow; i++) {
@@ -232,8 +232,8 @@ export class Board {
 
     private _addLostFigure(figure: Figure): void {
         figure?.color === Colors.BLACK ? 
-            this.lostBlackFigures.push(figure) 
+            this.lostBlackPieces.push(figure) 
         : 
-            this.lostWhiteFigures.push(figure);
+            this.lostWhitePieces.push(figure);
     }
 }

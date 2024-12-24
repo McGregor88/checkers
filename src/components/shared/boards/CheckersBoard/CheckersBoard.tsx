@@ -8,6 +8,7 @@ import { AudioPlayer } from '../../../../models/AudioPlayer';
 import { Move } from '../../../../models/Move';
 import { Board } from '../../../../models/Board';
 import { Square } from '../../../../models/Square';
+import { Figure } from '../../../../models/figures/Figure';
 import { Player } from '../../../../models/Player';
 
 import CheckerSquare from './square/CheckerSquare';
@@ -39,7 +40,7 @@ const CheckersBoard: FC<BoardProps> = ({
     const [gameIsOver, setGameIsOver] = useState<boolean>(false);
 
     useEffect(() => {
-        highlightFigures();
+        highlightPieces();
     }, [moves]);
 
     useEffect(() => {
@@ -51,7 +52,7 @@ const CheckersBoard: FC<BoardProps> = ({
         updateBoard();
     }
 
-    function highlightFigures() {
+    function highlightPieces() {
         if (currentPlayer) {
             board.highlightPieces(currentPlayer?.color);
             updateBoard();
@@ -64,7 +65,7 @@ const CheckersBoard: FC<BoardProps> = ({
     }
 
     function moveFigureFromSelectedSquare(selectedSquare: Square, target: Square) {
-        const figure = selectedSquare.figure;
+        const figure: Figure | null = selectedSquare.figure;
         if (!currentPlayer || !figure || !figure?.canMove(target)) return;
 
         let figureJumped: boolean = false;
@@ -103,7 +104,7 @@ const CheckersBoard: FC<BoardProps> = ({
     }
 
     function doNextMove(target: Square, figureJumped: boolean) {
-        const lostEnemyPieces = currentPlayer?.color === Colors.WHITE ? board.lostBlackFigures : board.lostWhiteFigures;
+        const lostEnemyPieces = currentPlayer?.color === Colors.WHITE ? board.lostBlackPieces : board.lostWhitePieces;
 
         if (lostEnemyPieces.length > 11) {
             audioPlayer.play(SoundNames.VICTORY);

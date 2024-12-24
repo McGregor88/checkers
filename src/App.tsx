@@ -27,7 +27,6 @@ function App() {
 
     function restart() {
         const newBoard = new Board();
-
         newBoard.initSquares();
         newBoard.setUpPieces();
         newBoard.highlightPieces(Colors.WHITE);
@@ -41,7 +40,7 @@ function App() {
                 currentPlayer={currentPlayer}
                 title="Белые фигуры"
                 color={Colors.BLACK}
-                figures={board.lostWhiteFigures}  
+                figures={board.lostWhitePieces}  
             />
             <CheckersBoard
                 board={board}
@@ -56,7 +55,7 @@ function App() {
                 currentPlayer={currentPlayer}
                 title="Черные фигуры"
                 color={Colors.WHITE}
-                figures={board.lostBlackFigures}  
+                figures={board.lostBlackPieces}  
             />
         </div>
     );
