@@ -7,15 +7,15 @@ import { Figure } from './figures/Figure';
 import { Checker } from './figures/Checker';
 
 export class Board {
-    readonly maxSquaresInRow: number = 8;
+    private readonly _maxSquaresInRow: number = 8;
     readonly squares: Square[][] = [];
     readonly lostBlackPieces: Figure[] = [];
     readonly lostWhitePieces: Figure[] = [];
 
     public initSquares(): void {
-        for (let i = 0; i < this.maxSquaresInRow; i++) {
+        for (let i = 0; i < this._maxSquaresInRow; i++) {
             const row: Square[] = [];
-            for (let j = 0; j < this.maxSquaresInRow; j++) {
+            for (let j = 0; j < this._maxSquaresInRow; j++) {
                 const color: Colors = (i + j) % 2 !== 0 ? Colors.BLACK : Colors.WHITE;
                 row.push(new Square(j, i, color, null));
             }
@@ -98,8 +98,7 @@ export class Board {
     public highlightPieces(color: Colors | null): void {
         this._unHighlightPieces();
         if (!color) return;
-        const availableSquares: Square[] | [] = this._getAvailableSquaresForMoving(color);
-        availableSquares.forEach(el => el.availableForMoving = true);
+        this._getAvailableSquaresForMoving(color).forEach(el => el.availableForMoving = true);
     }
 
     public removeFigureFromSquare(square: Square): void {
@@ -125,7 +124,7 @@ export class Board {
     }
 
     private _setUpCheckers(): void {
-        const MAX_CHECKERS_IN_ROW: number = this.maxSquaresInRow / 2;
+        const MAX_CHECKERS_IN_ROW: number = this._maxSquaresInRow / 2;
         let offset: number = 1;
         let x: number = 1;
         let y: number = 0;
@@ -135,10 +134,10 @@ export class Board {
                 y += 1; 
                 offset = Number(y % 2 === 0);
             }
-            x = (i * 2) - (this.maxSquaresInRow * y) + offset;
+            x = (i * 2) - (this._maxSquaresInRow * y) + offset;
 
             new Checker(this, Colors.BLACK, this._getSquare(x, y));
-            new Checker(this, Colors.WHITE, this._getSquare(this.maxSquaresInRow - (x + 1), this.maxSquaresInRow - (y + 1)));
+            new Checker(this, Colors.WHITE, this._getSquare(this._maxSquaresInRow - (x + 1), this._maxSquaresInRow - (y + 1)));
         }
     }
 
@@ -149,7 +148,7 @@ export class Board {
     private _getDarkSquares(): Square[][] {
         const darkSquares: Square[][] = [];
         for (let i = 0; i < this.squares.length; i++) {
-            const row = this.squares[i].filter(square => square.color === Colors.BLACK);
+            const row: Square[] = this.squares[i].filter(square => square.color === Colors.BLACK);
             darkSquares.push(row);
         }
         return darkSquares;
@@ -162,7 +161,7 @@ export class Board {
         for (let i = 0; i < darkSquares.length; i++) {
             const row = darkSquares[i];
             for (let j = 0; j < row.length; j++) {
-                const square = row[j];
+                const square: Square = row[j];
                 if (square?.figure?.color === color) {
                     squaresWithFigure.push(square);
                 }
@@ -172,20 +171,17 @@ export class Board {
         return squaresWithFigure;
     }
 
-    private _getAvailableSquaresForMoving(color: Colors) {
-        const possibleSquaresForMoving = [];
+    private _getPossibleSquaresByColor(squares: Square[], color: Colors) {
+        const possibleSquaresForMoving: Square[] = [];
         const squaresWithFigure: Square[] = this._getSquaresWithFigureByColor(color);
-        const emptySquares: Square[] = this.getEmptySquares();
-        const requiredSquaresForAttack: Array<Square> = [];
-        let availableSquares: Square[] | [] = [];
     
         for (let i = 0; i < squaresWithFigure.length; i++) {
             const squareWithFigure: Square = squaresWithFigure[i];
             
-            for (let j = 0; j < emptySquares.length; j++) {
-                const target = emptySquares[j];
-                const index = possibleSquaresForMoving.findIndex(
-                    square => square.x === squareWithFigure.x && square.y === squareWithFigure.y
+            for (let j = 0; j < squares.length; j++) {
+                const target: Square = squares[j];
+                const index: number = possibleSquaresForMoving.findIndex(
+                    (square: Square) => square.x === squareWithFigure.x && square.y === squareWithFigure.y
                 );
 
                 if (
@@ -197,15 +193,24 @@ export class Board {
                 }
             }
         }
+        
+        return possibleSquaresForMoving;
+    }
+
+    private _getAvailableSquaresForMoving(color: Colors) {
+        const emptySquares: Square[] = this.getEmptySquares();
+        const possibleSquaresForMoving: Square[] = this._getPossibleSquaresByColor(emptySquares, color);
+        const requiredSquaresForAttack: Array<Square> = [];
+        let availableSquares: Square[] | [] = [];
 
         // Проходимся циклом по ячейкам с фигурами
         for (let i = 0; i < possibleSquaresForMoving.length; i++) {
             const availableSquare: Square = possibleSquaresForMoving[i];
             // Пройдемся по пустым ячейкам
             for (let j = 0; j < emptySquares.length; j++) {
-                const target = emptySquares[j];
-                const index = requiredSquaresForAttack.findIndex(
-                    square => square.x === availableSquare.x && square.y === availableSquare.y
+                const target: Square = emptySquares[j];
+                const index: number = requiredSquaresForAttack.findIndex(
+                    (square: Square) => square.x === availableSquare.x && square.y === availableSquare.y
                 );
                 // Проверим, что фигура должна прыгать и то что этой ячейке нет в массиве
                 if (availableSquare?.figure?.mustJump(target) && index === -1) {
@@ -221,9 +226,9 @@ export class Board {
     private _unHighlightPieces() {
         const darkSquares: Square[][] = this._getDarkSquares();
         for (let i = 0; i < darkSquares.length; i++) {
-            const row = darkSquares[i];
+            const row: Square[] = darkSquares[i];
             for (let j = 0; j < row.length; j++) {
-                const square = row[j];
+                const square: Square = row[j];
                 square.availableForMoving = false;
                 square.highlighted = false;
             }
