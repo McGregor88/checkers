@@ -7,7 +7,7 @@
     cursor: default;
     pointer-events: none;
     box-sizing: border-box;
-    border: 2px solid hsl(0, 0%, 0%);
+    border: 1px solid hsl(0, 0%, 0%);
     transition: border-color 0.25s ease, background-color 0.25s ease;
 }
 
@@ -30,6 +30,12 @@
 .checkers-board .checkers-board__square.available-for-selection, 
 .checkers-board .checkers-board__square.highlighted {
     border-color: hsl(160, 71%, 41%);
+    border-width: 2px;
+}
+
+.checkers-board .checkers-board__square.available-for-selection .checkers-board__figure,
+.checkers-board .checkers-board__square.highlighted .checkers-board__figure {
+    padding: 4px;
 }
 
 .checkers-board .checkers-board__square.available-for-selection {
@@ -60,5 +66,10 @@
 @media only screen and (max-width : 414px) {
     .checkers-board .checkers-board__figure {
         padding: 2px;
+    }
+
+    .checkers-board .checkers-board__square.available-for-selection .checkers-board__figure,
+    .checkers-board .checkers-board__square.highlighted .checkers-board__figure {
+        padding: 1px;
     }
 }
