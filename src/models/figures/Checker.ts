@@ -1,5 +1,5 @@
-import blackFigure from '../../assets/checker_black.png';
-import whiteFigure from '../../assets/checker_white.png';
+import blackFigure from '../../assets/figures/checker_black.png';
+import whiteFigure from '../../assets/figures/checker_white.png';
 
 import { toABS } from '../../lib/utils';
 import { Colors } from '../../types/colors';

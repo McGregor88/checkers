@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import logo from '../../assets/checker_black.png';
+import logo from '../../assets/figures/checker_black.png';
 import { Colors } from '../../types/colors';
 import { FigureNames } from '../../types/figureNames';
 import { Board } from '../Board';

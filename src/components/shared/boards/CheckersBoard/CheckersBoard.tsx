@@ -1,5 +1,9 @@
 import { FC, Fragment, useState, useEffect } from 'react';
+
 import './CheckersBoard.css';
+import jump from '../../../../assets/sounds/jump.wav';
+import selectTick from '../../../../assets/sounds/select-tick.wav';
+import switchSound from '../../../../assets/sounds/switch-sound.wav';
 
 import { toABS } from '../../../../lib/utils';
 import { Colors } from '../../../../types/colors';
@@ -21,6 +25,10 @@ interface BoardProps {
     switchPlayer: () => void;
     restart: () => void;
 }
+
+const jumpAudio = new Audio(jump);
+const selectAudio = new Audio(selectTick);
+const switchAudio = new Audio(switchSound);
 
 const CheckersBoard: FC<BoardProps> = ({
     board,
@@ -88,7 +96,7 @@ const CheckersBoard: FC<BoardProps> = ({
         ) {
             board.captureEnemyPiece(attackedTarget.figure);
             figureJumped = true;
-            // TODO: Play the sound here
+            jumpAudio.play();
         }
         
         board.checkFigureForDame(figure);
@@ -108,9 +116,9 @@ const CheckersBoard: FC<BoardProps> = ({
 
         if (figureJumped && board.hasRequiredSquares(board.getEmptySquares(), target)) {
             setSelectedSquare(target);
-            // TODO: Play the sound here
         } else {
             switchPlayer();
+            switchAudio.play();
         }
     }
 
@@ -120,6 +128,7 @@ const CheckersBoard: FC<BoardProps> = ({
         } else {
             if (target.figure?.color === currentPlayer?.color && target.availableForMoving) {
                 setSelectedSquare(target);
+                selectAudio.play();
             }
         }
     }
