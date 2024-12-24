@@ -1,13 +1,10 @@
 import { FC, Fragment, useState, useEffect } from 'react';
-
 import './CheckersBoard.css';
-import jump from '../../../../assets/sounds/jump.wav';
-import selectTick from '../../../../assets/sounds/select-tick.wav';
-import switchSound from '../../../../assets/sounds/switch-sound.wav';
-import win from '../../../../assets/sounds/jingle-win.wav';
 
 import { toABS } from '../../../../lib/utils';
 import { Colors } from '../../../../types/colors';
+import { SoundNames } from '../../../../types/soundNames';
+import { AudioPlayer } from '../../../../models/AudioPlayer';
 import { Move } from '../../../../models/Move';
 import { Board } from '../../../../models/Board';
 import { Square } from '../../../../models/Square';
@@ -18,6 +15,7 @@ import GameBoard from '../GameBoard/GameBoard';
 import Button from '../../../core/Button/Button';
 
 interface BoardProps {
+    audioPlayer: AudioPlayer;
     board: Board;
     setBoard: (board: Board) => void;
     moves: Move[] | [];
@@ -27,12 +25,8 @@ interface BoardProps {
     restart: () => void;
 }
 
-const jumpAudio = new Audio(jump);
-const selectAudio = new Audio(selectTick);
-const switchAudio = new Audio(switchSound);
-const winAudio = new Audio(win);
-
 const CheckersBoard: FC<BoardProps> = ({
+    audioPlayer,
     board,
     setBoard,
     moves,
@@ -96,9 +90,9 @@ const CheckersBoard: FC<BoardProps> = ({
             attackedTarget.y !== target.y && 
             attackedTarget.figure
         ) {
+            audioPlayer.play(SoundNames.JUMP);
             board.captureEnemyPiece(attackedTarget.figure);
             figureJumped = true;
-            jumpAudio.play();
         }
         
         board.checkFigureForDame(figure);
@@ -112,16 +106,16 @@ const CheckersBoard: FC<BoardProps> = ({
         const lostEnemyPieces = currentPlayer?.color === Colors.WHITE ? board.lostBlackFigures : board.lostWhiteFigures;
 
         if (lostEnemyPieces.length > 11) {
+            audioPlayer.play(SoundNames.VICTORY);
             setGameIsOver(true);
-            winAudio.play();
             return;
         }
 
         if (figureJumped && board.hasRequiredSquares(board.getEmptySquares(), target)) {
             setSelectedSquare(target);
         } else {
+            audioPlayer.play(SoundNames.SWITCH);
             switchPlayer();
-            switchAudio.play();
         }
     }
 
@@ -130,13 +124,14 @@ const CheckersBoard: FC<BoardProps> = ({
             moveFigureFromSelectedSquare(selectedSquare, target);
         } else {
             if (target.figure?.color === currentPlayer?.color && target.availableForMoving) {
+                audioPlayer.play(SoundNames.SELECT_TICK);
                 setSelectedSquare(target);
-                selectAudio.play();
             }
         }
     }
 
     const onReloadBtnClicked = () => {
+        audioPlayer.play(SoundNames.SWITCH);
         setSelectedSquare(null);
         setGameIsOver(false);
         restart();

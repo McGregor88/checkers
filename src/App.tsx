@@ -1,7 +1,14 @@
 import { useState, useEffect } from 'react';
+
 import './App.css';
+import selectTick from './assets/sounds/select-tick.wav';
+import switchSound from './assets/sounds/switch-sound.wav';
+import jump from './assets/sounds/jump.wav';
+import victory from './assets/sounds/jingle-win.wav';
 
 import { Colors } from './types/colors';
+import { SoundNames } from './types/soundNames';
+import { AudioPlayer } from './models/AudioPlayer';
 import { Move } from './models/Move';
 import { Board } from './models/Board';
 import { Player } from './models/Player';
@@ -9,6 +16,14 @@ import { Player } from './models/Player';
 import PlayerSection from './components/core/Section/PlayerSection';
 import CheckersBoard from './components/shared/boards/CheckersBoard/CheckersBoard';
 
+const sounds: object = {
+    [SoundNames.SELECT_TICK]: selectTick,
+    [SoundNames.SWITCH]: switchSound,
+    [SoundNames.JUMP]: jump,
+    [SoundNames.VICTORY]: victory,
+};
+
+const audioPlayer = new AudioPlayer(sounds);
 const whitePlayer = new Player(Colors.WHITE);
 const blackPlayer = new Player(Colors.BLACK);
 
@@ -44,6 +59,7 @@ function App() {
                 figures={board.lostWhiteFigures}  
             />
             <CheckersBoard
+                audioPlayer={audioPlayer}
                 board={board}
                 setBoard={setBoard}
                 moves={moves}
