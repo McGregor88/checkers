@@ -4,6 +4,7 @@ import './CheckersBoard.css';
 import jump from '../../../../assets/sounds/jump.wav';
 import selectTick from '../../../../assets/sounds/select-tick.wav';
 import switchSound from '../../../../assets/sounds/switch-sound.wav';
+import win from '../../../../assets/sounds/jingle-win.wav';
 
 import { toABS } from '../../../../lib/utils';
 import { Colors } from '../../../../types/colors';
@@ -29,6 +30,7 @@ interface BoardProps {
 const jumpAudio = new Audio(jump);
 const selectAudio = new Audio(selectTick);
 const switchAudio = new Audio(switchSound);
+const winAudio = new Audio(win);
 
 const CheckersBoard: FC<BoardProps> = ({
     board,
@@ -111,6 +113,7 @@ const CheckersBoard: FC<BoardProps> = ({
 
         if (lostEnemyPieces.length > 11) {
             setGameIsOver(true);
+            winAudio.play();
             return;
         }
 
