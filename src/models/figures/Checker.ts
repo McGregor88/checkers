@@ -19,53 +19,57 @@ export class Checker extends Figure {
         this._maxStep = 2;
     }
 
+    public mustJump(target: Square): boolean {
+        if (!super.mustJump(target)) return false;
+        return this.isDame ? this._mustJumpAsDame(target) : this._mustJumpAsChecker(target);
+    }
+
     public canMove(target: Square): boolean {
-        if (!super.canMove(target) || !this.square.isTheSameDiagonal(target)) return false;
+        if (!super.canMove(target)) return false;
         return this.isDame ? this._canMoveAsDame(target) : this._canMoveAsChecker(target);
     }
 
-    public mustJump(target: Square): boolean {
-        if (!super.mustJump(target)) return false;
-
-        const nearestSquares: Square[] = this.board?.getNearestSquares(
-            this.square, 
-            target, 
-            this.isDame ? toABS(target.x, this.square.x) : 1
-        ) || [];
-
-        if (this.isDame) {
-            const enemyPieces: Square[] = nearestSquares.filter(
-                square => square?.figure && square.figure.color !== this.color
-            );
-            const friendlyPiecesIndex = nearestSquares.findIndex(
-                square => square?.figure && square.figure.color === this.color
-            );
-    
-            if (enemyPieces.length === 1 && friendlyPiecesIndex === -1) return true;
-            return false;
-        } else {
-            if (this.square.isTooFar(target, this._maxStep)) return false;
-
-            const nearestSquare: Square | undefined = nearestSquares[0];
-            if (
-                nearestSquare && 
-                nearestSquare.x !== target.x && 
-                nearestSquare.y !== target.y && 
-                nearestSquare.hasEnemyPiece(this.color)
-            ) {
-                return true;
-            }
-            return false;
-        }
-    }
-
-    private _canMoveAsDame(target: Square): boolean {
-        const nearestSquares: Square[] = this.board?.getNearestSquares(
+    private _mustJumpAsDame(target: Square): boolean {
+        const nearestSquares: Square[] | [] = this.board?.getNearestSquares(
             this.square, 
             target, 
             toABS(target.x, this.square.x)
         ) || [];
-        const enemyPieces: Square[] = nearestSquares.filter(
+
+        const enemyPieces: Square[] | [] = nearestSquares.filter(
+            square => square?.figure && square.figure.color !== this.color
+        );
+        const friendlyPiecesIndex = nearestSquares.findIndex(
+            square => square?.figure && square.figure.color === this.color
+        );
+
+        if (enemyPieces.length === 1 && friendlyPiecesIndex === -1) return true;
+        return false;
+    }
+
+    private _mustJumpAsChecker(target: Square): boolean {
+        const nearestSquares: Square[] | [] = this.board?.getNearestSquares(this.square, target, 1) || [];
+        if (this.square.isTooFar(target, this._maxStep)) return false;
+
+        const nearestSquare: Square | undefined = nearestSquares[0];
+        if (
+            nearestSquare && 
+            nearestSquare.x !== target.x && 
+            nearestSquare.y !== target.y && 
+            nearestSquare.hasEnemyPiece(this.color)
+        ) {
+            return true;
+        }
+        return false;
+    }
+
+    private _canMoveAsDame(target: Square): boolean {
+        const nearestSquares: Square[] | [] = this.board?.getNearestSquares(
+            this.square, 
+            target, 
+            toABS(target.x, this.square.x)
+        ) || [];
+        const enemyPieces: Square[] | [] = nearestSquares.filter(
             square => square?.figure && square.figure.color !== this.color
         );
         const friendlyPiecesIndex = nearestSquares.findIndex(
@@ -99,7 +103,6 @@ export class Checker extends Figure {
                 return false;
             }
         }
-
         return true;
     }
 }

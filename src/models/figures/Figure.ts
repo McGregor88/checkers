@@ -27,12 +27,12 @@ export class Figure {
     }
 
     public mustJump(target: Square): boolean {
-        if (!this.square.isTheSameDiagonal(target)) return false;
+        if (!this.canMove(target)) return false;
         return true;
     }
 
     public canMove(target: Square): boolean {
-        if (target.color === Colors.WHITE || target.figure) return false;
+        if (target.color === Colors.WHITE || target.figure || !this.square.isTheSameDiagonal(target)) return false;
         return true;
     }
 };
