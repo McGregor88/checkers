@@ -1,16 +1,25 @@
 import { FC } from 'react';
+import _ from 'lodash';
+
+import './PlayerSection.css'
+import { Player } from '../../../models/Player';
 import { Figure } from '../../../models/figures/Figure';
 import { Colors } from '../../../types/colors';
-import './PlayerSection.css'
 
 interface PlayerSectionProps {
+    currentPlayer: Player | null;
     title: string;
     color: Colors;
     figures: Figure[];
 }
 
-const PlayerSection: FC<PlayerSectionProps> = ({ title, color, figures }) => (
-    <div className={`player-section ${color}`}>
+const PlayerSection: FC<PlayerSectionProps> = ({ currentPlayer, title, color, figures }) => (
+    <div 
+        className={_.trim([
+            `player-section ${color}`,
+            currentPlayer?.color === color ? 'active': ''
+        ].join(' '))}
+    >
         <h3 className="player-section__title">{title}</h3>
         <ul className="player-section__list figures">
             {figures.map(figure => (

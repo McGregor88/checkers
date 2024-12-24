@@ -38,6 +38,7 @@ function App() {
     return (
         <div className="app">
             <PlayerSection
+                currentPlayer={currentPlayer}
                 title="Белые фигуры"
                 color={Colors.BLACK}
                 figures={board.lostWhiteFigures}  
@@ -52,6 +53,7 @@ function App() {
                 restart={restart}
             />
             <PlayerSection
+                currentPlayer={currentPlayer}
                 title="Черные фигуры"
                 color={Colors.WHITE}
                 figures={board.lostBlackFigures}  
