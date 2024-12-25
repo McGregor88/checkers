@@ -127,7 +127,7 @@ const CheckersBoard: FC<BoardProps> = ({
     }
 
     const onRestartBtnClicked = () => {
-        audioPlayer.play(SoundNames.SWITCH);
+        audioPlayer.play(SoundNames.SELECT_TICK);
         setSelectedSquare(null);
         setGameIsOver(false);
         restart();
@@ -147,7 +147,7 @@ const CheckersBoard: FC<BoardProps> = ({
                         <>
                             {board.squares.map((row, index) =>
                                 <Fragment key={index}>
-                                    {row.map(square =>
+                                    {row.map((square: Square) =>
                                         <CheckerSquare 
                                             key={square.id} 
                                             square={square}

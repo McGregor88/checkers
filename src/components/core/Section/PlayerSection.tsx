@@ -22,7 +22,7 @@ const PlayerSection: FC<PlayerSectionProps> = ({ currentPlayer, title, color, fi
     >
         <h3 className="player-section__title">{title}</h3>
         <ul className="player-section__list figures">
-            {figures.map(figure => (
+            {figures.map((figure: Figure) => (
                 <li key={figure.id} className={`figure ${figure?.isDame ? 'is-dame' : ''}`}>
                     {figure.logo && <img src={figure.logo} alt={figure.name} className="figure__icon" />}
                 </li>

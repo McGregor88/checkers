@@ -37,10 +37,10 @@ export class Checker extends Figure {
         ) || [];
 
         const enemyPieces: Square[] | [] = nearestSquares.filter(
-            square => square?.figure && square.figure.color !== this.color
+            (square: Square) => square?.figure && square.figure.color !== this.color
         );
-        const friendlyPiecesIndex = nearestSquares.findIndex(
-            square => square?.figure && square.figure.color === this.color
+        const friendlyPiecesIndex: number = nearestSquares.findIndex(
+            (square: Square) => square?.figure && square.figure.color === this.color
         );
 
         if (enemyPieces.length === 1 && friendlyPiecesIndex === -1) return true;
@@ -54,8 +54,7 @@ export class Checker extends Figure {
         const nearestSquare: Square | undefined = nearestSquares[0];
         if (
             nearestSquare && 
-            nearestSquare.x !== target.x && 
-            nearestSquare.y !== target.y && 
+            !nearestSquare.isEqualTo(target) &&
             nearestSquare.hasEnemyPiece(this.color)
         ) {
             return true;
@@ -72,7 +71,7 @@ export class Checker extends Figure {
         const enemyPieces: Square[] | [] = nearestSquares.filter(
             square => square?.figure && square.figure.color !== this.color
         );
-        const friendlyPiecesIndex = nearestSquares.findIndex(
+        const friendlyPiecesIndex: number = nearestSquares.findIndex(
             square => square?.figure && square.figure.color === this.color
         );
 
@@ -81,11 +80,11 @@ export class Checker extends Figure {
     }
 
     private _canMoveAsChecker(target: Square): boolean {
-        const { y: currentY } = this.square;
+        const { y } = this.square;
         // Ограничиваем длину шага фигуры
         if (this.square.isTooFar(target, this._maxStep)) return false;
         // Если клетка в двух шагах, 
-        if (target.y + this._maxStep === currentY || target.y - this._maxStep === currentY) {
+        if (target.y + this._maxStep === y || target.y - this._maxStep === y) {
             // получаем клетку, которая находится в шаге от фигуры
             const nearestSquare: Square | undefined = this.board?.getNearestSquares(this.square, target, 1)[0];
             // Проверяем клетку на пустоту или наличие дружеской фигуры
@@ -94,11 +93,11 @@ export class Checker extends Figure {
             }
         }
         // Если клетка в одном шаге 
-        if (target.y + 1 === currentY || target.y - 1 === currentY) {
+        if (target.y + 1 === y || target.y - 1 === y) {
             // Сделаем, чтобы они ходили только вперед исходя из цвета
             if (
-                (this.color === Colors.WHITE && target.y > currentY) || 
-                (this.color === Colors.BLACK && target.y < currentY)
+                (this.color === Colors.WHITE && target.y > y) || 
+                (this.color === Colors.BLACK && target.y < y)
             ) {
                 return false;
             }

@@ -32,7 +32,13 @@ export class Figure {
     }
 
     public canMove(target: Square): boolean {
-        if (target.color === Colors.WHITE || target.figure || !this.square.isTheSameDiagonal(target)) return false;
+        if (
+            target.color === Colors.WHITE || 
+            !target.isEmpty() || 
+            !this.square.isTheSameDiagonal(target)
+        ) {
+            return false;
+        }
         return true;
     }
 };
