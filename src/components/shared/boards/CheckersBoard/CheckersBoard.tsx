@@ -67,7 +67,7 @@ const CheckersBoard: FC<BoardProps> = ({
         const figure: Figure | null = selectedSquare.figure;
         if (!currentPlayer || !figure || !figure?.canMove(target)) return;
 
-        let figureJumped: boolean = false;
+        let figureHasJumped: boolean = false;
         const nearestSquares: Square[] = board.getNearestSquares(
             selectedSquare, 
             target, 
@@ -88,17 +88,17 @@ const CheckersBoard: FC<BoardProps> = ({
         if (attackedTarget && !attackedTarget.isEqualTo(target) && !attackedTarget.isEmpty()) {
             audioPlayer.play(SoundNames.JUMP);
             board.captureEnemyPiece(attackedTarget.figure);
-            figureJumped = true;
+            figureHasJumped = true;
         }
         
         board.checkFigureForDame(figure);
         setSelectedSquare(null);
         updateBoard();
         setMoves([ ...moves, move ]);
-        doNextMove(target, figureJumped);
+        doNextMove(target, figureHasJumped);
     }
 
-    function doNextMove(target: Square, figureJumped: boolean) {
+    function doNextMove(target: Square, figureHasJumped: boolean) {
         const lostEnemyPieces: Figure[] | [] = board.getLostEnemyPieces(currentPlayer?.color);
 
         if (lostEnemyPieces.length > 11) {
@@ -107,7 +107,7 @@ const CheckersBoard: FC<BoardProps> = ({
             return;
         }
 
-        if (figureJumped && board.hasRequiredSquares(board.getEmptySquares(), target)) {
+        if (figureHasJumped && board.hasRequiredSquares(board.getEmptySquares(), target)) {
             setSelectedSquare(target);
         } else {
             audioPlayer.play(SoundNames.SWITCH);
