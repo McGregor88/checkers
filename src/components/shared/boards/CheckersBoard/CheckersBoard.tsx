@@ -2,7 +2,6 @@ import { FC, Fragment, useState, useEffect } from 'react';
 import './CheckersBoard.css';
 
 import { toABS } from '../../../../lib/utils';
-import { Colors } from '../../../../types/colors';
 import { SoundNames } from '../../../../types/sounds';
 import { AudioPlayer } from '../../../../models/AudioPlayer';
 import { Move } from '../../../../models/Move';
@@ -15,7 +14,7 @@ import CheckerSquare from './square/CheckerSquare';
 import GameBoard from '../GameBoard/GameBoard';
 import Button from '../../../core/Button/Button';
 
-const audioPlayer = new AudioPlayer();
+const audioPlayer: AudioPlayer = new AudioPlayer();
 
 interface BoardProps {
     board: Board;
@@ -84,13 +83,9 @@ const CheckersBoard: FC<BoardProps> = ({
         target.figure = figure;
         target.figure.square = target;
         board.removeFigureFromSquare(selectedSquare);
+
         // Если перепрыгиваем вражескую фигуру, то забираем ее
-        if (
-            attackedTarget && 
-            attackedTarget.x !== target.x && 
-            attackedTarget.y !== target.y && 
-            attackedTarget.figure
-        ) {
+        if (attackedTarget && !attackedTarget.isEqualTo(target) && !attackedTarget.isEmpty()) {
             audioPlayer.play(SoundNames.JUMP);
             board.captureEnemyPiece(attackedTarget.figure);
             figureJumped = true;
@@ -104,7 +99,7 @@ const CheckersBoard: FC<BoardProps> = ({
     }
 
     function doNextMove(target: Square, figureJumped: boolean) {
-        const lostEnemyPieces = currentPlayer?.color === Colors.WHITE ? board.lostBlackPieces : board.lostWhitePieces;
+        const lostEnemyPieces: Figure[] | [] = board.getLostEnemyPieces(currentPlayer?.color);
 
         if (lostEnemyPieces.length > 11) {
             audioPlayer.play(SoundNames.VICTORY);
@@ -131,7 +126,7 @@ const CheckersBoard: FC<BoardProps> = ({
         }
     }
 
-    const onReloadBtnClicked = () => {
+    const onRestartBtnClicked = () => {
         audioPlayer.play(SoundNames.SWITCH);
         setSelectedSquare(null);
         setGameIsOver(false);
@@ -168,8 +163,8 @@ const CheckersBoard: FC<BoardProps> = ({
             </div>
             <Button
                 text="Начать сначала"
-                className="reload-btn dark" 
-                onClicked={onReloadBtnClicked}
+                className="restart-btn dark" 
+                onClicked={onRestartBtnClicked}
             />
         </div>
     );

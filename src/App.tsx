@@ -9,11 +9,11 @@ import { Player } from './models/Player';
 import PlayerSection from './components/core/Section/PlayerSection';
 import CheckersBoard from './components/shared/boards/CheckersBoard/CheckersBoard';
 
-const whitePlayer = new Player(Colors.WHITE);
-const blackPlayer = new Player(Colors.BLACK);
+const whitePlayer: Player = new Player(Colors.WHITE);
+const blackPlayer: Player = new Player(Colors.BLACK);
 
 function App() {
-    const [board, setBoard] = useState(new Board());
+    const [board, setBoard] = useState<Board>(new Board());
     const [currentPlayer, setCurrentPlayer] = useState<Player | null>(null);
     const [moves, setMoves] = useState<Move[] | []>([]);
 
@@ -26,7 +26,7 @@ function App() {
     }
 
     function restart() {
-        const newBoard = new Board();
+        const newBoard: Board = new Board();
         newBoard.initSquares();
         newBoard.setUpPieces();
         newBoard.highlightPieces(Colors.WHITE);
@@ -40,7 +40,7 @@ function App() {
                 currentPlayer={currentPlayer}
                 title="Белые фигуры"
                 color={Colors.BLACK}
-                figures={board.lostWhitePieces}  
+                figures={board.getLostEnemyPieces(Colors.BLACK)}  
             />
             <CheckersBoard
                 board={board}
@@ -55,7 +55,7 @@ function App() {
                 currentPlayer={currentPlayer}
                 title="Черные фигуры"
                 color={Colors.WHITE}
-                figures={board.lostBlackPieces}  
+                figures={board.getLostEnemyPieces(Colors.WHITE)}  
             />
         </div>
     );

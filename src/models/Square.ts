@@ -40,4 +40,8 @@ export class Square {
     public isTooFar(target: Square, maxStep: number): boolean {
         return (target.y + maxStep < this.y || target.y - maxStep > this.y);
     }
+
+    public isEqualTo(target: Square): boolean {
+        return this.x === target.x && this.y === target.y;
+    }
 };

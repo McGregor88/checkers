@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import _ from 'lodash';
 import './Button.css';
 
 interface ButtonProps {
@@ -10,7 +11,7 @@ interface ButtonProps {
 const Button: FC<ButtonProps> = ({ text, className, onClicked }) =>  (
     <div className="btn-wrap"> 
         <button 
-            className={[ "btn", className ].join(' ').trim()}
+            className={_.trim([ "btn", className ].join(' '))}
             onClick={onClicked}
         >
             {text}

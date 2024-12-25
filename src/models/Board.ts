@@ -8,9 +8,9 @@ import { Checker } from './figures/Checker';
 
 export class Board {
     private readonly _maxSquaresInRow: number = 8;
+    private readonly lostBlackPieces: Figure[] = [];
+    private readonly lostWhitePieces: Figure[] = [];
     readonly squares: Square[][] = [];
-    readonly lostBlackPieces: Figure[] = [];
-    readonly lostWhitePieces: Figure[] = [];
 
     public initSquares(): void {
         for (let i = 0; i < this._maxSquaresInRow; i++) {
@@ -58,6 +58,11 @@ export class Board {
         }
     
         return nearestSquares;
+    }
+
+    public getLostEnemyPieces(playerColor: Colors | undefined): Figure[] | [] {
+        if (!playerColor) return [];
+        return playerColor === Colors.WHITE ? this.lostBlackPieces : this.lostWhitePieces;
     }
 
     public hasRequiredSquares(squares: Square[], target: Square | null): boolean {
