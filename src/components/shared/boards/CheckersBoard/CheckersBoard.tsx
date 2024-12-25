@@ -39,28 +39,24 @@ const CheckersBoard: FC<BoardProps> = ({
     const [gameIsOver, setGameIsOver] = useState<boolean>(false);
 
     useEffect(() => {
+        const highlightPieces = () => {
+            if (!currentPlayer) return;
+            board.highlightPieces(currentPlayer.color);
+            updateBoard();
+        };
         highlightPieces();
     }, [moves]);
 
     useEffect(() => {
+        const highlightSquares = () => {
+            board.highlightSquares(selectedSquare);
+            updateBoard();
+        };
         highlightSquares();
     }, [selectedSquare]);
 
-    function highlightSquares() {
-        board.highlightSquares(selectedSquare);
-        updateBoard();
-    }
-
-    function highlightPieces() {
-        if (currentPlayer) {
-            board.highlightPieces(currentPlayer?.color);
-            updateBoard();
-        }
-    }
-
     function updateBoard() {
-        const newBoard = board.getCopyBoard();
-        setBoard(newBoard);
+        setBoard(board.getCopyBoard());
     }
 
     function moveFigureFromSelectedSquare(selectedSquare: Square, target: Square) {

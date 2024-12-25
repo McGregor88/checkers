@@ -102,7 +102,7 @@ export class Board {
         }
     }
 
-    public highlightPieces(color: Colors | null): void {
+    public highlightPieces(color: Colors): void {
         this._unHighlightPieces();
         if (!color) return;
         this._getAvailableSquaresForMoving(color).forEach((el: Square) => el.availableForMoving = true);
