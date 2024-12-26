@@ -1,7 +1,7 @@
 import { sounds, SoundNames } from "../types/sounds";
 
 export class AudioPlayer {
-    private _sounds = new Map<string, HTMLAudioElement>();
+    private _sounds = new Map<SoundNames | string, HTMLAudioElement>();
 
     constructor() {
         for (const name in sounds) {
