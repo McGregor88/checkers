@@ -32,18 +32,7 @@ export class Board {
     }
 
     public getEmptySquares(): Square[] {
-        const emptySquares: Square[] = [];
-        const darkSquares: Square[][] = this._getDarkSquares();
-
-        for (let i = 0; i < darkSquares.length; i++) {
-            const row = darkSquares[i];
-            for (let j = 0; j < row.length; j++) {
-                const square = row[j];
-                square.isEmpty() && emptySquares.push(square);
-            }
-        }
-
-        return emptySquares;
+        return _.filter(this._getDarkSquares().flat(), (square: Square) => square.isEmpty());
     }
 
     public getNearestSquares(from: Square, target: Square, absX: number): Square[] {
