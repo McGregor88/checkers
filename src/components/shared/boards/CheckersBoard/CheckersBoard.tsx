@@ -117,14 +117,14 @@ const CheckersBoard: FC<BoardProps> = ({
             moveFigureFromSelectedSquare(selectedSquare, target);
         } else {
             if (target.figure?.color === currentPlayer?.color && target.availableWithFigure) {
-                audioPlayer.play(SoundNames.SELECT_TICK);
+                audioPlayer.play(SoundNames.SELECT);
                 setSelectedSquare(target);
             }
         }
     }
 
     const onRestartBtnClicked = () => {
-        audioPlayer.play(SoundNames.SELECT_TICK);
+        audioPlayer.play(SoundNames.SELECT);
         setSelectedSquare(null);
         setGameIsOver(false);
         restart();
