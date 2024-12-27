@@ -25,14 +25,32 @@ export class Square {
         this.highlighted = false;
     }
 
+    /**
+     * Checks if the square is empty (i.e., does not contain a figure).
+     * 
+     * @returns A boolean value indicating whether the square is empty.
+     *          Returns true if the square does not contain a figure, false otherwise.
+     */
     public isEmpty(): boolean {
         return this.figure === null;
     }
 
+    /**
+     * Checks if the square contains an enemy piece of a different color.
+     * 
+     * @param color - The color to compare against (representing the current player's color).
+     * @returns A boolean indicating whether an enemy piece is present (true) or not (false).
+     */
     public hasEnemyPiece(color: Colors): boolean {
         return this.figure && this.figure?.color !== color ? true: false;
     }
 
+    /**
+     * Determines if the target square is on the same diagonal as this square.
+     * 
+     * @param target - The square to compare against this square.
+     * @returns A boolean indicating whether the target square is on the same diagonal (true) or not (false).
+     */
     public isTheSameDiagonal(target: Square): boolean {
         return toABS(target.x, this.x) === toABS(target.y, this.y);
     }

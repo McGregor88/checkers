@@ -10,7 +10,7 @@ export enum SoundNames {
     VICTORY = "victory",
 }
 
-interface ISounds {
+export interface ISounds {
     [SoundNames.JUMP]: string;
     [SoundNames.SELECT_TICK]: string;
     [SoundNames.SWITCH]: string;

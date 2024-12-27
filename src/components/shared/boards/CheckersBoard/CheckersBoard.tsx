@@ -1,5 +1,6 @@
 import { FC, Fragment, useState, useEffect } from 'react';
 import './CheckersBoard.css';
+import { sounds } from '../../../../types/sounds';
 
 import { toABS } from '../../../../lib/utils';
 import { SoundNames } from '../../../../types/sounds';
@@ -14,7 +15,7 @@ import CheckerSquare from './square/CheckerSquare';
 import GameBoard from '../GameBoard/GameBoard';
 import Button from '../../../core/Button/Button';
 
-const audioPlayer: AudioPlayer = new AudioPlayer();
+const audioPlayer: AudioPlayer = new AudioPlayer(sounds);
 
 interface BoardProps {
     board: Board;
