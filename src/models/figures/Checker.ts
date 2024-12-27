@@ -8,6 +8,11 @@ import { Figure } from './Figure';
 import { Board } from '../Board';
 import { Square } from '../Square';
 
+interface IPieces {
+    enemyPieces: Square[] | [];
+    friendlyPiecesIndex: number;
+}
+
 export class Checker extends Figure {
     private readonly _maxStep: number;
 
@@ -30,6 +35,20 @@ export class Checker extends Figure {
     }
 
     private _mustJumpAsDame(target: Square): boolean {
+        const pieces: IPieces = this._getPiecesDiagonally(target);
+        const { enemyPieces, friendlyPiecesIndex } = pieces;
+        if (enemyPieces.length === 1 && friendlyPiecesIndex === -1) return true;
+        return false;
+    }
+
+    private _canMoveAsDame(target: Square): boolean {
+        const pieces: IPieces = this._getPiecesDiagonally(target);
+        const { enemyPieces, friendlyPiecesIndex } = pieces;
+        if (friendlyPiecesIndex !== -1 || enemyPieces.length > 1) return false;
+        return true;
+    }
+
+    private _getPiecesDiagonally(target: Square): IPieces {
         const nearestSquares: Square[] | [] = this.board?.getNearestSquares(
             this.square, 
             target, 
@@ -43,8 +62,7 @@ export class Checker extends Figure {
             (square: Square) => square?.figure && square.figure.color === this.color
         );
 
-        if (enemyPieces.length === 1 && friendlyPiecesIndex === -1) return true;
-        return false;
+        return { enemyPieces, friendlyPiecesIndex };
     }
 
     private _mustJumpAsChecker(target: Square): boolean {
@@ -52,6 +70,7 @@ export class Checker extends Figure {
         if (this.square.isTooFar(target, this._maxStep)) return false;
 
         const nearestSquare: Square | undefined = nearestSquares[0];
+
         if (
             nearestSquare && 
             !nearestSquare.isEqualTo(target) &&
@@ -60,23 +79,6 @@ export class Checker extends Figure {
             return true;
         }
         return false;
-    }
-
-    private _canMoveAsDame(target: Square): boolean {
-        const nearestSquares: Square[] | [] = this.board?.getNearestSquares(
-            this.square, 
-            target, 
-            toABS(target.x, this.square.x)
-        ) || [];
-        const enemyPieces: Square[] | [] = nearestSquares.filter(
-            square => square?.figure && square.figure.color !== this.color
-        );
-        const friendlyPiecesIndex: number = nearestSquares.findIndex(
-            square => square?.figure && square.figure.color === this.color
-        );
-
-        if (friendlyPiecesIndex !== -1 || enemyPieces.length > 1) return false;
-        return true;
     }
 
     private _canMoveAsChecker(target: Square): boolean {
