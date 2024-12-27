@@ -11,8 +11,8 @@
     transition: border-color 0.25s ease, background-color 0.25s ease;
 }
 
-.checkers-board .checkers-board__square.dark.available-for-moving,
-.checkers-board .checkers-board__square.dark.available-for-selection {
+.checkers-board .checkers-board__square.dark.available-with-figure,
+.checkers-board .checkers-board__square.dark.available-for-movement {
     cursor: pointer;
     pointer-events: unset;
 }
@@ -27,38 +27,38 @@
     position: relative;
 }
 
-.checkers-board .checkers-board__square.available-for-selection, 
+.checkers-board .checkers-board__square.available-for-movement, 
 .checkers-board .checkers-board__square.highlighted {
     border-color: hsl(160, 71%, 41%);
     border-width: 2px;
 }
 
-.checkers-board .checkers-board__square.available-for-selection .checkers-board__figure,
+.checkers-board .checkers-board__square.available-for-movement .checkers-board__figure,
 .checkers-board .checkers-board__square.highlighted .checkers-board__figure {
     padding: 4px;
 }
 
-.checkers-board .checkers-board__square.available-for-selection {
+.checkers-board .checkers-board__square.available-for-movement {
     background-color: hsl(209, 30%, 26%);
 }
 
-.checkers-board .checkers-board__square.available-for-selection:hover,
-.checkers-board .checkers-board__square.available-for-selection:focus,
-.checkers-board .checkers-board__square.available-for-selection:active {
+.checkers-board .checkers-board__square.available-for-movement:hover,
+.checkers-board .checkers-board__square.available-for-movement:focus,
+.checkers-board .checkers-board__square.available-for-movement:active {
     background-color: hsl(219, 55%, 60%);
 }
 
-.checkers-board .checkers-board__square.available-for-moving {
+.checkers-board .checkers-board__square.available-with-figure {
     background-color: hsl(55, 35%, 74%);
 }
 
-.checkers-board .checkers-board__square.available-for-moving:hover,
-.checkers-board .checkers-board__square.available-for-moving:focus,
-.checkers-board .checkers-board__square.available-for-moving:active {
+.checkers-board .checkers-board__square.available-with-figure:hover,
+.checkers-board .checkers-board__square.available-with-figure:focus,
+.checkers-board .checkers-board__square.available-with-figure:active {
     background-color: hsl(55, 28%, 83%);
 }
 
-.checkers-board .checkers-board__square.available-for-moving.selected {
+.checkers-board .checkers-board__square.available-with-figure.selected {
     background-color: hsl(160, 71%, 41%);
 }
 
@@ -68,7 +68,7 @@
         padding: 2px;
     }
 
-    .checkers-board .checkers-board__square.available-for-selection .checkers-board__figure,
+    .checkers-board .checkers-board__square.available-for-movement .checkers-board__figure,
     .checkers-board .checkers-board__square.highlighted .checkers-board__figure {
         padding: 1px;
     }

@@ -15,8 +15,8 @@ const CheckerSquare: FC<SquareProps> = ({ square, selected, onSquareTapped }) =>
     const { 
         color, 
         figure, 
-        availableForSelection, 
-        availableForMoving, 
+        availableForMovement, 
+        availableWithFigure, 
         highlighted 
     } = square;
     const isAvailableSquare: boolean = color !== Colors.WHITE && !figure;
@@ -26,9 +26,9 @@ const CheckerSquare: FC<SquareProps> = ({ square, selected, onSquareTapped }) =>
             className={_.trim([
                 'checkers-board__square', 
                 color === Colors.WHITE ? 'light' : 'dark', 
-                availableForMoving ? 'available-for-moving' : '',
+                availableWithFigure ? 'available-with-figure' : '',
                 selected ? 'selected' : '',
-                isAvailableSquare && availableForSelection ? 'available-for-selection' : '',
+                isAvailableSquare && availableForMovement ? 'available-for-movement' : '',
                 highlighted ? 'highlighted' : ''
             ].join(' '))}
             onClick={() => onSquareTapped(square)}

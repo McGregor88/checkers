@@ -10,8 +10,8 @@ export class Square {
     readonly y: number;
     readonly color: Colors;
     figure: Figure | null;
-    availableForSelection: boolean;
-    availableForMoving: boolean;
+    availableWithFigure: boolean;
+    availableForMovement: boolean;
     highlighted: boolean;
 
     constructor(x: number, y: number, color: Colors, figure: Figure | null) {
@@ -20,8 +20,8 @@ export class Square {
         this.color = color;
         this.figure = figure;
         this.id = uuidv4();
-        this.availableForSelection = false;
-        this.availableForMoving = false;
+        this.availableWithFigure = false;
+        this.availableForMovement = false;
         this.highlighted = false;
     }
 

@@ -116,7 +116,7 @@ const CheckersBoard: FC<BoardProps> = ({
         if (selectedSquare && selectedSquare !== target && selectedSquare.figure?.canMove(target)) {
             moveFigureFromSelectedSquare(selectedSquare, target);
         } else {
-            if (target.figure?.color === currentPlayer?.color && target.availableForMoving) {
+            if (target.figure?.color === currentPlayer?.color && target.availableWithFigure) {
                 audioPlayer.play(SoundNames.SELECT_TICK);
                 setSelectedSquare(target);
             }

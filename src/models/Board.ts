@@ -34,7 +34,7 @@ export class Board {
     public highlightPieces(color: Colors): void {
         this._unHighlightPieces();
         if (!color) return;
-        this._getAvailableSquaresWithPieces(color).forEach((el: Square) => el.availableForMoving = true);
+        this._getAvailableSquaresWithPieces(color).forEach((el: Square) => el.availableWithFigure = true);
     }
 
     public getEmptySquares(): Square[] {
@@ -72,14 +72,14 @@ export class Board {
     
         for (let i = 0; i < emptySquares.length; i++) {
             const target: Square = emptySquares[i];
-            const availableForSelection: boolean = hasRequiredSquares ? 
+            const availableForMovement: boolean = hasRequiredSquares ? 
                 !!figure?.mustJump(target) 
             : 
                 !!figure?.canMove(target);
 
-            target.availableForSelection = availableForSelection;
+            target.availableForMovement = availableForMovement;
 
-            if (hasRequiredSquares && availableForSelection && selectedEl && figure) {
+            if (hasRequiredSquares && availableForMovement && selectedEl && figure) {
                 const nearestSquares: Square[] | [] = me.getNearestSquares(
                     selectedEl, 
                     target, 
@@ -149,7 +149,7 @@ export class Board {
             const row: Square[] = darkSquares[i];
             for (let j = 0; j < row.length; j++) {
                 const square: Square = row[j];
-                square.availableForMoving = false;
+                square.availableWithFigure = false;
                 square.highlighted = false;
             }
         }
@@ -188,7 +188,7 @@ export class Board {
                 const target: Square = targets[j];
                 const index: number = _.findIndex(availableSquares, (el: Square) => el.isEqualTo(item));
 
-                if (!item.availableForMoving && item?.figure?.canMove(target) && index === -1) {
+                if (!item.availableWithFigure && item?.figure?.canMove(target) && index === -1) {
                     availableSquares.push(item);
                 }
             }
