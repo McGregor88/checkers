@@ -38,7 +38,7 @@ export class Board {
     }
 
     public getEmptySquares(): Square[] {
-        return _.filter(this._getDarkSquares().flat(), (square: Square) => square.isEmpty());
+        return _.filter(this._getDarkSquares().flat(), (el: Square) => el.isEmpty());
     }
 
     public getLostEnemyPieces(playerColor: Colors | undefined): Figure[] | [] {
@@ -61,7 +61,7 @@ export class Board {
     }
 
     public hasRequiredSquares(squares: Square[], target: Square | null): boolean {
-        return squares.findIndex((square: Square) => target?.figure?.mustJump(square)) !== -1;
+        return squares.findIndex((el: Square) => target?.figure?.mustJump(el)) !== -1;
     }
 
     public highlightSquares(selectedEl: Square | null): void {
@@ -87,7 +87,7 @@ export class Board {
                 ) || [];
                 const targetsToHighlight: Square[] | [] = _.filter(
                     nearestSquares, 
-                    (square: Square) => square.isEmpty() && !figure?.mustJump(square) && figure?.canMove(square)
+                    (el: Square) => el.isEmpty() && !figure?.mustJump(el) && figure?.canMove(el)
                 );
 
                 targetsToHighlight.forEach((target: Square) => {
@@ -109,7 +109,6 @@ export class Board {
 
     public checkFigureForDame(figure: Figure): void {
         const figureColor: Colors = figure.color;
-    
         if ((
             (figureColor === Colors.WHITE && figure.square.y === 0) || 
             (figureColor === Colors.BLACK && figure.square.y === 7)) && 
@@ -169,6 +168,7 @@ export class Board {
         const emptySquares: Square[] = me.getEmptySquares();
         const squaresWithPieces: Square[] = me._getSquaresWithPiecesByColor(color);
         const requiredSquares: Square[] | [] = me._getRequiredSquaresForJump(squaresWithPieces, emptySquares);
+    
         return requiredSquares.length ? requiredSquares : me._getSquaresForMovement(squaresWithPieces, emptySquares);
     }
 
