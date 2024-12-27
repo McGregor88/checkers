@@ -163,7 +163,7 @@ export class Board {
         return darkSquares;
     }
 
-    private _getSquaresWithFigureByColor(color: Colors): Square[] {
+    private _getSquaresWithPiecesByColor(color: Colors): Square[] {
         const squaresWithFigure: Square[] = [];
         const darkSquares: Square[][] = this._getDarkSquares();
 
@@ -182,7 +182,7 @@ export class Board {
 
     private _getPossibleSquaresByColor(squares: Square[], color: Colors): Square[] {
         const possibleSquaresForMoving: Square[] = [];
-        const squaresWithPieces: Square[] = this._getSquaresWithFigureByColor(color);
+        const squaresWithPieces: Square[] = this._getSquaresWithPiecesByColor(color);
     
         for (let i = 0; i < squaresWithPieces.length; i++) {
             const item: Square = squaresWithPieces[i];
