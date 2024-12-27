@@ -81,20 +81,16 @@ export class Checker extends Figure {
 
     private _canMoveAsChecker(target: Square): boolean {
         const { y } = this.square;
-        // Ограничиваем длину шага фигуры
         if (this.square.isTooFar(target, this._maxStep)) return false;
-        // Если клетка в двух шагах, 
+    
         if (target.y + this._maxStep === y || target.y - this._maxStep === y) {
-            // получаем клетку, которая находится в шаге от фигуры
             const nearestSquare: Square | undefined = this.board?.getNearestSquares(this.square, target, 1)[0];
-            // Проверяем клетку на пустоту или наличие дружеской фигуры
             if (nearestSquare?.isEmpty() || nearestSquare?.figure?.color === this.color) {
                 return false;
             }
         }
-        // Если клетка в одном шаге 
+
         if (target.y + 1 === y || target.y - 1 === y) {
-            // Сделаем, чтобы они ходили только вперед исходя из цвета
             if (
                 (this.color === Colors.WHITE && target.y > y) || 
                 (this.color === Colors.BLACK && target.y < y)
