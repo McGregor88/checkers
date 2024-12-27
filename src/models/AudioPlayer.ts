@@ -1,4 +1,4 @@
-import { ISounds, SoundNames } from "../types/sounds";
+import { ISounds, SoundUrl, SoundNames } from "../types/sounds";
 
 export class AudioPlayer {
     private _sounds = new Map<SoundNames, HTMLAudioElement>();
@@ -20,8 +20,8 @@ export class AudioPlayer {
         audio.play();
     }
 
-    private _addSound(soundName: SoundNames, src: string): void {
-        this._sounds.set(soundName, new Audio(src));
+    private _addSound(soundName: SoundNames, url: SoundUrl): void {
+        this._sounds.set(soundName, new Audio(url));
     }
 
     private _getAudioByName(name: SoundNames): HTMLAudioElement | undefined {
