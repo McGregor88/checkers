@@ -64,10 +64,11 @@ export class Board {
         return squares.findIndex((square: Square) => target?.figure?.mustJump(square)) !== -1;
     }
 
-    public highlightSquares(selectedSquare: Square | null): void {
-        const figure: Figure | null = selectedSquare?.figure || null;
-        const emptySquares: Square[] = this.getEmptySquares();
-        const hasRequiredSquares: boolean = this.hasRequiredSquares(emptySquares, selectedSquare);
+    public highlightSquares(selectedEl: Square | null): void {
+        const me: Board = this;
+        const figure: Figure | null = selectedEl?.figure || null;
+        const emptySquares: Square[] = me.getEmptySquares();
+        const hasRequiredSquares: boolean = me.hasRequiredSquares(emptySquares, selectedEl);
     
         for (let i = 0; i < emptySquares.length; i++) {
             const target: Square = emptySquares[i];
@@ -77,21 +78,21 @@ export class Board {
                 !!figure?.canMove(target);
 
             target.availableForSelection = availableForSelection;
-            if (hasRequiredSquares && availableForSelection && selectedSquare && figure) {
-                const nearestSquares: Square[] | [] = this.getNearestSquares(
-                    selectedSquare, 
+
+            if (hasRequiredSquares && availableForSelection && selectedEl && figure) {
+                const nearestSquares: Square[] | [] = me.getNearestSquares(
+                    selectedEl, 
                     target, 
-                    figure.isDame ? toABS(target.x, selectedSquare.x) : 1
+                    figure.isDame ? toABS(target.x, selectedEl.x) : 1
                 ) || [];
-                const highlightedTargets: Square[] | [] = nearestSquares.filter(
+                const targetsToHighlight: Square[] | [] = _.filter(
+                    nearestSquares, 
                     (square: Square) => square.isEmpty() && !figure?.mustJump(square) && figure?.canMove(square)
                 );
 
-                if (highlightedTargets.length) {
-                    highlightedTargets.forEach((target: Square) => {
-                        if (!target.highlighted) target.highlighted = true;
-                    });
-                }
+                targetsToHighlight.forEach((target: Square) => {
+                    if (!target.highlighted) target.highlighted = true;
+                });
             }
         }
     }
