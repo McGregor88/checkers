@@ -23,16 +23,27 @@ export class Board {
         }
     }
 
-    public setUpPieces(): void {
+    public setUpPieces(): void { 
         this._setUpCheckers();
     }
 
-    public getCopyBoard(): Board {
+    public getCopyBoard(): Board { 
         return _.clone(this);
+    }
+
+    public highlightPieces(color: Colors): void {
+        this._unHighlightPieces();
+        if (!color) return;
+        this._getAvailableSquaresWithPieces(color).forEach((el: Square) => el.availableForMoving = true);
     }
 
     public getEmptySquares(): Square[] {
         return _.filter(this._getDarkSquares().flat(), (square: Square) => square.isEmpty());
+    }
+
+    public getLostEnemyPieces(playerColor: Colors | undefined): Figure[] | [] {
+        if (!playerColor) return [];
+        return playerColor === Colors.WHITE ? this.lostBlackPieces : this.lostWhitePieces;
     }
 
     public getNearestSquares(from: Square, target: Square, absX: number): Square[] {
@@ -49,11 +60,6 @@ export class Board {
         return nearestSquares;
     }
 
-    public getLostEnemyPieces(playerColor: Colors | undefined): Figure[] | [] {
-        if (!playerColor) return [];
-        return playerColor === Colors.WHITE ? this.lostBlackPieces : this.lostWhitePieces;
-    }
-
     public hasRequiredSquares(squares: Square[], target: Square | null): boolean {
         return squares.findIndex((square: Square) => target?.figure?.mustJump(square)) !== -1;
     }
@@ -65,8 +71,7 @@ export class Board {
     
         for (let i = 0; i < emptySquares.length; i++) {
             const target: Square = emptySquares[i];
-            const availableForSelection: boolean = hasRequiredSquares 
-            ? 
+            const availableForSelection: boolean = hasRequiredSquares ? 
                 !!figure?.mustJump(target) 
             : 
                 !!figure?.canMove(target);
@@ -89,12 +94,6 @@ export class Board {
                 }
             }
         }
-    }
-
-    public highlightPieces(color: Colors): void {
-        this._unHighlightPieces();
-        if (!color) return;
-        this._getAvailableSquaresForMoving(color).forEach((el: Square) => el.availableForMoving = true);
     }
 
     public removeFigureFromSquare(square: Square): void {
@@ -143,78 +142,6 @@ export class Board {
         return this.squares[y][x];
     }
 
-    private _getDarkSquares(): Square[][] {
-        const darkSquares: Square[][] = [];
-        for (let i = 0; i < this.squares.length; i++) {
-            const row: Square[] = this.squares[i].filter(square => square.color === Colors.BLACK);
-            darkSquares.push(row);
-        }
-        return darkSquares;
-    }
-
-    private _getSquaresWithPiecesByColor(color: Colors): Square[] {
-        const squaresWithFigure: Square[] = [];
-        const darkSquares: Square[][] = this._getDarkSquares();
-
-        for (let i = 0; i < darkSquares.length; i++) {
-            const row = darkSquares[i];
-            for (let j = 0; j < row.length; j++) {
-                const square: Square = row[j];
-                if (square?.figure?.color === color) {
-                    squaresWithFigure.push(square);
-                }
-            }
-        }
-    
-        return squaresWithFigure;
-    }
-
-    private _getPossibleSquaresByColor(squares: Square[], color: Colors): Square[] {
-        const possibleSquaresForMoving: Square[] = [];
-        const squaresWithPieces: Square[] = this._getSquaresWithPiecesByColor(color);
-    
-        for (let i = 0; i < squaresWithPieces.length; i++) {
-            const item: Square = squaresWithPieces[i];
-            
-            for (let j = 0; j < squares.length; j++) {
-                const target: Square = squares[j];
-                const index: number = possibleSquaresForMoving.findIndex(
-                    (square: Square) => square.x === item.x && square.y === item.y
-                );
-
-                if (!item.availableForMoving && item?.figure?.canMove(target) && index === -1) {
-                    possibleSquaresForMoving.push(item);
-                }
-            }
-        }
-        
-        return possibleSquaresForMoving;
-    }
-
-    private _getAvailableSquaresForMoving(color: Colors): Square[] {
-        const emptySquares: Square[] = this.getEmptySquares();
-        const possibleSquaresForMoving: Square[] = this._getPossibleSquaresByColor(emptySquares, color);
-        const requiredSquares: Array<Square> = [];
-
-        // Проходимся циклом по ячейкам с фигурами
-        for (let i = 0; i < possibleSquaresForMoving.length; i++) {
-            const availableSquare: Square = possibleSquaresForMoving[i];
-            // Пройдемся по пустым ячейкам
-            for (let j = 0; j < emptySquares.length; j++) {
-                const target: Square = emptySquares[j];
-                const index: number = requiredSquares.findIndex(
-                    (square: Square) => square.x === availableSquare.x && square.y === availableSquare.y
-                );
-                // Проверим, что фигура должна прыгать и то что этой ячейке нет в массиве
-                if (availableSquare?.figure?.mustJump(target) && index === -1) {
-                    requiredSquares.push(availableSquare);
-                }
-            }
-        }
-
-        return requiredSquares.length ? requiredSquares : possibleSquaresForMoving;
-    }
-
     private _unHighlightPieces(): void {
         const darkSquares: Square[][] = this._getDarkSquares();
         for (let i = 0; i < darkSquares.length; i++) {
@@ -225,6 +152,48 @@ export class Board {
                 square.highlighted = false;
             }
         }
+    }
+
+    private _getDarkSquares(): Square[][] {
+        const darkSquares: Square[][] = [];
+        for (let i = 0; i < this.squares.length; i++) {
+            const row: Square[] = _.filter(this.squares[i], (square: Square) => square.color === Colors.BLACK);
+            darkSquares.push(row);
+        }
+        return darkSquares;
+    }
+
+    private _getAvailableSquaresWithPieces(color: Colors): Square[] {
+        const me: Board = this;
+        const emptySquares: Square[] = me.getEmptySquares();
+        const squaresWithPieces: Square[] = me._getSquaresWithPiecesByColor(color);
+        const requiredSquares: Square[] | [] = me._getRequiredSquaresForJump(squaresWithPieces, emptySquares);
+        return requiredSquares.length ? requiredSquares : me._getSquaresForMovement(squaresWithPieces, emptySquares);
+    }
+
+    private _getSquaresWithPiecesByColor(color: Colors): Square[] {
+        return _.filter(this._getDarkSquares().flat(), (square: Square) => square?.figure?.color === color);
+    }
+
+    private _getRequiredSquaresForJump(squaresWithPieces: Square[], targets: Square[]): Square[] | [] {
+        return _.filter(squaresWithPieces, (square: Square) => this.hasRequiredSquares(targets, square));
+    }
+
+    private _getSquaresForMovement(squaresWithPieces: Square[], targets: Square[]): Square[] {
+        const availableSquares: Square[] = [];
+        for (let i = 0; i < squaresWithPieces.length; i++) {
+            const item: Square = squaresWithPieces[i];
+            for (let j = 0; j < targets.length; j++) {
+                const target: Square = targets[j];
+                const index: number = _.findIndex(availableSquares, (el: Square) => el.isEqualTo(item));
+
+                if (!item.availableForMoving && item?.figure?.canMove(target) && index === -1) {
+                    availableSquares.push(item);
+                }
+            }
+        }
+        
+        return availableSquares;
     }
 
     private _addLostFigure(figure: Figure): void {
