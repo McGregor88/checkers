@@ -2,6 +2,7 @@ import _ from 'lodash';
 
 import { toABS } from '../lib/utils';
 import { Colors } from '../types/colors';
+import { IPieces } from '../types/pieces';
 import { Square } from './Square';
 import { Figure } from './figures/Figure';
 import { Checker } from './figures/Checker';
@@ -58,6 +59,21 @@ export class Board {
         }
     
         return nearestSquares;
+    }
+
+    public getPiecesDiagonally(item: Square, target: Square, color: Colors): IPieces {
+        const nearestSquares: Square[] = this.getNearestSquares(item, target, toABS(target.x, item.x));
+        const enemyPieces: Square[] | [] = nearestSquares.filter(
+            (el: Square) => el?.figure && el.figure.color !== color
+        );
+        const friendlyPieces: Square[] | [] = nearestSquares.filter(
+            (el: Square) => el?.figure && el.figure.color === color
+        );
+
+        return {
+            enemyPieces,
+            friendlyPieces
+        };
     }
 
     public hasRequiredSquares(squares: Square[], target: Square | null): boolean {

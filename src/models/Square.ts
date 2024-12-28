@@ -55,10 +55,26 @@ export class Square {
         return toABS(target.x, this.x) === toABS(target.y, this.y);
     }
 
+    /**
+     * Checks if the target square is too far away from this square based on the maximum allowed steps.
+     *
+     * @param target - The square to compare against this square.
+     * @param maxStep - The maximum number of steps allowed between this square and the target square.
+     * @returns A boolean indicating whether the target square is too far away (true) or not (false).
+     *          Returns true if the target square is more than `maxStep` away from this square in 
+     *          either the vertical or horizontal direction, false otherwise.
+     */
     public isTooFar(target: Square, maxStep: number): boolean {
         return (target.y + maxStep < this.y || target.y - maxStep > this.y);
     }
 
+    /**
+     * Checks if this square is equal to another square.
+     * 
+     * @param target - The square to compare against this square.
+     * @returns A boolean indicating whether the squares are equal (true) or not (false).
+     *          Returns true if both squares have the same x and y coordinates, false otherwise.
+     */
     public isEqualTo(target: Square): boolean {
         return this.x === target.x && this.y === target.y;
     }

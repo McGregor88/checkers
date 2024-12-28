@@ -3,15 +3,11 @@ import whiteFigure from '../../assets/figures/checker_white.png';
 
 import { toABS } from '../../lib/utils';
 import { Colors } from '../../types/colors';
+import { IPieces } from '../../types/pieces';
 import { FigureNames } from '../../types/figureNames';
 import { Figure } from './Figure';
 import { Board } from '../Board';
 import { Square } from '../Square';
-
-interface IPieces {
-    enemyPieces: Square[] | [];
-    friendlyPiecesIndex: number;
-}
 
 export class Checker extends Figure {
     private readonly _maxStep: number;
@@ -35,34 +31,22 @@ export class Checker extends Figure {
     }
 
     private _mustJumpAsDame(target: Square): boolean {
-        const pieces: IPieces = this._getPiecesDiagonally(target);
-        const { enemyPieces, friendlyPiecesIndex } = pieces;
-        if (enemyPieces.length === 1 && friendlyPiecesIndex === -1) return true;
-        return false;
+        const pieces: IPieces | undefined = this.board?.getPiecesDiagonally(this.square, target, this.color);
+        if (!pieces) return false;
+
+        if (pieces.enemyPieces.length === 1 && !pieces.friendlyPieces.length) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private _canMoveAsDame(target: Square): boolean {
-        const pieces: IPieces = this._getPiecesDiagonally(target);
-        const { enemyPieces, friendlyPiecesIndex } = pieces;
-        if (friendlyPiecesIndex !== -1 || enemyPieces.length > 1) return false;
+        const pieces: IPieces | undefined = this.board?.getPiecesDiagonally(this.square, target, this.color);
+        if (!pieces) return false;
+
+        if (pieces.friendlyPieces.length || pieces.enemyPieces.length > 1) return false;
         return true;
-    }
-
-    private _getPiecesDiagonally(target: Square): IPieces {
-        const nearestSquares: Square[] | [] = this.board?.getNearestSquares(
-            this.square, 
-            target, 
-            toABS(target.x, this.square.x)
-        ) || [];
-
-        const enemyPieces: Square[] | [] = nearestSquares.filter(
-            (square: Square) => square?.figure && square.figure.color !== this.color
-        );
-        const friendlyPiecesIndex: number = nearestSquares.findIndex(
-            (square: Square) => square?.figure && square.figure.color === this.color
-        );
-
-        return { enemyPieces, friendlyPiecesIndex };
     }
 
     private _mustJumpAsChecker(target: Square): boolean {
