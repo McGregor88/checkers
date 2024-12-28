@@ -1,10 +1,9 @@
 import blackFigure from '../../assets/figures/checker_black.png';
 import whiteFigure from '../../assets/figures/checker_white.png';
 
-import { toABS } from '../../lib/utils';
 import { Colors } from '../../types/colors';
 import { IPieces } from '../../types/pieces';
-import { FigureNames } from '../../types/figureNames';
+import { FigureNames } from '../../types/pieces';
 import { Figure } from './Figure';
 import { Board } from '../Board';
 import { Square } from '../Square';
@@ -20,6 +19,14 @@ export class Checker extends Figure {
         this._maxStep = 2;
     }
 
+    /**
+     * Determines if the checker must perform a jump move to the target square.
+     * This method first checks if a jump is possible using the base class logic,
+     * then delegates to specific logic for dame (king) or regular checker pieces.
+     *
+     * @param target - The square to which the checker might jump.
+     * @returns True if the checker must jump to the target square, false otherwise.
+     */
     public mustJump(target: Square): boolean {
         if (!super.mustJump(target)) return false;
         return this.isDame ? this._mustJumpAsDame(target) : this._mustJumpAsChecker(target);

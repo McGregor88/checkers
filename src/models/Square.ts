@@ -1,5 +1,4 @@
 import { v4 as uuidv4 } from 'uuid';
-
 import { toABS } from '../lib/utils';
 import { Colors } from '../types/colors';
 import { Figure } from './figures/Figure';
@@ -78,4 +77,4 @@ export class Square {
     public isEqualTo(target: Square): boolean {
         return this.x === target.x && this.y === target.y;
     }
-};
+}

@@ -6,4 +6,4 @@ export class Player {
     constructor(color: Colors) {
         this.color = color;
     }
-};
+}

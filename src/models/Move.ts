@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { ICoordinates } from "../types/coordinates";
+import { ICoordinates } from '../types/coordinates';
 import { Player } from './Player';
 
 export class Move {
@@ -14,4 +14,4 @@ export class Move {
         this.from = from;
         this.to = to;
     }
-};
+}

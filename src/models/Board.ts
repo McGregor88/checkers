@@ -1,5 +1,4 @@
 import _ from 'lodash';
-
 import { toABS } from '../lib/utils';
 import { Colors } from '../types/colors';
 import { IPieces } from '../types/pieces';
@@ -63,16 +62,9 @@ export class Board {
 
     public getPiecesDiagonally(item: Square, target: Square, color: Colors): IPieces {
         const nearestSquares: Square[] = this.getNearestSquares(item, target, toABS(target.x, item.x));
-        const enemyPieces: Square[] | [] = nearestSquares.filter(
-            (el: Square) => el?.figure && el.figure.color !== color
-        );
-        const friendlyPieces: Square[] | [] = nearestSquares.filter(
-            (el: Square) => el?.figure && el.figure.color === color
-        );
-
         return {
-            enemyPieces,
-            friendlyPieces
+            enemyPieces: nearestSquares.filter((el: Square) => el?.figure && el.figure.color !== color),
+            friendlyPieces: nearestSquares.filter((el: Square) => el?.figure && el.figure.color === color)
         };
     }
 
