@@ -32,6 +32,14 @@ export class Checker extends Figure {
         return this.isDame ? this._mustJumpAsDame(target) : this._mustJumpAsChecker(target);
     }
 
+    /**
+     * Determines if the checker can move to the specified target square.
+     * This method first checks if the move is valid using the base class logic,
+     * then delegates to specific logic for dame (king) or regular checker pieces.
+     *
+     * @param target - The square to which the checker might move.
+     * @returns True if the checker can move to the target square, false otherwise.
+     */
     public canMove(target: Square): boolean {
         if (!super.canMove(target)) return false;
         return this.isDame ? this._canMoveAsDame(target) : this._canMoveAsChecker(target);
