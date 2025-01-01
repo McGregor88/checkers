@@ -27,7 +27,7 @@ export class Square {
     /**
      * Checks if the square is empty (i.e., does not contain a figure).
      * 
-     * @returns A boolean value indicating whether the square is empty.
+     * @returns {boolean} A boolean value indicating whether the square is empty.
      *          Returns true if the square does not contain a figure, false otherwise.
      */
     public isEmpty(): boolean {
@@ -38,7 +38,7 @@ export class Square {
      * Checks if the square contains an enemy piece of a different color.
      * 
      * @param color - The color to compare against (representing the current player's color).
-     * @returns A boolean indicating whether an enemy piece is present (true) or not (false).
+     * @returns {boolean} A boolean indicating whether an enemy piece is present (true) or not (false).
      */
     public hasEnemyPiece(color: Colors): boolean {
         return this.figure && this.figure?.color !== color ? true: false;
@@ -48,7 +48,7 @@ export class Square {
      * Determines if the target square is on the same diagonal as this square.
      * 
      * @param target - The square to compare against this square.
-     * @returns A boolean indicating whether the target square is on the same diagonal (true) or not (false).
+     * @returns {boolean} A boolean indicating whether the target square is on the same diagonal (true) or not (false).
      */
     public isTheSameDiagonal(target: Square): boolean {
         return toABS(target.x, this.x) === toABS(target.y, this.y);
@@ -59,7 +59,7 @@ export class Square {
      *
      * @param target - The square to compare against this square.
      * @param maxStep - The maximum number of steps allowed between this square and the target square.
-     * @returns A boolean indicating whether the target square is too far away (true) or not (false).
+     * @returns {boolean} A boolean indicating whether the target square is too far away (true) or not (false).
      *          Returns true if the target square is more than `maxStep` away from this square in 
      *          either the vertical or horizontal direction, false otherwise.
      */
@@ -71,7 +71,7 @@ export class Square {
      * Checks if this square is equal to another square.
      * 
      * @param target - The square to compare against this square.
-     * @returns A boolean indicating whether the squares are equal (true) or not (false).
+     * @returns {boolean} A boolean indicating whether the squares are equal (true) or not (false).
      *          Returns true if both squares have the same x and y coordinates, false otherwise.
      */
     public isEqualTo(target: Square): boolean {

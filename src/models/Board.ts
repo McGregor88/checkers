@@ -12,6 +12,17 @@ export class Board {
     private readonly lostWhitePieces: Figure[] = [];
     readonly squares: Square[][] = [];
 
+    /**
+     * Initializes the game board by creating a 2D array of Square objects.
+     * 
+     * This method populates the `squares` property of the Board class with a grid of Square objects.
+     * Each Square is assigned a color (black or white) based on its position on the board,
+     * following the standard checkerboard pattern.
+     * 
+     * The board size is determined by the `_maxSquaresInRow` property, typically set to 8 for a standard checkers board.
+     * 
+     * @returns {void} This method does not return a value, but modifies the `squares` property of the class.
+     */
     public initSquares(): void {
         for (let i = 0; i < this._maxSquaresInRow; i++) {
             const row: Square[] = [];

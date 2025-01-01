@@ -51,7 +51,7 @@ export class AudioPlayer {
      * Retrieves the audio element associated with the specified sound name.
      *
      * @param name - The name of the sound to retrieve.
-     * @returns The HTMLAudioElement associated with the given sound name, or undefined if not found.
+     * @returns {HTMLAudioElement} The HTMLAudioElement associated with the given sound name, or undefined if not found.
      */
     private _getAudioByName(name: SoundNames): HTMLAudioElement | undefined {
         return this._sounds.get(name);

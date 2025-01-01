@@ -30,7 +30,7 @@ export class Figure {
      * Determines if the figure must perform a jump move to the target square.
      * 
      * @param target - The square to which the figure is attempting to jump.
-     * @returns A boolean indicating whether the figure must jump (true) or not (false).
+     * @returns {boolean} A boolean indicating whether the figure must jump (true) or not (false).
      *          Returns false if the figure cannot move to the target square.
      */
     public mustJump(target: Square): boolean {
@@ -42,7 +42,7 @@ export class Figure {
      * Determines if the figure can move to the target square.
      * 
      * @param target - The square to which the figure is attempting to move.
-     * @returns A boolean indicating whether the move is valid (true) or not (false).
+     * @returns {boolean} A boolean indicating whether the move is valid (true) or not (false).
      */
     public canMove(target: Square): boolean {
         if (
@@ -55,4 +55,4 @@ export class Figure {
 
         return true;
     }
-};
+}
