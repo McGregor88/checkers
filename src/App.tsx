@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import './App.css';
 
 import { Colors } from './types/colors';
@@ -19,10 +19,6 @@ function App() {
     const [moves, setMoves] = useState<Move[] | []>([]);
     const [menuIsShown, setMenuIsShown] = useState<boolean>(true);
 
-    useEffect(() => {
-        restart();
-    }, []);
-
     function switchPlayer() {
         setCurrentPlayer(currentPlayer?.color === Colors.WHITE ? blackPlayer : whitePlayer);
     }
@@ -34,12 +30,14 @@ function App() {
         newBoard.highlightPieces(Colors.WHITE);
         setBoard(newBoard);
         setCurrentPlayer(whitePlayer);
+        setMenuIsShown(false);
     }
 
     return (
         <div className="app">
             <MainNavigation
                 show={menuIsShown} 
+                restart={restart}
             />
             <PlayerSection
                 currentPlayer={currentPlayer}

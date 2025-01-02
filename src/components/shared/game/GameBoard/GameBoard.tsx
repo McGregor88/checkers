@@ -11,8 +11,8 @@ import { Square } from '../../../../models/Square';
 import { Figure } from '../../../../models/figures/Figure';
 import { Player } from '../../../../models/Player';
 
-import CheckerSquare from '../../../core/CheckerSquare/CheckerSquare';
 import GamePanel from '../../game/GamePanel/GamePanel';
+import CheckerSquare from '../../../core/CheckerSquare/CheckerSquare';
 import Button from '../../../core/Button/Button';
 
 const audioPlayer: AudioPlayer = new AudioPlayer(sounds);
