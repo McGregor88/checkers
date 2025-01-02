@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import _ from 'lodash';
 
-import './PlayerSection.css'
+import './PlayerSection.scss';
 import { Player } from '../../../models/Player';
 import { Figure } from '../../../models/figures/Figure';
 import { Colors } from '../../../types/colors';

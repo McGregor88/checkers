@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import _ from 'lodash';
 
-import './CheckerSquare.css';
+import './CheckerSquare.scss';
 import { Colors } from '../../../../../types/colors';
 import { Square } from '../../../../../models/Square';
 

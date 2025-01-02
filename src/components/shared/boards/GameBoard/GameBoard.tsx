@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import './GameBoard.css';
+import './GameBoard.scss';
 import { Player } from '../../../../models/Player';
 //import Timer from './timer/Timer';
 

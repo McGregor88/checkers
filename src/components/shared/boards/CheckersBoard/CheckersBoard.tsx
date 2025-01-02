@@ -1,5 +1,5 @@
 import { FC, Fragment, useState, useEffect } from 'react';
-import './CheckersBoard.css';
+import './CheckersBoard.scss';
 import { sounds } from '../../../../types/sounds';
 
 import { toABS } from '../../../../lib/utils';
@@ -81,7 +81,6 @@ const CheckersBoard: FC<BoardProps> = ({
         target.figure.square = target;
         board.removeFigureFromSquare(selectedSquare);
 
-        // Если перепрыгиваем вражескую фигуру, то забираем ее
         if (attackedTarget && !attackedTarget.isEqualTo(target) && !attackedTarget.isEmpty()) {
             audioPlayer.play(SoundNames.JUMP);
             board.captureEnemyPiece(attackedTarget.figure);

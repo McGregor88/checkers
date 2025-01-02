@@ -1,0 +1,89 @@
+.checkers-board {
+    $green: hsl(160, 71%, 41%);
+    $size: 12.5%;
+
+    &__square {
+        cursor: default;
+        pointer-events: none;
+        width: $size;
+        height: $size;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+        border: 1px solid hsl(0, 0%, 0%);
+        transition: border-color 0.25s ease, background-color 0.25s ease;
+
+        &.available-for-movement,
+        &.highlighted {
+            border-color: $green;
+            border-width: 2px;
+
+            .figure {
+                padding: 4px;
+            }
+        }
+
+        &.available-for-movement {
+            background-color: hsl(209, 30%, 26%);
+
+            &:hover,
+            &:focus,
+            &:active {
+                background-color: hsl(219, 55%, 60%);
+            }
+        }
+
+        &.available-with-figure {
+            background-color: hsl(55, 35%, 74%);
+
+            &:hover,
+            &:focus,
+            &:active {
+                background-color: hsl(55, 28%, 83%);
+            }
+
+            &.selected {
+                background-color: $green;
+            }
+        }
+
+        &.dark {
+            &.available-with-figure,
+            &.available-for-movement {
+                cursor: pointer;
+                pointer-events: unset; 
+            }
+        }
+    }
+
+    &__figure {
+        position: relative;
+        padding: 5px;
+        overflow: hidden;
+
+        .figure {
+            &__icon {
+                position: relative;
+            }
+        }
+    }
+}
+
+/* Iphone XR */
+@media only screen and (max-width : 414px) {
+    .checkers-board {
+        &__square {
+            &.available-for-movement,
+            &.highlighted {
+                .figure {
+                    padding: 1px;
+                }
+            }
+        }
+
+        &__figure {
+            padding: 2px;
+        }
+    }
+}

@@ -4,10 +4,10 @@
     justify-content: center;
     align-items: center;
     gap: 10px;
-}
 
-.checkers-board-outer .restart-btn {
-    margin-top: 20px;
+    .restart-btn {
+        margin-top: 20px;
+    }
 }
 
 .checkers-board-wrap {
@@ -34,17 +34,19 @@
     background-color: hsl(160, 71%, 41%);
     color: hsl(0, 0%, 0%);
     font-size: 26px;
-}
 
-.checkers-board-result__winner {
-    font-size: 32px;
+    &__winner {
+        font-size: 32px;
+    }
 }
 
 /* Laptop small */
 @media only screen and (max-width : 1280px) {
-	.checkers-board-outer .restart-btn {
-        margin-top: 10px;
-        margin-bottom: 10px;
+	.checkers-board-outer  {
+        .restart-btn {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
     }
 }
 
@@ -93,9 +95,11 @@
         border-radius: 20px;
     }
 
-    .checkers-board-outer .btn-wrap,
-    .checkers-board-outer .restart-btn {
-        width: 100%;
+    .checkers-board-outer {
+        .btn-wrap,
+        .restart-btn {
+            width: 100%; 
+        }
     }
 }
 
@@ -113,9 +117,4 @@
         width: calc(38px * 8);
         height: calc(38px * 8);
     }
-}
-
-/* Galaxy S8+ */
-@media only screen and (max-width : 360px) {
-    /**/
 }
