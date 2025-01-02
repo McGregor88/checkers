@@ -6,6 +6,7 @@ import { Move } from './models/Move';
 import { Board } from './models/Board';
 import { Player } from './models/Player';
 
+import MainNavigation from './components/shared/navigations/MainNavigation/MainNavigation';
 import PlayerSection from './components/core/PlayerSection/PlayerSection';
 import GameBoard from './components/shared/game/GameBoard/GameBoard';
 
@@ -16,6 +17,7 @@ function App() {
     const [board, setBoard] = useState<Board>(new Board());
     const [currentPlayer, setCurrentPlayer] = useState<Player | null>(null);
     const [moves, setMoves] = useState<Move[] | []>([]);
+    const [menuIsShown, setMenuIsShown] = useState<boolean>(true);
 
     useEffect(() => {
         restart();
@@ -36,6 +38,9 @@ function App() {
 
     return (
         <div className="app">
+            <MainNavigation
+                show={menuIsShown} 
+            />
             <PlayerSection
                 currentPlayer={currentPlayer}
                 title="Белые фигуры"

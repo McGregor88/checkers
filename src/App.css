@@ -37,6 +37,10 @@
     opacity: 0.9;
 }
 
+.hidden {
+	display: none !important;
+}
+
 /* Laptop small */
 @media only screen and (max-width : 1280px) {
 	body {

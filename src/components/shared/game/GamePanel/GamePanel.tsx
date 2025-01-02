@@ -4,11 +4,11 @@ import './GamePanel.scss';
 import { Player } from '../../../../models/Player';
 //import Timer from './timer/Timer';
 
-interface BoardProps {
+interface PanelProps {
     currentPlayer: Player | null;
 }
 
-const GamePanel: FC<BoardProps> = ({ currentPlayer }) => (
+const GamePanel: FC<PanelProps> = ({ currentPlayer }) => (
     <div className="game-panel">
         <div className="game-panel-info">
             {/*<Timer currentPlayer={currentPlayer} />*/}
