@@ -12,11 +12,13 @@
 	line-height: 1.25em;
 	letter-spacing: 0.03em;
 	transition: background-color 0.25s ease;
-}
 
-.btn.dark:hover,
-.btn.dark:focus,
-.btn.dark:active,
-.btn.dark.active {
-	background-color: hsl(219, 55%, 60%);
+	&.dark {
+		&:hover,
+		&:focus,
+		&:active,
+        &.active {
+            background-color: hsl(219, 55%, 60%);
+        }
+	}
 }

@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import _ from 'lodash';
-import './Button.css';
+import './Button.scss';
 
 interface ButtonProps {
     text: string;
