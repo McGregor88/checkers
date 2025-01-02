@@ -6,8 +6,8 @@ import { Move } from './models/Move';
 import { Board } from './models/Board';
 import { Player } from './models/Player';
 
-import PlayerSection from './components/core/Section/PlayerSection';
-import CheckersBoard from './components/shared/boards/CheckersBoard/CheckersBoard';
+import PlayerSection from './components/core/PlayerSection/PlayerSection';
+import GameBoard from './components/shared/game/GameBoard/GameBoard';
 
 const whitePlayer: Player = new Player(Colors.WHITE);
 const blackPlayer: Player = new Player(Colors.BLACK);
@@ -42,7 +42,7 @@ function App() {
                 color={Colors.BLACK}
                 figures={board.getLostEnemyPieces(Colors.BLACK)}  
             />
-            <CheckersBoard
+            <GameBoard
                 board={board}
                 setBoard={setBoard}
                 moves={moves}

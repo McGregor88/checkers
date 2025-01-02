@@ -1,4 +1,4 @@
-.checkers-board-outer {
+.game-board-outer {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -10,13 +10,13 @@
     }
 }
 
-.checkers-board-wrap {
+.game-board-wrap {
     padding: 20px;
     background-color: hsl(0, 0%, 0%);
     border-radius: 50px;
 }
 
-.checkers-board {
+.game-board {
     width: calc(64px * 8);
     height: calc(64px * 8);
     display: flex;
@@ -25,7 +25,7 @@
     border-radius: 32px;
 }
 
-.checkers-board-result {
+.game-board-result {
     width: 100%;
     height: 100%;
     display: flex;
@@ -42,7 +42,7 @@
 
 /* Laptop small */
 @media only screen and (max-width : 1280px) {
-	.checkers-board-outer  {
+	.game-board-outer  {
         .restart-btn {
             margin-top: 10px;
             margin-bottom: 10px;
@@ -52,7 +52,7 @@
 
 /* Small Devices, Tablets */
 @media only screen and (max-width : 640px) {
-	.checkers-board {
+	.game-board {
         width: calc(60px * 8);
         height: calc(60px * 8);
     }
@@ -60,7 +60,7 @@
 
 /* HTC One */
 @media only screen and (max-width : 540px) {
-	.checkers-board {
+	.game-board {
         width: calc(52px * 8);
         height: calc(52px * 8);
     }
@@ -68,7 +68,7 @@
 
 /* Extra Small Devices, Phones */
 @media only screen and (max-width : 480px) {
-	.checkers-board {
+	.game-board {
         width: calc(46px * 8);
         height: calc(46px * 8);
     }
@@ -76,7 +76,7 @@
 
 /* Iphone 14 Pro Max */
 @media only screen and (max-width : 430px) {
-	.checkers-board {
+	.game-board {
         width: calc(44px * 8);
         height: calc(44px * 8);
     }
@@ -84,18 +84,18 @@
 
 /* Iphone XR */
 @media only screen and (max-width : 414px) {
-    .checkers-board-wrap {
+    .game-board-wrap {
         padding: 15px;
         border-radius: 35px;
     }
 
-	.checkers-board {
+	.game-board {
         width: calc(42px * 8);
         height: calc(42px * 8);
         border-radius: 20px;
     }
 
-    .checkers-board-outer {
+    .game-board-outer {
         .btn-wrap,
         .restart-btn {
             width: 100%; 
@@ -105,7 +105,7 @@
 
 /* Iphone 12 Pro */
 @media only screen and (max-width : 390px) {
-	.checkers-board {
+	.game-board {
         width: calc(40px * 8);
         height: calc(40px * 8);
     }
@@ -113,7 +113,7 @@
 
 /* Iphone SE */
 @media only screen and (max-width : 375px) {
-	.checkers-board {
+	.game-board {
         width: calc(38px * 8);
         height: calc(38px * 8);
     }

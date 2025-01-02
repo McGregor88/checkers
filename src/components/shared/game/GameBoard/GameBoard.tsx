@@ -1,5 +1,5 @@
 import { FC, Fragment, useState, useEffect } from 'react';
-import './CheckersBoard.scss';
+import './GameBoard.scss';
 import { sounds } from '../../../../types/sounds';
 
 import { toABS } from '../../../../lib/utils';
@@ -11,8 +11,8 @@ import { Square } from '../../../../models/Square';
 import { Figure } from '../../../../models/figures/Figure';
 import { Player } from '../../../../models/Player';
 
-import CheckerSquare from './square/CheckerSquare';
-import GameBoard from '../GameBoard/GameBoard';
+import CheckerSquare from '../../../core/CheckerSquare/CheckerSquare';
+import GamePanel from '../../game/GamePanel/GamePanel';
 import Button from '../../../core/Button/Button';
 
 const audioPlayer: AudioPlayer = new AudioPlayer(sounds);
@@ -27,7 +27,7 @@ interface BoardProps {
     restart: () => void;
 }
 
-const CheckersBoard: FC<BoardProps> = ({
+const GameBoard: FC<BoardProps> = ({
     board,
     setBoard,
     moves,
@@ -130,14 +130,14 @@ const CheckersBoard: FC<BoardProps> = ({
     }
 
     return (
-        <div className="checkers-board-outer">
-            {!gameIsOver && <GameBoard currentPlayer={currentPlayer} />}
-            <div className="checkers-board-wrap">
-                <div className="checkers-board">
+        <div className="game-board-outer">
+            {!gameIsOver && <GamePanel currentPlayer={currentPlayer} />}
+            <div className="game-board-wrap">
+                <div className="game-board">
                     {gameIsOver ? 
-                        <div className="checkers-board-result">
-                            <span className="checkers-board-result__caption">Победитель: </span>
-                            <b className="checkers-board-result__winner">{currentPlayer?.color}</b>
+                        <div className="game-board-result">
+                            <span className="game-board-result__caption">Победитель: </span>
+                            <b className="game-board-result__winner">{currentPlayer?.color}</b>
                         </div>
                             : 
                         <>
@@ -166,4 +166,4 @@ const CheckersBoard: FC<BoardProps> = ({
     );
 }
 
-export default CheckersBoard;
+export default GameBoard;

@@ -1,4 +1,4 @@
-.checkers-board {
+.game-board {
     $green: hsl(160, 71%, 41%);
     $size: 12.5%;
 
@@ -72,7 +72,7 @@
 
 /* Iphone XR */
 @media only screen and (max-width : 414px) {
-    .checkers-board {
+    .game-board {
         &__square {
             &.available-for-movement,
             &.highlighted {

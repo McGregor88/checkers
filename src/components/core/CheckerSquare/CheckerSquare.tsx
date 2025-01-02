@@ -2,8 +2,8 @@ import { FC } from 'react';
 import _ from 'lodash';
 
 import './CheckerSquare.scss';
-import { Colors } from '../../../../../types/colors';
-import { Square } from '../../../../../models/Square';
+import { Colors } from '../../../types/colors';
+import { Square } from '../../../models/Square';
 
 interface SquareProps {
     square: Square;
@@ -24,7 +24,7 @@ const CheckerSquare: FC<SquareProps> = ({ square, selected, onSquareTapped }) =>
     return (
         <div 
             className={_.trim([
-                'checkers-board__square', 
+                'game-board__square', 
                 color === Colors.WHITE ? 'light' : 'dark', 
                 availableWithFigure ? 'available-with-figure' : '',
                 selected ? 'selected' : '',
@@ -36,7 +36,7 @@ const CheckerSquare: FC<SquareProps> = ({ square, selected, onSquareTapped }) =>
             {square.figure?.logo && 
                 <div 
                     className={
-                        `checkers-board__figure figure ${square.figure?.isDame ? 'is-dame' : ''}`
+                        `game-board__figure figure ${square.figure?.isDame ? 'is-dame' : ''}`
                     }
                 >
                     <img 

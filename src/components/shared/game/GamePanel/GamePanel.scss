@@ -1,4 +1,4 @@
-.game-board-info {
+.game-panel-info {
     padding: 27px 10px 10px 0;
 
     &__caption {
@@ -15,7 +15,7 @@
 
 /* Laptop small */
 @media only screen and (max-width : 1280px) {
-    .game-board-info {
+    .game-panel-info {
         padding-top: 10px;
     }
 }
