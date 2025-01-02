@@ -34,20 +34,55 @@ export class Board {
         }
     }
 
+    /**
+     * Sets up the initial pieces on the game board.
+     * 
+     * This method initializes the game by placing the checker pieces in their starting positions.
+     * It calls the private method `_setUpCheckers()` to handle the actual placement of the pieces.
+     * 
+     * @returns {void} This method does not return a value, but modifies the board state.
+     */
     public setUpPieces(): void { 
         this._setUpCheckers();
     }
 
+    /**
+     * Creates and returns a shallow copy of the current board.
+     * 
+     * This method uses Lodash's clone function to create a new Board object
+     * that is a shallow copy of the current instance. This can be useful
+     * for creating temporary board states or for undo/redo functionality.
+     * 
+     * @returns {Board} A new Board object that is a shallow copy of the current board.
+     */
     public getCopyBoard(): Board { 
         return _.clone(this);
     }
 
+    /**
+     * Highlights pieces of a specific color on the board.
+     * 
+     * This method first removes any existing highlights, then highlights
+     * all available squares that contain pieces of the specified color.
+     * If no color is provided, the method will simply unhighlight all pieces.
+     * 
+     * @param color - The color of the pieces to highlight. Should be a value from the Colors enum.
+     * @returns {void} This method does not return a value, but modifies the board state.
+     */
     public highlightPieces(color: Colors): void {
         this._unHighlightPieces();
         if (!color) return;
         this._getAvailableSquaresWithPieces(color).forEach((el: Square) => el.availableWithFigure = true);
     }
 
+    /**
+     * Retrieves all empty squares on the dark squares of the board.
+     * 
+     * This method filters through all the dark squares on the board and returns
+     * an array of Square objects that are currently empty (i.e., not occupied by any piece).
+     * 
+     * @returns {Square[]} An array of Square objects representing all empty dark squares on the board.
+     */
     public getEmptySquares(): Square[] {
         return _.filter(this._getDarkSquares().flat(), (el: Square) => el.isEmpty());
     }
