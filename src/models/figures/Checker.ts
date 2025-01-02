@@ -55,13 +55,10 @@ export class Checker extends Figure {
      */
     private _mustJumpAsDame(target: Square): boolean {
         const pieces: IPieces | undefined = this.board?.getPiecesDiagonally(this.square, target, this.color);
-        if (!pieces) return false;
-
-        if (pieces.enemyPieces.length === 1 && !pieces.friendlyPieces.length) {
+        if (pieces && pieces.enemyPieces.length === 1 && !pieces.friendlyPieces.length) {
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -75,9 +72,9 @@ export class Checker extends Figure {
      */
     private _canMoveAsDame(target: Square): boolean {
         const pieces: IPieces | undefined = this.board?.getPiecesDiagonally(this.square, target, this.color);
-        if (!pieces) return false;
-
-        if (pieces.friendlyPieces.length || pieces.enemyPieces.length > 1) return false;
+        if (!pieces || pieces.friendlyPieces.length || pieces.enemyPieces.length > 1) {
+            return false;
+        }
         return true;
     }
 
@@ -95,7 +92,6 @@ export class Checker extends Figure {
         if (this.square.isTooFar(target, this._maxStep)) return false;
 
         const nearestSquare: Square | undefined = nearestSquares[0];
-
         if (
             nearestSquare && 
             !nearestSquare.isEqualTo(target) &&
