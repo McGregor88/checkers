@@ -17,8 +17,6 @@ export class AudioPlayer {
      * @remarks
      * This function retrieves the audio element associated with the given sound name,
      * checks if it's currently playing, and either plays it from the start or reloads it.
-     *
-     * @returns {void}
      */
     public play(soundName: SoundNames): void {
         const audio: HTMLAudioElement | undefined = this._getAudioByName(soundName);
@@ -40,8 +38,6 @@ export class AudioPlayer {
      * @remarks
      * This method creates a new Audio object with the provided URL and associates it with the given sound name.
      * The sound is then stored in the internal Map for future use.
-     *
-     * @returns {void}
      */
     private _addSound(soundName: SoundNames, url: SoundUrl): void {
         this._sounds.set(soundName, new Audio(url));

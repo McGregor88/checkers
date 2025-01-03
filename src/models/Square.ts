@@ -70,11 +70,11 @@ export class Square {
     /**
      * Checks if this square is equal to another square.
      * 
-     * @param target - The square to compare against this square.
+     * @param another - The square to compare against this square.
      * @returns {boolean} A boolean indicating whether the squares are equal (true) or not (false).
      *          Returns true if both squares have the same x and y coordinates, false otherwise.
      */
-    public isEqualTo(target: Square): boolean {
-        return this.x === target.x && this.y === target.y;
+    public isEqualTo(another: Square): boolean {
+        return this.x === another.x && this.y === another.y;
     }
 }

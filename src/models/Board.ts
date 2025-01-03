@@ -39,8 +39,6 @@ export class Board {
      * 
      * This method initializes the game by placing the checker pieces in their starting positions.
      * It calls the private method `_setUpCheckers()` to handle the actual placement of the pieces.
-     * 
-     * @returns {void} This method does not return a value, but modifies the board state.
      */
     public setUpPieces(): void { 
         this._setUpCheckers();
@@ -67,7 +65,6 @@ export class Board {
      * If no color is provided, the method will simply unhighlight all pieces.
      * 
      * @param color - The color of the pieces to highlight. Should be a value from the Colors enum.
-     * @returns {void} This method does not return a value, but modifies the board state.
      */
     public highlightPieces(color: Colors): void {
         this._unHighlightPieces();
@@ -87,11 +84,26 @@ export class Board {
         return _.filter(this._getDarkSquares().flat(), (el: Square) => el.isEmpty());
     }
 
+    /**
+     * Retrieves the list of lost enemy pieces for a given player color.
+     * 
+     * @param playerColor - The color of the player. Should be a value from the Colors enum or undefined.
+     * @returns {Figure[]} An array of Figure objects representing the lost enemy pieces. 
+     *          Returns an empty array if playerColor is undefined.
+     */
     public getLostEnemyPieces(playerColor: Colors | undefined): Figure[] | [] {
         if (!playerColor) return [];
         return playerColor === Colors.WHITE ? this.lostBlackPieces : this.lostWhitePieces;
     }
 
+    /**
+     * Calculates and returns the nearest squares between two given squares on the board.
+     * 
+     * @param from - The starting Square object.
+     * @param target - The target Square object.
+     * @param absX - The absolute difference in x-coordinates between the starting and target squares.
+     * @returns {Square[]} An array of Square objects representing the nearest squares between the starting and target squares.
+     */
     public getNearestSquares(from: Square, target: Square, absX: number): Square[] {
         const nearestSquares: Square[] = [];
 
@@ -106,6 +118,14 @@ export class Board {
         return nearestSquares;
     }
 
+    /**
+     * Retrieves pieces diagonally between two squares, categorized as enemy and friendly pieces.
+     * 
+     * @param item - The starting Square object.
+     * @param target - The target Square object.
+     * @param color - The color of the current player's pieces.
+     * @returns {IPieces} An object of type IPieces containing arrays of enemy and friendly pieces found diagonally between the two squares.
+     */
     public getPiecesDiagonally(item: Square, target: Square, color: Colors): IPieces {
         const nearestSquares: Square[] = this.getNearestSquares(item, target, toABS(target.x, item.x));
         return {
@@ -114,10 +134,22 @@ export class Board {
         };
     }
 
+    /**
+     * Checks if there are any squares that require a jump move for the given target.
+     * 
+     * @param squares - An array of Square objects to check.
+     * @param target - The target Square object, which may contain a figure that must jump.
+     * @returns {boolean} A boolean indicating whether there are any squares that require a jump move.
+     */
     public hasRequiredSquares(squares: Square[], target: Square | null): boolean {
         return squares.findIndex((el: Square) => target?.figure?.mustJump(el)) !== -1;
     }
 
+    /**
+     * Highlights available squares for movement based on the selected square and game rules.
+     * 
+     * @param selectedEl - The currently selected Square object, or null if no square is selected.
+     */
     public highlightSquares(selectedEl: Square | null): void {
         const me: Board = this;
         const figure: Figure | null = selectedEl?.figure || null;
@@ -151,16 +183,31 @@ export class Board {
         }
     }
 
+    /**
+     * Removes the figure from the given square.
+     * 
+     * @param square - The Square object from which to remove the figure.
+     */
     public removeFigureFromSquare(square: Square): void {
         square.figure = null;
     }
 
+    /**
+     * Captures an enemy piece by adding it to the list of lost figures and removing it from its square.
+     * 
+     * @param figure - The Figure object to be captured, or null if no figure is to be captured.
+     */
     public captureEnemyPiece(figure: Figure | null): void {
         if (!figure) return;
         this._addLostFigure(figure);
         this.removeFigureFromSquare(figure.square);
     }
 
+    /**
+     * Checks if a figure should be promoted to a dame and updates its status accordingly.
+     * 
+     * @param figure - The Figure object to check for promotion.
+     */
     public checkFigureForDame(figure: Figure): void {
         const figureColor: Colors = figure.color;
         if ((
@@ -172,6 +219,20 @@ export class Board {
         }
     }
 
+    /**
+     * Sets up the initial checker pieces on the game board.
+     * 
+     * This method initializes the game by placing the checker pieces in their starting positions.
+     * It creates black and white checkers alternately on the dark squares of the first three rows
+     * for each player. The method uses the board's dimensions and calculates the appropriate
+     * positions for each checker piece.
+     * 
+     * @remarks
+     * This is a private method and should only be called internally by the Board class.
+     * 
+     * @returns {void} This method does not return a value, but modifies the board state
+     * by adding Checker objects to the appropriate squares.
+     */
     private _setUpCheckers(): void {
         const MAX_CHECKERS_IN_ROW: number = this._maxSquaresInRow / 2;
         let offset: number = 1;
@@ -192,10 +253,24 @@ export class Board {
         }
     }
 
+    /**
+     * Retrieves a specific Square object from the board based on its coordinates.
+     * 
+     * @param x - The x-coordinate (column) of the desired square on the board.
+     * @param y - The y-coordinate (row) of the desired square on the board.
+     * @returns {Square} The Square object at the specified coordinates.
+     */
     private _getSquare(x: number, y: number): Square {
         return this.squares[y][x];
     }
 
+    /**
+     * Removes highlighting from all dark squares on the board.
+     * 
+     * This method iterates through all dark squares on the board and sets their
+     * 'availableWithFigure' and 'highlighted' properties to false. This is typically
+     * used to clear any previous highlighting before applying new highlights.
+     */
     private _unHighlightPieces(): void {
         const darkSquares: Square[][] = this._getDarkSquares();
         for (let i = 0; i < darkSquares.length; i++) {
