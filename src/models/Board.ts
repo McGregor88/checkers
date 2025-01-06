@@ -283,6 +283,16 @@ export class Board {
         }
     }
 
+    /**
+     * Retrieves all dark squares from the game board.
+     * 
+     * This method filters through the board's squares and collects all squares
+     * that have a black color, organizing them into a 2D array where each inner
+     * array represents a row of dark squares.
+     * 
+     * @returns {Square[][]} A 2D array of Square objects, where each inner array
+     *                       contains the dark squares from a single row of the board.
+     */
     private _getDarkSquares(): Square[][] {
         const darkSquares: Square[][] = [];
         for (let i = 0; i < this.squares.length; i++) {
@@ -292,6 +302,18 @@ export class Board {
         return darkSquares;
     }
 
+    /**
+     * Retrieves available squares with pieces of a specified color that can make a move.
+     * 
+     * This method first checks for any required jump moves. If there are required jumps,
+     * it returns those squares. Otherwise, it returns squares with pieces that can make
+     * regular moves.
+     *
+     * @param color - The color of the pieces to check for available moves.
+     * @returns An array of Square objects representing available squares with pieces
+     *          that can make a move. If there are required jumps, only those squares
+     *          are returned; otherwise, all squares with possible moves are returned.
+     */
     private _getAvailableSquaresWithPieces(color: Colors): Square[] {
         const me: Board = this;
         const emptySquares: Square[] = me.getEmptySquares();
@@ -301,14 +323,39 @@ export class Board {
         return requiredSquares.length ? requiredSquares : me._getSquaresForMovement(squaresWithPieces, emptySquares);
     }
 
+    /**
+     * Retrieves all squares containing pieces of a specified color.
+     * 
+     * @param color - The color of the pieces to search for (from the Colors enum).
+     * @returns An array of Square objects that contain pieces of the specified color.
+     */
     private _getSquaresWithPiecesByColor(color: Colors): Square[] {
         return _.filter(this._getDarkSquares().flat(), (square: Square) => square?.figure?.color === color);
     }
 
+    /**
+     * Identifies squares with pieces that are required to make a jump move.
+     * 
+     * @param squaresWithPieces - An array of Square objects that contain pieces.
+     * @param targets - An array of Square objects representing potential target squares.
+     * @returns An array of Square objects with pieces that must make a jump move,
+     *          or an empty array if no jumps are required.
+     */
     private _getRequiredSquaresForJump(squaresWithPieces: Square[], targets: Square[]): Square[] | [] {
         return _.filter(squaresWithPieces, (square: Square) => this.hasRequiredSquares(targets, square));
     }
 
+    /**
+     * Identifies squares with pieces that can make a valid move.
+     * 
+     * This method iterates through squares containing pieces and potential target squares,
+     * checking for valid moves. It returns an array of unique squares that have pieces
+     * capable of making a move.
+     *
+     * @param squaresWithPieces - An array of Square objects containing pieces to check for possible moves.
+     * @param targets - An array of Square objects representing potential target squares for moves.
+     * @returns An array of Square objects representing squares with pieces that can make a valid move.
+     */
     private _getSquaresForMovement(squaresWithPieces: Square[], targets: Square[]): Square[] {
         const availableSquares: Square[] = [];
         for (let i = 0; i < squaresWithPieces.length; i++) {
@@ -326,6 +373,14 @@ export class Board {
         return availableSquares;
     }
 
+    /**
+     * Adds a captured figure to the appropriate list of lost pieces.
+     * 
+     * This method determines the color of the captured figure and adds it to either
+     * the list of lost black pieces or lost white pieces accordingly.
+     *
+     * @param figure - The Figure object representing the captured piece to be added to the lost pieces list.
+     */
     private _addLostFigure(figure: Figure): void {
         figure?.color === Colors.BLACK ? 
             this.lostBlackPieces.push(figure) 
