@@ -310,7 +310,7 @@ export class Board {
      * regular moves.
      *
      * @param color - The color of the pieces to check for available moves.
-     * @returns An array of Square objects representing available squares with pieces
+     * @returns {Square[]} An array of Square objects representing available squares with pieces
      *          that can make a move. If there are required jumps, only those squares
      *          are returned; otherwise, all squares with possible moves are returned.
      */
@@ -327,7 +327,7 @@ export class Board {
      * Retrieves all squares containing pieces of a specified color.
      * 
      * @param color - The color of the pieces to search for (from the Colors enum).
-     * @returns An array of Square objects that contain pieces of the specified color.
+     * @returns {Square[]} An array of Square objects that contain pieces of the specified color.
      */
     private _getSquaresWithPiecesByColor(color: Colors): Square[] {
         return _.filter(this._getDarkSquares().flat(), (square: Square) => square?.figure?.color === color);
@@ -354,7 +354,7 @@ export class Board {
      *
      * @param squaresWithPieces - An array of Square objects containing pieces to check for possible moves.
      * @param targets - An array of Square objects representing potential target squares for moves.
-     * @returns An array of Square objects representing squares with pieces that can make a valid move.
+     * @returns {Square[]} An array of Square objects representing squares with pieces that can make a valid move.
      */
     private _getSquaresForMovement(squaresWithPieces: Square[], targets: Square[]): Square[] {
         const availableSquares: Square[] = [];
