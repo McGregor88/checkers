@@ -20,6 +20,20 @@ export class Checker extends Figure {
     }
 
     /**
+     * Updates the checker's status based on its current position and color.
+     * If the checker reaches the opposite end of the board, it becomes a dame.
+     */
+    public updateStatus(): void {
+        if ((
+            (this.color === Colors.WHITE && this.square.y === 0) || 
+            (this.color === Colors.BLACK && this.square.y === 7)) && 
+            !this.isDame
+        ) {
+            this._isDame = true;
+        }
+    }
+
+    /**
      * Determines if the checker must perform a jump move to the target square.
      * This method first checks if a jump is possible using the base class logic,
      * then delegates to specific logic for dame (king) or regular checker pieces.
@@ -43,20 +57,6 @@ export class Checker extends Figure {
     public canMove(target: Square): boolean {
         if (!super.canMove(target)) return false;
         return this.isDame ? this._canMoveAsDame(target) : this._canMoveAsChecker(target);
-    }
-
-    /**
-     * Updates the checker's status based on its current position and color.
-     * If the checker reaches the opposite end of the board, it becomes a dame.
-     */
-    public updateStatus(): void {
-        if ((
-            (this.color === Colors.WHITE && this.square.y === 0) || 
-            (this.color === Colors.BLACK && this.square.y === 7)) && 
-            !this.isDame
-        ) {
-            this._isDame = true;
-        }
     }
 
     /**

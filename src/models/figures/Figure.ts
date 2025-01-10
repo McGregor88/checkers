@@ -17,13 +17,13 @@ export class Figure {
 
     constructor(board: Board, color: Colors, square: Square) {
         this.id = uuidv4();
-        this._isDame = false;
         this.board = board;
         this.color = color;
         this.square = square;
         this.square.figure = this;
         this.logo = null;
         this.name = FigureNames.FIGURE;
+        this._isDame = false;
     }
 
     public updateStatus(): void {}
