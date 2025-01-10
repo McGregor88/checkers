@@ -46,6 +46,20 @@ export class Checker extends Figure {
     }
 
     /**
+     * Updates the checker's status based on its current position and color.
+     * If the checker reaches the opposite end of the board, it becomes a dame.
+     */
+    public updateStatus(): void {
+        if ((
+            (this.color === Colors.WHITE && this.square.y === 0) || 
+            (this.color === Colors.BLACK && this.square.y === 7)) && 
+            !this.isDame
+        ) {
+            this.isDame = true;
+        }
+    }
+
+    /**
      * Determines if the dame checker must perform a jump move to the target square.
      *
      * @param target - The square to which the dame checker might jump.

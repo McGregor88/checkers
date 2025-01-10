@@ -204,22 +204,6 @@ export class Board {
     }
 
     /**
-     * Checks if a figure should be promoted to a dame and updates its status accordingly.
-     * 
-     * @param figure - The Figure object to check for promotion.
-     */
-    public checkFigureForDame(figure: Figure): void {
-        const figureColor: Colors = figure.color;
-        if ((
-            (figureColor === Colors.WHITE && figure.square.y === 0) || 
-            (figureColor === Colors.BLACK && figure.square.y === 7)) && 
-            !figure.isDame
-        ) {
-            figure.isDame = true;
-        }
-    }
-
-    /**
      * Sets up the initial checker pieces on the game board.
      * 
      * This method initializes the game by placing the checker pieces in their starting positions.

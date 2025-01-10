@@ -55,4 +55,6 @@ export class Figure {
 
         return true;
     }
+
+    public updateStatus(): void {}
 }

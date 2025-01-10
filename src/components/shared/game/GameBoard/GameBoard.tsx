@@ -86,8 +86,8 @@ const GameBoard: FC<BoardProps> = ({
             board.captureEnemyPiece(attackedTarget.figure);
             figureHasJumped = true;
         }
-        
-        board.checkFigureForDame(figure);
+
+        figure.updateStatus();
         setSelectedSquare(null);
         updateBoard();
         setMoves([ ...moves, move ]);
