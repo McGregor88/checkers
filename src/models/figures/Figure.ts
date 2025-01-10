@@ -26,6 +26,8 @@ export class Figure {
         this.name = FigureNames.FIGURE;
     }
 
+    public updateStatus(): void {}
+
     /**
      * Getter for the isDame property.
      * Indicates whether the figure has been promoted to a dame (king) status.
@@ -65,6 +67,4 @@ export class Figure {
 
         return true;
     }
-
-    public updateStatus(): void {}
 }
