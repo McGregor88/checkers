@@ -9,21 +9,31 @@ import { Square } from '../Square';
 export class Figure {
     readonly id: string;
     readonly color: Colors;
+    protected _isDame: boolean;
     board: Board | null;
     square: Square;
     logo: typeof logo | null;
     name: FigureNames;
-    isDame: boolean;
 
     constructor(board: Board, color: Colors, square: Square) {
         this.id = uuidv4();
+        this._isDame = false;
         this.board = board;
         this.color = color;
         this.square = square;
         this.square.figure = this;
         this.logo = null;
         this.name = FigureNames.FIGURE;
-        this.isDame = false;
+    }
+
+    /**
+     * Getter for the isDame property.
+     * Indicates whether the figure has been promoted to a dame (king) status.
+     * 
+     * @returns {boolean} True if the figure is a dame, false otherwise.
+     */
+    public get isDame() {
+        return this._isDame;
     }
 
     /**

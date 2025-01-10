@@ -55,7 +55,7 @@ export class Checker extends Figure {
             (this.color === Colors.BLACK && this.square.y === 7)) && 
             !this.isDame
         ) {
-            this.isDame = true;
+            this._isDame = true;
         }
     }
 
