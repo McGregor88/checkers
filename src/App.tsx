@@ -39,27 +39,32 @@ function App() {
                 show={menuIsShown} 
                 restart={restart}
             />
-            <PlayerSection
-                currentPlayer={currentPlayer}
-                title="Белые фигуры"
-                color={Colors.BLACK}
-                figures={board.getLostEnemyPieces(Colors.BLACK)}  
-            />
-            <GameBoard
-                board={board}
-                setBoard={setBoard}
-                moves={moves}
-                setMoves={setMoves}
-                currentPlayer={currentPlayer}
-                switchPlayer={switchPlayer}
-                restart={restart}
-            />
-            <PlayerSection
-                currentPlayer={currentPlayer}
-                title="Черные фигуры"
-                color={Colors.WHITE}
-                figures={board.getLostEnemyPieces(Colors.WHITE)}  
-            />
+
+            {!menuIsShown && 
+                <div className="game">
+                    <PlayerSection
+                        currentPlayer={currentPlayer}
+                        title="Белые фигуры"
+                        color={Colors.BLACK}
+                        figures={board.getLostEnemyPieces(Colors.BLACK)}  
+                    />
+                    <GameBoard
+                        board={board}
+                        setBoard={setBoard}
+                        moves={moves}
+                        setMoves={setMoves}
+                        currentPlayer={currentPlayer}
+                        switchPlayer={switchPlayer}
+                        restart={restart}
+                    />
+                    <PlayerSection
+                        currentPlayer={currentPlayer}
+                        title="Черные фигуры"
+                        color={Colors.WHITE}
+                        figures={board.getLostEnemyPieces(Colors.WHITE)}  
+                    />
+                </div>
+            }
         </div>
     );
 }

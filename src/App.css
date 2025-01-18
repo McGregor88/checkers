@@ -1,10 +1,14 @@
 .app {
 	padding: 10px;
 	height: 100vh;
+}
+
+.game {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	gap: 10px;
+	height: 100%;
 }
 
 .dark {
